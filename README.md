@@ -67,3 +67,4 @@ Find-and-replace before launch:
 - `Praxor Kit` → your product name
 - `@praxor-kit/*` → your package scope
 - `kit.praxor.dev` → your domain
+# praxor-kit
