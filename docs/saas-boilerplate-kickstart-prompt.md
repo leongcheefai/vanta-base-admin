@@ -146,7 +146,7 @@ These four decisions live at the top of `packages/ui/CLAUDE.md` and drive every 
 
 Build in the following phases. Each phase must end in a runnable, committable state. **Stop at the end of each phase, summarize what was built, and wait for confirmation before continuing.**
 
-### Phase 1 — Monorepo skeleton
+### Phase 1 — Monorepo skeleton ✅
 - pnpm + Turborepo + workspaces
 - `packages/config` (tsconfig.base.json, biome.json)
 - `packages/env` skeleton (no schemas yet)
