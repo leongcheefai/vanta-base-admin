@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/index.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@praxor-kit/ui/primitives",
+    "utils": "@praxor-kit/ui/lib/utils",
+    "ui": "@praxor-kit/ui/primitives",
+    "lib": "@praxor-kit/ui/lib",
+    "hooks": "@praxor-kit/ui/hooks"
+  },
+  "iconLibrary": "lucide"
+}
