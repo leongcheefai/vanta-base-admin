@@ -15,6 +15,7 @@ export const auth = betterAuth({
   }),
   secret: serverEnv.BETTER_AUTH_SECRET,
   baseURL: serverEnv.BETTER_AUTH_URL,
+  trustedOrigins: [serverEnv.APP_URL],
   emailAndPassword: {
     enabled: true,
   },

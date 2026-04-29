@@ -4,3 +4,5 @@ export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 export { Input } from './primitives/input'
 export { Label } from './primitives/label'
 export { cn } from './lib/utils'
+export { DashboardShell } from './patterns/dashboard-shell'
+export type { NavItem, DashboardShellProps } from './patterns/dashboard-shell'
