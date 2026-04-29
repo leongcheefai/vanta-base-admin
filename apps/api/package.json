@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
+    "@praxor-kit/auth": "workspace:*",
     "@praxor-kit/env": "workspace:*",
     "dotenv": "^16.4.7",
     "hono": "^4.6.0",
