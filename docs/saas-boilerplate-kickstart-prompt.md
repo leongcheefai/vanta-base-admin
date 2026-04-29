@@ -194,7 +194,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: a sample app importing `@praxor-kit/ui` renders a themed Button correctly with dark mode toggle.
 
-### Phase 6 — Dashboard app (`apps/app`)
+### Phase 6 — Dashboard app (`apps/app`) ✅
 - Vite + React + React Router + TanStack Query
 - Better Auth React client wired
 - Routes: `/login`, `/signup`, `/forgot-password`, `/dashboard`, `/dashboard/billing`, `/dashboard/settings`
