@@ -158,7 +158,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: `pnpm install && pnpm typecheck` passes on empty packages.
 
-### Phase 2 — Database layer (`packages/db`)
+### Phase 2 — Database layer (`packages/db`) ✅
 - Drizzle + drizzle-kit installed
 - `drizzle.config.ts` reading from `packages/env`
 - Schema: `users`, `sessions`, `accounts`, `verificationTokens` (Better Auth tables) + `subscriptions` (Stripe sync)
@@ -167,7 +167,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: `pnpm db:push` creates all tables in local Postgres.
 
-### Phase 3 — API skeleton (`apps/api`)
+### Phase 3 — API skeleton (`apps/api`) ✅
 - Hono + `@hono/node-server` + Zod
 - Module convention scaffolded with `health` module
 - Global middleware: CORS, logger, error handler
@@ -175,7 +175,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: `curl http://localhost:3001/health` returns `{ ok: true }`.
 
-### Phase 4 — Auth (`packages/auth` + `apps/api`)
+### Phase 4 — Auth (`packages/auth` + `apps/api`) ✅
 - Better Auth configured with Drizzle adapter
 - Email/password + Google OAuth enabled
 - Better Auth handler mounted at `/api/auth/*` in `apps/api`
@@ -183,7 +183,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: signup → signin → protected route works via curl with cookies.
 
-### Phase 5 — Design system foundation (`packages/ui`)
+### Phase 5 — Design system foundation (`packages/ui`) ✅
 - `tokens.css` with full token set (light + dark)
 - `tailwind.preset.ts` referencing tokens
 - `globals.css` with Tailwind layers
