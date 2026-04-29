@@ -1,0 +1,4 @@
+{
+  "extends": "@praxor-kit/config/tsconfig",
+  "include": ["src/**/*", "drizzle.config.ts"]
+}

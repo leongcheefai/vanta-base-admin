@@ -1,2 +1,10 @@
-// Env schemas added per-app in later phases. See packages/env/CLAUDE.md.
-export type {}
+import { createEnv } from '@t3-oss/env-core'
+import { z } from 'zod'
+
+export const serverEnv = createEnv({
+  server: {
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  },
+  runtimeEnv: process.env,
+})
