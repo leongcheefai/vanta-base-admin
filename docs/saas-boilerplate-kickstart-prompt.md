@@ -204,7 +204,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: full signup → dashboard flow works locally end-to-end.
 
-### Phase 7 — Marketing site (`apps/web`)
+### Phase 7 — Marketing site (`apps/web`) ✅
 - Astro with React + Tailwind integrations
 - Pages: `/` (landing), `/pricing`, `/blog`, `/blog/[slug]`, `/terms`, `/privacy`
 - Patterns consumed from `packages/ui`: Hero, FeatureSection, PricingCard, LogoCloud, Testimonial, FAQ
