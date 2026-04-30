@@ -1,4 +1,6 @@
 {
-  "extends": "@praxor-kit/config/tsconfig",
-  "include": ["src/**/*"]
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": "."
+  }
 }
