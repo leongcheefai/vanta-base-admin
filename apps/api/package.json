@@ -12,10 +12,14 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
+    "@hono/zod-validator": "^0.7.6",
     "@praxor-kit/auth": "workspace:*",
+    "@praxor-kit/db": "workspace:*",
     "@praxor-kit/env": "workspace:*",
+    "drizzle-orm": "^0.45.0",
     "dotenv": "^16.4.7",
     "hono": "^4.6.0",
+    "stripe": "^22.1.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {

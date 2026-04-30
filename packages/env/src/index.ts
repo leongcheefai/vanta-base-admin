@@ -11,6 +11,9 @@ export const serverEnv = createEnv({
     BETTER_AUTH_URL: z.string().url().default('http://localhost:3001'),
     GOOGLE_CLIENT_ID: z.string().optional(),
     GOOGLE_CLIENT_SECRET: z.string().optional(),
+    STRIPE_SECRET_KEY: z.string().min(1),
+    STRIPE_WEBHOOK_SECRET: z.string().min(1),
+    STRIPE_PRO_PRICE_ID: z.string().optional(),
   },
   runtimeEnv: process.env,
 })
