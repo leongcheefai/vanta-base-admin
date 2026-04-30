@@ -213,7 +213,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: `pnpm --filter web build` produces a static site that scores 95+ on Lighthouse.
 
-### Phase 8 — Stripe billing
+### Phase 8 — Stripe billing ✅
 - `apps/api/src/modules/billing/` with Checkout, Portal, Webhook routes
 - All four critical webhook events handled and synced to `subscriptions` table
 - `apps/app/dashboard/billing` shows current plan + Manage button
