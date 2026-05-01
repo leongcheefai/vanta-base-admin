@@ -18,7 +18,11 @@ async function send(to: string, subject: string, element: ReactElement) {
     return
   }
   const html = await render(element)
-  await resend.emails.send({ from: FROM, to, subject, html })
+  const { error } = await resend.emails.send({ from: FROM, to, subject, html })
+  if (error) {
+    console.error('[emails] resend error', error)
+    throw new Error(error.message)
+  }
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {

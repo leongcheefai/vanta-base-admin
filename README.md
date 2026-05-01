@@ -43,7 +43,7 @@ pnpm dev
 ```
 
 Open:
-- Dashboard: http://localhost:5173
+- Dashboard: http://localhost:3000
 - API: http://localhost:3001
 - Marketing: http://localhost:4321
 
