@@ -221,7 +221,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: full paid signup flow works in Stripe test mode and DB reflects subscription state.
 
-### Phase 9 — Emails (`packages/emails`)
+### Phase 9 — Emails (`packages/emails`) ✅
 - React Email + Resend SDK
 - Templates: welcome, verify-email, reset-password, payment-failed
 - Sender service in `apps/api`
