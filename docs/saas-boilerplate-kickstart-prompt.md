@@ -229,7 +229,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 
 **Done when**: signup triggers a real Resend email in dev with the welcome template.
 
-### Phase 10 — AI-ready polish
+### Phase 10 — AI-ready polish ✅
 - Scoped `CLAUDE.md` in: root, `apps/web`, `apps/app`, `apps/api`, `packages/ui`, `packages/db`, `packages/auth`, `packages/emails`
 - `.claude/commands/`: `/add-api-route`, `/add-dashboard-page`, `/add-stripe-product`, `/add-email-template`, `/add-marketing-section`
 - README walks a buyer from `git clone` to running locally in under 5 minutes
