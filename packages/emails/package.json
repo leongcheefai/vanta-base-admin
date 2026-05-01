@@ -1,25 +1,26 @@
 {
-  "name": "@praxor-kit/auth",
+  "name": "@praxor-kit/emails",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./client": "./src/client.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@praxor-kit/db": "workspace:*",
-    "@praxor-kit/emails": "workspace:*",
     "@praxor-kit/env": "workspace:*",
-    "better-auth": "^1.2.0"
+    "@react-email/render": "^2.0.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "resend": "^4.0.0"
   },
   "devDependencies": {
     "@praxor-kit/config": "workspace:*",
     "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
     "typescript": "^5.6.0"
   }
 }

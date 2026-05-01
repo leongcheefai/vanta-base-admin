@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { db, schema } from '@praxor-kit/db'
 import { serverEnv } from '@praxor-kit/env'
+import { sendPaymentFailedEmail } from '@praxor-kit/emails'
 import { stripe } from '../../lib/stripe'
 import type { CreateCheckoutInput, CreatePortalInput } from './billing.schema'
 
@@ -112,10 +113,26 @@ export async function handleWebhook(body: string, signature: string) {
       const subRef = invoice.parent?.subscription_details?.subscription
       if (!subRef) break
       const subId = typeof subRef === 'string' ? subRef : subRef.id
+
+      const subRow = await db.query.subscription.findFirst({
+        where: eq(schema.subscription.stripeSubscriptionId, subId),
+      })
+      if (!subRow) break
+
       await db
         .update(schema.subscription)
         .set({ status: 'past_due', updatedAt: new Date() })
         .where(eq(schema.subscription.stripeSubscriptionId, subId))
+
+      const userRow = await db.query.user.findFirst({
+        where: eq(schema.user.id, subRow.userId),
+      })
+      if (userRow) {
+        // fire-and-forget — email failure must not cause Stripe to retry the webhook
+        sendPaymentFailedEmail(userRow.email, serverEnv.APP_URL).catch((err) =>
+          console.error('[billing] payment-failed email error', err),
+        )
+      }
       break
     }
   }

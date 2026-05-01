@@ -15,6 +15,7 @@
     "@hono/zod-validator": "^0.7.6",
     "@praxor-kit/auth": "workspace:*",
     "@praxor-kit/db": "workspace:*",
+    "@praxor-kit/emails": "workspace:*",
     "@praxor-kit/env": "workspace:*",
     "drizzle-orm": "^0.45.0",
     "dotenv": "^16.4.7",
