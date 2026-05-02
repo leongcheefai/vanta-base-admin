@@ -5,7 +5,8 @@
       "Bash(pnpm typecheck *)",
       "Bash(git branch *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(pnpm add *)"
     ]
   }
 }
