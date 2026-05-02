@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClientProvider } from '@tanstack/react-query'
 import '@praxor-kit/ui/styles'
+import { Toaster } from '@praxor-kit/ui'
 import { queryClient } from './lib/query'
 import { Router } from './router'
 
@@ -12,6 +13,7 @@ createRoot(rootEl).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <Router />
+      <Toaster />
     </QueryClientProvider>
   </StrictMode>,
 )

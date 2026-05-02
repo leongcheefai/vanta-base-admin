@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import {
   Button,
   Dialog,
@@ -8,8 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
   Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Textarea,
-  cn,
 } from '@praxor-kit/ui'
 import { env } from '../lib/env'
 
@@ -43,13 +48,14 @@ export function FeedbackDialog({ children }: { children: React.ReactNode }) {
       setMessage('')
       setType('bug')
       setOpen(false)
+      toast.success('Feedback sent!')
     },
   })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Send feedback</DialogTitle>
         </DialogHeader>
@@ -62,23 +68,18 @@ export function FeedbackDialog({ children }: { children: React.ReactNode }) {
         >
           <div className="space-y-1.5">
             <Label>Type</Label>
-            <div className="flex gap-2">
-              {TYPES.map((t) => (
-                <button
-                  key={t.value}
-                  type="button"
-                  onClick={() => setType(t.value)}
-                  className={cn(
-                    'flex-1 rounded-md border px-3 py-1.5 text-sm transition-colors',
-                    type === t.value
-                      ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-input bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground',
-                  )}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
+            <Select value={type} onValueChange={(v) => setType(v as FeedbackType)}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {TYPES.map((t) => (
+                  <SelectItem key={t.value} value={t.value}>
+                    {t.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="feedback-message">Message</Label>

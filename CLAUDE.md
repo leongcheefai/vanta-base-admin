@@ -18,10 +18,12 @@ Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. 
 - "Start local DB" → `pnpm db:up`
 - "Run everything locally" → `pnpm db:up && pnpm dev`
 - "Run typecheck" → `pnpm typecheck`
+- "Before commit/push" → `pnpm build` must pass (auto-enforced via Claude Code hook)
 
 ## Gotchas
 - `pnpm` only — never `npm install` or `yarn`
-- All env validated through `@praxor-kit/env` — apps must not read `process.env` directly
+- Env validated through `@praxor-kit/env` — apps must not read `process.env` directly
 - Turbo caches aggressively — run `turbo <task> --force` if output stale
 - Brand placeholders before launch: `Praxor Kit` (product name), `@praxor-kit/*` (package scope), `kit.praxor.dev` (domain)
-- shadcn primitives in `packages/ui/src/primitives` — add via `pnpm dlx shadcn@latest add <component>` from `packages/ui`
+- shadcn primitives in `packages/ui/src/primitives` — add via `pnpm dlx shadcn@latest add <component>` from `packages/ui`; export from `packages/ui/src/index.ts` after adding
+- UI components: use shadcn from `@praxor-kit/ui` — never raw HTML inputs, selects, buttons, or dialogs if shadcn equivalent exists or can be added

@@ -4,6 +4,19 @@ export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 export { Input } from './primitives/input'
 export { Label } from './primitives/label'
 export { Textarea } from './primitives/textarea'
+export { Toaster } from './primitives/sonner'
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from './primitives/select'
 export {
   Dialog,
   DialogClose,
