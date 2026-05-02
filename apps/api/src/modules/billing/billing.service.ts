@@ -57,6 +57,7 @@ export async function getSubscription(userId: string) {
 }
 
 export async function handleWebhook(body: string, signature: string) {
+  if (!serverEnv.STRIPE_WEBHOOK_SECRET) throw new Error('STRIPE_WEBHOOK_SECRET not set')
   const event = stripe.webhooks.constructEvent(body, signature, serverEnv.STRIPE_WEBHOOK_SECRET)
 
   switch (event.type) {
