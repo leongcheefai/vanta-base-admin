@@ -1,6 +1,7 @@
 import { useNavigate, Outlet, useLocation, Link } from 'react-router'
-import { DashboardShell, type NavItem } from '@praxor-kit/ui'
+import { DashboardShell, type NavItem, Button } from '@praxor-kit/ui'
 import { ProtectedRoute } from '../../components/protected-route'
+import { FeedbackDialog } from '../../components/feedback-dialog'
 import { signOut, useSession } from '../../lib/auth'
 
 function navItems(pathname: string): NavItem[] {
@@ -33,6 +34,13 @@ function DashboardContent() {
           {label}
         </Link>
       )}
+      sidebarFooter={
+        <FeedbackDialog>
+          <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground">
+            Send feedback
+          </Button>
+        </FeedbackDialog>
+      }
     >
       <Outlet />
     </DashboardShell>

@@ -15,6 +15,7 @@ export interface DashboardShellProps {
   userEmail?: string
   onSignOut?: () => void
   renderNavLink?: (item: NavItem & { className: string }) => React.ReactNode
+  sidebarFooter?: React.ReactNode
 }
 
 export function DashboardShell({
@@ -24,6 +25,7 @@ export function DashboardShell({
   userEmail,
   onSignOut,
   renderNavLink,
+  sidebarFooter,
 }: DashboardShellProps) {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -56,6 +58,8 @@ export function DashboardShell({
             })}
           </ul>
         </nav>
+
+        {sidebarFooter && <div className="px-3 pb-2">{sidebarFooter}</div>}
 
         <div className="border-t p-3">
           <div className="flex items-center gap-2.5 rounded-md px-3 py-2">
