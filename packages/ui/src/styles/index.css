@@ -3,6 +3,8 @@
 
 @source "../";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --font-sans: 'JetBrains Mono', ui-monospace, monospace;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
