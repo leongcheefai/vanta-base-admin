@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode, createElement } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 type Theme = 'light' | 'dark' | 'system'
 
@@ -27,11 +27,27 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return 'system'
   })
 
-  const resolvedTheme: 'light' | 'dark' = theme === 'system' ? getSystemTheme() : theme
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() =>
+    theme === 'system' ? getSystemTheme() : theme
+  )
 
   useEffect(() => {
-    applyTheme(resolvedTheme)
-  }, [resolvedTheme])
+    const resolved = theme === 'system' ? getSystemTheme() : theme
+    setResolvedTheme(resolved)
+    applyTheme(resolved)
+  }, [theme])
+
+  useEffect(() => {
+    if (theme !== 'system') return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = (e: MediaQueryListEvent) => {
+      const resolved = e.matches ? 'dark' : 'light'
+      setResolvedTheme(resolved)
+      applyTheme(resolved)
+    }
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [theme])
 
   function setTheme(next: Theme) {
     setThemeState(next)
@@ -40,7 +56,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } catch (_) {}
   }
 
-  return createElement(ThemeContext.Provider, { value: { theme, resolvedTheme, setTheme } }, children)
+  return (
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
 }
 
 export function useTheme(): ThemeContextValue {
