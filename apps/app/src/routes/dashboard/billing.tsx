@@ -1,19 +1,7 @@
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription } from '@praxor-kit/ui'
 import { env } from '../../lib/env'
-
-type Subscription = {
-  id: string
-  status: string
-  stripePriceId: string | null
-  stripeCurrentPeriodEnd: string | null
-}
-
-async function fetchSubscription(): Promise<{ subscription: Subscription | null }> {
-  const res = await fetch(`${env.VITE_API_URL}/billing/subscription`, { credentials: 'include' })
-  if (!res.ok) throw new Error('Failed to fetch subscription')
-  return res.json()
-}
+import { useSubscription } from '../../lib/billing'
 
 async function createPortalSession(): Promise<{ url: string }> {
   const res = await fetch(`${env.VITE_API_URL}/billing/portal`, {
@@ -50,10 +38,7 @@ function formatDate(iso: string) {
 }
 
 export function BillingPage() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['subscription'],
-    queryFn: fetchSubscription,
-  })
+  const { data, isLoading, isPro: isActive } = useSubscription()
 
   const portalMutation = useMutation({
     mutationFn: createPortalSession,
@@ -66,7 +51,6 @@ export function BillingPage() {
   })
 
   const subscription = data?.subscription
-  const isActive = subscription && ['active', 'trialing'].includes(subscription.status)
 
   return (
     <div className="space-y-6">
@@ -83,7 +67,7 @@ export function BillingPage() {
           <CardDescription>
             {isLoading
               ? 'Loading…'
-              : isActive
+              : subscription
                 ? `${formatStatus(subscription.status)} subscription`
                 : 'No active subscription'}
           </CardDescription>

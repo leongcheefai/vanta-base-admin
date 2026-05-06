@@ -3,6 +3,7 @@ import { DashboardShell, type NavItem, Button } from '@praxor-kit/ui'
 import { ProtectedRoute } from '../../components/protected-route'
 import { FeedbackDialog } from '../../components/feedback-dialog'
 import { ThemeToggle } from '../../components/theme-toggle'
+import { UpgradeCard } from '../../components/upgrade-card'
 import { signOut, useSession } from '../../lib/auth'
 
 function navItems(pathname: string): NavItem[] {
@@ -36,13 +37,16 @@ function DashboardContent() {
         </Link>
       )}
       sidebarFooter={
-        <div className="flex items-center gap-2">
-          <FeedbackDialog>
-            <Button variant="ghost" size="sm" className="flex-1 justify-start text-muted-foreground">
-              Send feedback
-            </Button>
-          </FeedbackDialog>
-          <ThemeToggle />
+        <div className="flex flex-col gap-2">
+          <UpgradeCard />
+          <div className="flex items-center gap-2">
+            <FeedbackDialog>
+              <Button variant="ghost" size="sm" className="flex-1 justify-start text-muted-foreground">
+                Send feedback
+              </Button>
+            </FeedbackDialog>
+            <ThemeToggle />
+          </div>
         </div>
       }
     >
