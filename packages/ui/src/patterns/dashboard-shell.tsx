@@ -68,6 +68,7 @@ export function DashboardShell({
               isCollapsed && 'w-full',
             )}
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            title={isCollapsed ? 'Expand sidebar ([ key)' : 'Collapse sidebar ([ key)'}
           >
             {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
@@ -88,7 +89,7 @@ export function DashboardShell({
                   {renderNavLink ? (
                     renderNavLink({ ...item, className, isCollapsed })
                   ) : (
-                    <a href={item.href} className={className}>
+                    <a href={item.href} className={className} aria-label={isCollapsed ? item.label : undefined}>
                       {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
                       {!isCollapsed && item.label}
                     </a>
@@ -106,8 +107,8 @@ export function DashboardShell({
         <div className="border-t p-3">
           <div
             className={cn(
-              'flex items-center rounded-md px-3 py-2',
-              isCollapsed ? 'justify-center px-0' : 'gap-2.5',
+              'flex items-center rounded-md py-2',
+              isCollapsed ? 'justify-center px-0' : 'gap-2.5 px-3',
             )}
           >
             <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">
