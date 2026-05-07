@@ -10,6 +10,7 @@ import { healthRouter } from '../modules/health/health.routes'
 import { meRouter } from '../modules/me/me.routes'
 import { billingRouter } from '../modules/billing/billing.routes'
 import { feedbackRouter } from '../modules/feedback/feedback.routes'
+import { uploadsRouter } from '../modules/uploads/uploads.routes'
 
 export const app = new Hono<{ Variables: AppVariables }>()
 
@@ -24,3 +25,4 @@ app.route('/health', healthRouter)
 app.route('/me', meRouter)
 app.route('/billing', billingRouter)
 app.route('/feedback', feedbackRouter)
+app.route('/uploads', uploadsRouter)
