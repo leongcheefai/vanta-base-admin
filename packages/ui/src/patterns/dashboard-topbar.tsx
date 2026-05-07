@@ -53,7 +53,7 @@ export function DashboardTopbar({
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
-          className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:hidden"
+          className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:hidden"
           aria-label="Open navigation"
         >
           <Menu size={18} />
@@ -65,7 +65,7 @@ export function DashboardTopbar({
           <button
             type="button"
             onClick={onSearch}
-            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             aria-label="Search (⌘K)"
             title="Search (⌘K)"
           >
@@ -74,7 +74,7 @@ export function DashboardTopbar({
 
           <button
             type="button"
-            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             aria-label="Notifications"
           >
             <Bell size={16} />
@@ -91,18 +91,22 @@ export function DashboardTopbar({
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col gap-0.5">
-                  {userName && <span className="text-sm font-medium">{userName}</span>}
-                  {userEmail && <span className="text-xs text-muted-foreground">{userEmail}</span>}
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              {(userName || userEmail) && (
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col gap-0.5">
+                    {userName && <span className="text-sm font-medium">{userName}</span>}
+                    {userEmail && <span className="text-xs text-muted-foreground">{userEmail}</span>}
+                  </div>
+                </DropdownMenuLabel>
+              )}
               {onSignOut && (
-                <DropdownMenuItem onClick={onSignOut} className="text-muted-foreground">
-                  <LogOut size={14} className="mr-2" />
-                  Sign out
-                </DropdownMenuItem>
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onSelect={onSignOut} className="text-muted-foreground">
+                    <LogOut size={14} className="mr-2" />
+                    Sign out
+                  </DropdownMenuItem>
+                </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>
