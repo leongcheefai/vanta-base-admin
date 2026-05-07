@@ -3,7 +3,7 @@ import { useSession } from '../lib/auth'
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { data: session, isPending } = useSession()
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
 
   if (isPending) {
     return (
@@ -14,7 +14,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!session) {
-    return <Navigate to={`/login?redirect=${encodeURIComponent(pathname)}`} replace />
+    return <Navigate to={`/login?redirect=${encodeURIComponent(pathname + search)}`} replace />
   }
 
   return <>{children}</>

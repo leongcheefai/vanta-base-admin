@@ -65,7 +65,8 @@ export function DashboardTopbar({
           <button
             type="button"
             onClick={onSearch}
-            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            disabled={!onSearch}
+            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
             aria-label="Search (⌘K)"
             title="Search (⌘K)"
           >
@@ -74,8 +75,10 @@ export function DashboardTopbar({
 
           <button
             type="button"
-            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            disabled
+            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
             aria-label="Notifications"
+            aria-disabled="true"
           >
             <Bell size={16} />
           </button>
