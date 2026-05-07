@@ -84,3 +84,29 @@ export { MobileNavDrawer } from './patterns/mobile-nav-drawer'
 export type { MobileNavDrawerProps } from './patterns/mobile-nav-drawer'
 export { DashboardTopbar } from './patterns/dashboard-topbar'
 export type { DashboardTopbarProps } from './patterns/dashboard-topbar'
+
+export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants } from './primitives/tabs'
+export {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarBadge,
+  AvatarGroup,
+  AvatarGroupCount,
+} from './primitives/avatar'
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './primitives/alert-dialog'
+export { Separator } from './primitives/separator'
+export { Switch } from './primitives/switch'
