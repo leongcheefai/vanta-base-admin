@@ -9,6 +9,7 @@ import { billingRouter } from "../modules/billing/billing.routes";
 import { feedbackRouter } from "../modules/feedback/feedback.routes";
 import { healthRouter } from "../modules/health/health.routes";
 import { meRouter } from "../modules/me/me.routes";
+import { metricsRouter } from "../modules/metrics";
 import { uploadsRouter } from "../modules/uploads/uploads.routes";
 import type { AppVariables } from "./context";
 
@@ -26,3 +27,4 @@ app.route("/me", meRouter);
 app.route("/billing", billingRouter);
 app.route("/feedback", feedbackRouter);
 app.route("/uploads", uploadsRouter);
+app.route("/metrics", metricsRouter);
