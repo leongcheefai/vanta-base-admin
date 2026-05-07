@@ -1,13 +1,13 @@
-import { Button } from '../primitives/button'
-import { cn } from '../lib/utils'
+import { cn } from "../lib/utils";
+import { Button } from "../primitives/button";
 
 export interface HeroProps {
-  badge?: string
-  headline: string
-  subheadline: string
-  primaryCta: { label: string; href: string }
-  secondaryCta?: { label: string; href: string }
-  className?: string
+  badge?: string;
+  headline: string;
+  subheadline: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  className?: string;
 }
 
 export function Hero({
@@ -19,7 +19,7 @@ export function Hero({
   className,
 }: HeroProps) {
   return (
-    <section className={cn('relative overflow-hidden py-24 sm:py-32', className)}>
+    <section className={cn("relative overflow-hidden py-24 sm:py-32", className)}>
       <div className="mx-auto max-w-4xl px-6 text-center">
         {badge && (
           <div className="mb-6 inline-flex items-center rounded-full border border-border bg-muted px-3 py-1 text-sm font-medium text-muted-foreground">
@@ -42,5 +42,5 @@ export function Hero({
         </div>
       </div>
     </section>
-  )
+  );
 }

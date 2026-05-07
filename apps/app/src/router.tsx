@@ -1,16 +1,16 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
-import { LoginPage } from './routes/login'
-import { SignupPage } from './routes/signup'
-import { ForgotPasswordPage } from './routes/forgot-password'
-import { DashboardLayout } from './routes/dashboard/layout'
-import { DashboardHome } from './routes/dashboard/index'
-import { BillingPage } from './routes/dashboard/billing'
-import { SettingsPage } from './routes/dashboard/settings'
+import { Suspense, lazy } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BillingPage } from "./routes/dashboard/billing";
+import { DashboardHome } from "./routes/dashboard/index";
+import { DashboardLayout } from "./routes/dashboard/layout";
+import { SettingsPage } from "./routes/dashboard/settings";
+import { ForgotPasswordPage } from "./routes/forgot-password";
+import { LoginPage } from "./routes/login";
+import { SignupPage } from "./routes/signup";
 
 const DevComponentsPage = import.meta.env.DEV
-  ? lazy(() => import('./routes/_dev/components'))
-  : null
+  ? lazy(() => import("./routes/_dev/components"))
+  : null;
 
 export function Router() {
   return (
@@ -38,5 +38,5 @@ export function Router() {
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

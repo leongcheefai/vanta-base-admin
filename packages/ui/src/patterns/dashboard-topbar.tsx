@@ -1,7 +1,7 @@
+import { Bell, LogOut, Menu, Search } from "lucide-react";
 // packages/ui/src/patterns/dashboard-topbar.tsx
-import type * as React from 'react'
-import { useState, useEffect } from 'react'
-import { Menu, Search, Bell, LogOut } from 'lucide-react'
+import type * as React from "react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,19 +9,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../primitives/dropdown-menu'
-import { MobileNavDrawer } from './mobile-nav-drawer'
-import type { NavItem } from './dashboard-shell'
+} from "../primitives/dropdown-menu";
+import type { NavItem } from "./dashboard-shell";
+import { MobileNavDrawer } from "./mobile-nav-drawer";
 
 export interface DashboardTopbarProps {
-  title: string
-  navItems: NavItem[]
-  userName?: string
-  userEmail?: string
-  onSignOut?: () => void
-  onSearch?: () => void
-  renderNavLink?: (item: NavItem & { className: string; isCollapsed: boolean }) => React.ReactNode
-  sidebarFooter?: React.ReactNode
+  title: string;
+  navItems: NavItem[];
+  userName?: string;
+  userEmail?: string;
+  onSignOut?: () => void;
+  onSearch?: () => void;
+  renderNavLink?: (item: NavItem & { className: string; isCollapsed: boolean }) => React.ReactNode;
+  sidebarFooter?: React.ReactNode;
 }
 
 export function DashboardTopbar({
@@ -34,18 +34,18 @@ export function DashboardTopbar({
   renderNavLink,
   sidebarFooter,
 }: DashboardTopbarProps) {
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        onSearch?.()
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        onSearch?.();
       }
     }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [onSearch])
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onSearch]);
 
   return (
     <>
@@ -90,7 +90,7 @@ export function DashboardTopbar({
                 className="ml-1 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground transition-opacity hover:opacity-80"
                 aria-label="User menu"
               >
-                {(userName ?? userEmail ?? '?')[0]?.toUpperCase()}
+                {(userName ?? userEmail ?? "?")[0]?.toUpperCase()}
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -98,7 +98,9 @@ export function DashboardTopbar({
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col gap-0.5">
                     {userName && <span className="text-sm font-medium">{userName}</span>}
-                    {userEmail && <span className="text-xs text-muted-foreground">{userEmail}</span>}
+                    {userEmail && (
+                      <span className="text-xs text-muted-foreground">{userEmail}</span>
+                    )}
                   </div>
                 </DropdownMenuLabel>
               )}
@@ -127,5 +129,5 @@ export function DashboardTopbar({
         sidebarFooter={sidebarFooter}
       />
     </>
-  )
+  );
 }

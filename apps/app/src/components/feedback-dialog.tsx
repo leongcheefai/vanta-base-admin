@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import {
   Button,
   Dialog,
@@ -15,42 +12,45 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
-} from '@praxor-kit/ui'
-import { env } from '../lib/env'
+} from "@praxor-kit/ui";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "sonner";
+import { env } from "../lib/env";
 
-type FeedbackType = 'bug' | 'feature' | 'other'
+type FeedbackType = "bug" | "feature" | "other";
 
 const TYPES: { value: FeedbackType; label: string }[] = [
-  { value: 'bug', label: 'Bug' },
-  { value: 'feature', label: 'Feature' },
-  { value: 'other', label: 'Other' },
-]
+  { value: "bug", label: "Bug" },
+  { value: "feature", label: "Feature" },
+  { value: "other", label: "Other" },
+];
 
 async function submitFeedback(input: { type: FeedbackType; message: string }) {
   const res = await fetch(`${env.VITE_API_URL}/feedback`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
-  })
-  if (!res.ok) throw new Error('Failed to send feedback')
-  return res.json() as Promise<{ id: string }>
+  });
+  if (!res.ok) throw new Error("Failed to send feedback");
+  return res.json() as Promise<{ id: string }>;
 }
 
 export function FeedbackDialog({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false)
-  const [type, setType] = useState<FeedbackType>('bug')
-  const [message, setMessage] = useState('')
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState<FeedbackType>("bug");
+  const [message, setMessage] = useState("");
 
   const mutation = useMutation({
     mutationFn: submitFeedback,
     onSuccess: () => {
-      setMessage('')
-      setType('bug')
-      setOpen(false)
-      toast.success('Feedback sent!')
+      setMessage("");
+      setType("bug");
+      setOpen(false);
+      toast.success("Feedback sent!");
     },
-  })
+  });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -61,8 +61,8 @@ export function FeedbackDialog({ children }: { children: React.ReactNode }) {
         </DialogHeader>
         <form
           onSubmit={(e) => {
-            e.preventDefault()
-            mutation.mutate({ type, message })
+            e.preventDefault();
+            mutation.mutate({ type, message });
           }}
           className="space-y-4"
         >
@@ -93,14 +93,12 @@ export function FeedbackDialog({ children }: { children: React.ReactNode }) {
               maxLength={2000}
             />
           </div>
-          {mutation.isError && (
-            <p className="text-sm text-destructive">{mutation.error.message}</p>
-          )}
+          {mutation.isError && <p className="text-sm text-destructive">{mutation.error.message}</p>}
           <Button type="submit" disabled={mutation.isPending} className="w-full">
-            {mutation.isPending ? 'Sending…' : 'Send feedback'}
+            {mutation.isPending ? "Sending…" : "Send feedback"}
           </Button>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

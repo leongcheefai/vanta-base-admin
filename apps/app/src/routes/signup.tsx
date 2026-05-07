@@ -1,31 +1,31 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@praxor-kit/ui'
-import { signUp } from '../lib/auth'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "@praxor-kit/ui";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { signUp } from "../lib/auth";
 
 export function SignupPage() {
-  const navigate = useNavigate()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
-      const result = await signUp.email({ name, email, password })
+      const result = await signUp.email({ name, email, password });
       if (result.error) {
-        setError(result.error.message ?? 'Sign up failed')
+        setError(result.error.message ?? "Sign up failed");
       } else {
-        navigate('/dashboard')
+        navigate("/dashboard");
       }
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -75,11 +75,11 @@ export function SignupPage() {
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Creating account…' : 'Create account'}
+              {loading ? "Creating account…" : "Create account"}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/login" className="text-foreground underline-offset-4 hover:underline">
               Sign in
             </Link>
@@ -87,5 +87,5 @@ export function SignupPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

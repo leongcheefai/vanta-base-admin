@@ -1,20 +1,17 @@
-import { cn } from '../lib/utils'
+import { cn } from "../lib/utils";
 
 export interface TestimonialProps {
-  quote: string
-  author: string
-  role: string
-  avatarSrc?: string
-  className?: string
+  quote: string;
+  author: string;
+  role: string;
+  avatarSrc?: string;
+  className?: string;
 }
 
 export function Testimonial({ quote, author, role, avatarSrc, className }: TestimonialProps) {
   return (
     <figure
-      className={cn(
-        'flex flex-col gap-6 rounded-2xl border border-border bg-card p-8',
-        className,
-      )}
+      className={cn("flex flex-col gap-6 rounded-2xl border border-border bg-card p-8", className)}
     >
       <blockquote className="text-base leading-7 text-foreground">
         <p>&ldquo;{quote}&rdquo;</p>
@@ -39,5 +36,5 @@ export function Testimonial({ quote, author, role, avatarSrc, className }: Testi
         </div>
       </figcaption>
     </figure>
-  )
+  );
 }

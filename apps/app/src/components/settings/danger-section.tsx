@@ -1,7 +1,3 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,48 +14,52 @@ import {
   CardTitle,
   Input,
   Label,
-} from '@praxor-kit/ui'
-import { authClient, signOut } from '../../lib/auth'
-import { env } from '../../lib/env'
+} from "@praxor-kit/ui";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { authClient, signOut } from "../../lib/auth";
+import { env } from "../../lib/env";
 
 export function DangerSection() {
-  const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
-  const [password, setPassword] = useState('')
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
 
   const hasPasswordQuery = useQuery({
-    queryKey: ['me', 'has-password'],
+    queryKey: ["me", "has-password"],
     queryFn: async () => {
-      const res = await fetch(`${env.VITE_API_URL}/me/has-password`, { credentials: 'include' })
-      if (!res.ok) throw new Error('Failed to check account type')
-      return res.json() as Promise<{ hasPassword: boolean }>
+      const res = await fetch(`${env.VITE_API_URL}/me/has-password`, { credentials: "include" });
+      if (!res.ok) throw new Error("Failed to check account type");
+      return res.json() as Promise<{ hasPassword: boolean }>;
     },
-  })
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (args: { password?: string; callbackURL?: string }) => {
-      const result = await authClient.deleteUser(args)
-      if (result.error) throw new Error(result.error.message ?? 'Failed to delete account')
+      const result = await authClient.deleteUser(args);
+      if (result.error) throw new Error(result.error.message ?? "Failed to delete account");
     },
     onSuccess: async () => {
-      const hasPassword = hasPasswordQuery.data?.hasPassword
+      const hasPassword = hasPasswordQuery.data?.hasPassword;
       if (hasPassword) {
-        setOpen(false)
-        await signOut()
-        navigate('/login')
+        setOpen(false);
+        await signOut();
+        navigate("/login");
       } else {
-        setOpen(false)
-        toast.success('Confirmation email sent')
+        setOpen(false);
+        toast.success("Confirmation email sent");
       }
     },
     onError: (err: Error) => toast.error(err.message),
-  })
+  });
 
   async function handleDelete() {
     if (hasPasswordQuery.data?.hasPassword) {
-      await deleteMutation.mutateAsync({ password })
+      await deleteMutation.mutateAsync({ password });
     } else {
-      await deleteMutation.mutateAsync({ callbackURL: '/login' })
+      await deleteMutation.mutateAsync({ callbackURL: "/login" });
     }
   }
 
@@ -79,8 +79,16 @@ export function DangerSection() {
               Permanently delete your account and all associated data.
             </p>
           </div>
-          <Button variant="destructive" onClick={() => setOpen(true)}>Delete account</Button>
-          <AlertDialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setPassword('') }}>
+          <Button variant="destructive" onClick={() => setOpen(true)}>
+            Delete account
+          </Button>
+          <AlertDialog
+            open={open}
+            onOpenChange={(isOpen) => {
+              setOpen(isOpen);
+              if (!isOpen) setPassword("");
+            }}
+          >
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Delete account?</AlertDialogTitle>
@@ -116,7 +124,7 @@ export function DangerSection() {
                     (hasPasswordQuery.data?.hasPassword === true && !password)
                   }
                 >
-                  {deleteMutation.isPending ? 'Deleting…' : 'Delete account'}
+                  {deleteMutation.isPending ? "Deleting…" : "Delete account"}
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -124,5 +132,5 @@ export function DangerSection() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

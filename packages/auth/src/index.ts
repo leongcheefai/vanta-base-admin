@@ -1,18 +1,18 @@
-import { betterAuth } from 'better-auth'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { db, schema } from '@praxor-kit/db'
-import { serverEnv } from '@praxor-kit/env'
+import { db, schema } from "@praxor-kit/db";
 import {
   sendChangeEmailConfirmationEmail,
   sendDeleteAccountEmail,
   sendResetPasswordEmail,
   sendVerifyEmail,
   sendWelcomeEmail,
-} from '@praxor-kit/emails'
+} from "@praxor-kit/emails";
+import { serverEnv } from "@praxor-kit/env";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: 'pg',
+    provider: "pg",
     schema: {
       user: schema.user,
       session: schema.session,
@@ -27,10 +27,10 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
     sendVerificationEmail: async ({ user, url }: { user: { email: string }; url: string }) => {
-      await sendVerifyEmail(user.email, url)
+      await sendVerifyEmail(user.email, url);
     },
     sendResetPassword: async ({ user, url }: { user: { email: string }; url: string }) => {
-      await sendResetPasswordEmail(user.email, url)
+      await sendResetPasswordEmail(user.email, url);
     },
   },
   user: {
@@ -41,11 +41,11 @@ export const auth = betterAuth({
         newEmail,
         url,
       }: {
-        user: { email: string }
-        newEmail: string
-        url: string
+        user: { email: string };
+        newEmail: string;
+        url: string;
       }) => {
-        await sendChangeEmailConfirmationEmail(newEmail, url, user.email)
+        await sendChangeEmailConfirmationEmail(newEmail, url, user.email);
       },
     },
     deletion: {
@@ -54,10 +54,10 @@ export const auth = betterAuth({
         user,
         url,
       }: {
-        user: { email: string }
-        url: string
+        user: { email: string };
+        url: string;
       }) => {
-        await sendDeleteAccountEmail(user.email, url)
+        await sendDeleteAccountEmail(user.email, url);
       },
     },
   },
@@ -67,8 +67,8 @@ export const auth = betterAuth({
         after: async (user) => {
           // fire-and-forget — email failure must not break signup
           sendWelcomeEmail(user.email, user.name).catch((err) =>
-            console.error('[auth] welcome email failed', err),
-          )
+            console.error("[auth] welcome email failed", err),
+          );
         },
       },
     },
@@ -83,6 +83,6 @@ export const auth = betterAuth({
         }
       : {}),
   },
-})
+});
 
-export type Auth = typeof auth
+export type Auth = typeof auth;

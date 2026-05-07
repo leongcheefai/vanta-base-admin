@@ -1,5 +1,5 @@
 interface Props {
-  url: string
+  url: string;
 }
 
 export function ResetPasswordEmail({ url }: Props) {
@@ -17,5 +17,5 @@ export function ResetPasswordEmail({ url }: Props) {
         <p>Link expires in 1 hour. If you did not request this, ignore this email.</p>
       </body>
     </html>
-  )
+  );
 }

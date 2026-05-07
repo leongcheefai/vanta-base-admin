@@ -1,5 +1,5 @@
 interface Props {
-  name: string
+  name: string;
 }
 
 export function WelcomeEmail({ name }: Props) {
@@ -15,5 +15,5 @@ export function WelcomeEmail({ name }: Props) {
         <p>Questions? Reply to this email.</p>
       </body>
     </html>
-  )
+  );
 }

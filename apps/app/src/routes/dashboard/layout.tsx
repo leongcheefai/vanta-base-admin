@@ -1,53 +1,53 @@
-import { useNavigate, Outlet, useLocation, Link } from 'react-router'
-import { DashboardShell, DashboardTopbar, type NavItem, Button } from '@praxor-kit/ui'
-import { LayoutDashboard, CreditCard, Settings } from 'lucide-react'
-import { ProtectedRoute } from '../../components/protected-route'
-import { FeedbackDialog } from '../../components/feedback-dialog'
-import { ThemeToggle } from '../../components/theme-toggle'
-import { UpgradeCard } from '../../components/upgrade-card'
-import { signOut, useSession } from '../../lib/auth'
+import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@praxor-kit/ui";
+import { CreditCard, LayoutDashboard, Settings } from "lucide-react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
+import { FeedbackDialog } from "../../components/feedback-dialog";
+import { ProtectedRoute } from "../../components/protected-route";
+import { ThemeToggle } from "../../components/theme-toggle";
+import { UpgradeCard } from "../../components/upgrade-card";
+import { signOut, useSession } from "../../lib/auth";
 
 const PAGE_TITLES: Record<string, string> = {
-  '/dashboard': 'Dashboard',
-  '/dashboard/billing': 'Billing',
-  '/dashboard/settings': 'Settings',
-}
+  "/dashboard": "Dashboard",
+  "/dashboard/billing": "Billing",
+  "/dashboard/settings": "Settings",
+};
 
 function navItems(pathname: string): NavItem[] {
   return [
     {
-      label: 'Dashboard',
-      href: '/dashboard',
-      active: pathname === '/dashboard',
+      label: "Dashboard",
+      href: "/dashboard",
+      active: pathname === "/dashboard",
       icon: <LayoutDashboard size={16} />,
     },
     {
-      label: 'Billing',
-      href: '/dashboard/billing',
-      active: pathname === '/dashboard/billing',
+      label: "Billing",
+      href: "/dashboard/billing",
+      active: pathname === "/dashboard/billing",
       icon: <CreditCard size={16} />,
     },
     {
-      label: 'Settings',
-      href: '/dashboard/settings',
-      active: pathname === '/dashboard/settings',
+      label: "Settings",
+      href: "/dashboard/settings",
+      active: pathname === "/dashboard/settings",
       icon: <Settings size={16} />,
     },
-  ]
+  ];
 }
 
 function DashboardContent() {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const { data: session } = useSession()
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { data: session } = useSession();
 
   async function handleSignOut() {
-    await signOut()
-    navigate('/login')
+    await signOut();
+    navigate("/login");
   }
 
-  const items = navItems(pathname)
-  const title = PAGE_TITLES[pathname] ?? 'Dashboard'
+  const items = navItems(pathname);
+  const title = PAGE_TITLES[pathname] ?? "Dashboard";
 
   function renderNavLink({
     href,
@@ -61,7 +61,7 @@ function DashboardContent() {
         {icon && <span className="size-4 shrink-0">{icon}</span>}
         {!isCollapsed && label}
       </Link>
-    )
+    );
   }
 
   const sidebarFooter = (
@@ -76,7 +76,7 @@ function DashboardContent() {
         <ThemeToggle />
       </div>
     </div>
-  )
+  );
 
   return (
     <DashboardShell
@@ -97,7 +97,7 @@ function DashboardContent() {
     >
       <Outlet />
     </DashboardShell>
-  )
+  );
 }
 
 export function DashboardLayout() {
@@ -105,5 +105,5 @@ export function DashboardLayout() {
     <ProtectedRoute>
       <DashboardContent />
     </ProtectedRoute>
-  )
+  );
 }

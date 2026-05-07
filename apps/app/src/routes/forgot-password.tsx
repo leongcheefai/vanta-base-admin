@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@praxor-kit/ui'
-import { authClient } from '../lib/auth'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "@praxor-kit/ui";
+import { useState } from "react";
+import { Link } from "react-router";
+import { authClient } from "../lib/auth";
 
 export function ForgotPasswordPage() {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-  const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
       const result = await authClient.requestPasswordReset({
         email,
         redirectTo: `${window.location.origin}/reset-password`,
-      })
+      });
       if (result.error) {
-        setError(result.error.message ?? 'Failed to send reset email')
+        setError(result.error.message ?? "Failed to send reset email");
       } else {
-        setSent(true)
+        setSent(true);
       }
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -64,7 +64,7 @@ export function ForgotPasswordPage() {
               </div>
               {error && <p className="text-sm text-destructive">{error}</p>}
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Sending…' : 'Send reset link'}
+                {loading ? "Sending…" : "Send reset link"}
               </Button>
               <Link to="/login">
                 <Button variant="ghost" className="w-full">
@@ -76,5 +76,5 @@ export function ForgotPasswordPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

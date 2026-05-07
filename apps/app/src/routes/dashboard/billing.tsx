@@ -1,56 +1,60 @@
-import { useMutation } from '@tanstack/react-query'
-import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription } from '@praxor-kit/ui'
-import { env } from '../../lib/env'
-import { useSubscription } from '../../lib/billing'
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { useMutation } from "@tanstack/react-query";
+import { useSubscription } from "../../lib/billing";
+import { env } from "../../lib/env";
 
 async function createPortalSession(): Promise<{ url: string }> {
   const res = await fetch(`${env.VITE_API_URL}/billing/portal`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ returnUrl: window.location.href }),
-  })
-  if (!res.ok) throw new Error('Failed to create portal session')
-  return res.json()
+  });
+  if (!res.ok) throw new Error("Failed to create portal session");
+  return res.json();
 }
 
 async function createCheckoutSession(priceId: string): Promise<{ url: string | null }> {
   const res = await fetch(`${env.VITE_API_URL}/billing/checkout`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       priceId,
       successUrl: `${window.location.origin}/dashboard/billing?checkout=success`,
       cancelUrl: window.location.href,
     }),
-  })
-  if (!res.ok) throw new Error('Failed to create checkout session')
-  return res.json()
+  });
+  if (!res.ok) throw new Error("Failed to create checkout session");
+  return res.json();
 }
 
 function formatStatus(status: string) {
-  return status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, ' ')
+  return status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, " ");
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(undefined, { dateStyle: 'medium' })
+  return new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
 }
 
 export function BillingPage() {
-  const { data, isLoading, isPro: isActive } = useSubscription()
+  const { data, isLoading, isPro: isActive } = useSubscription();
 
   const portalMutation = useMutation({
     mutationFn: createPortalSession,
-    onSuccess: ({ url }) => { window.location.href = url },
-  })
+    onSuccess: ({ url }) => {
+      window.location.href = url;
+    },
+  });
 
   const checkoutMutation = useMutation({
     mutationFn: (priceId: string) => createCheckoutSession(priceId),
-    onSuccess: ({ url }) => { if (url) window.location.href = url },
-  })
+    onSuccess: ({ url }) => {
+      if (url) window.location.href = url;
+    },
+  });
 
-  const subscription = data?.subscription
+  const subscription = data?.subscription;
 
   return (
     <div className="space-y-6">
@@ -66,10 +70,10 @@ export function BillingPage() {
           <CardTitle>Current plan</CardTitle>
           <CardDescription>
             {isLoading
-              ? 'Loading…'
+              ? "Loading…"
               : subscription
                 ? `${formatStatus(subscription.status)} subscription`
-                : 'No active subscription'}
+                : "No active subscription"}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -85,19 +89,17 @@ export function BillingPage() {
               onClick={() => portalMutation.mutate()}
               disabled={portalMutation.isPending}
             >
-              {portalMutation.isPending ? 'Redirecting…' : 'Manage subscription'}
+              {portalMutation.isPending ? "Redirecting…" : "Manage subscription"}
             </Button>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Upgrade to unlock all features.
-              </p>
+              <p className="text-sm text-muted-foreground">Upgrade to unlock all features.</p>
               {/* TODO: replace price ID with your actual Stripe price ID */}
               <Button
-                onClick={() => checkoutMutation.mutate('TODO_REPLACE_PRICE_ID')}
+                onClick={() => checkoutMutation.mutate("TODO_REPLACE_PRICE_ID")}
                 disabled={checkoutMutation.isPending}
               >
-                {checkoutMutation.isPending ? 'Redirecting…' : 'Upgrade to Pro'}
+                {checkoutMutation.isPending ? "Redirecting…" : "Upgrade to Pro"}
               </Button>
             </div>
           )}
@@ -110,5 +112,5 @@ export function BillingPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

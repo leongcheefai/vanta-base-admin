@@ -1,18 +1,18 @@
-import type React from 'react'
-import { cn } from '../lib/utils'
+import type React from "react";
+import { cn } from "../lib/utils";
 
 export interface Feature {
-  icon?: React.ReactNode
-  title: string
-  description: string
+  icon?: React.ReactNode;
+  title: string;
+  description: string;
 }
 
 export interface FeatureSectionProps {
-  eyebrow?: string
-  headline: string
-  subheadline?: string
-  features: Feature[]
-  className?: string
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  features: Feature[];
+  className?: string;
 }
 
 export function FeatureSection({
@@ -23,7 +23,7 @@ export function FeatureSection({
   className,
 }: FeatureSectionProps) {
   return (
-    <section className={cn('py-24 sm:py-32', className)}>
+    <section className={cn("py-24 sm:py-32", className)}>
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && (
@@ -32,9 +32,7 @@ export function FeatureSection({
             </p>
           )}
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{headline}</h2>
-          {subheadline && (
-            <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>
-          )}
+          {subheadline && <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>}
         </div>
         <div className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
@@ -52,5 +50,5 @@ export function FeatureSection({
         </div>
       </div>
     </section>
-  )
+  );
 }

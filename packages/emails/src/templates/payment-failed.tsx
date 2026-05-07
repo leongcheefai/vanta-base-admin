@@ -1,5 +1,5 @@
 interface Props {
-  appUrl: string
+  appUrl: string;
 }
 
 export function PaymentFailedEmail({ appUrl }: Props) {
@@ -12,10 +12,11 @@ export function PaymentFailedEmail({ appUrl }: Props) {
       <body>
         <p>Your recent payment failed.</p>
         <p>
-          <a href={`${appUrl}/billing`}>Update your billing details</a> to keep your subscription active.
+          <a href={`${appUrl}/billing`}>Update your billing details</a> to keep your subscription
+          active.
         </p>
         <p>If you need help, reply to this email.</p>
       </body>
     </html>
-  )
+  );
 }

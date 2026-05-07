@@ -1,5 +1,5 @@
 interface Props {
-  url: string
+  url: string;
 }
 
 export function DeleteAccountEmail({ url }: Props) {
@@ -17,5 +17,5 @@ export function DeleteAccountEmail({ url }: Props) {
         <p>Link expires in 24 hours. If you did not request this deletion, ignore this email.</p>
       </body>
     </html>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-import { Zap } from 'lucide-react'
-import { Link } from 'react-router'
-import { Button } from '@praxor-kit/ui'
-import { useSubscription } from '../lib/billing'
+import { Button } from "@praxor-kit/ui";
+import { Zap } from "lucide-react";
+import { Link } from "react-router";
+import { useSubscription } from "../lib/billing";
 
 export function UpgradeCard() {
-  const { isPro, isLoading } = useSubscription()
-  if (isLoading || isPro) return null
+  const { isPro, isLoading } = useSubscription();
+  if (isLoading || isPro) return null;
 
   return (
     <div className="rounded-lg bg-primary p-3 text-primary-foreground">
@@ -24,5 +24,5 @@ export function UpgradeCard() {
         <Link to="/dashboard/billing">Upgrade now</Link>
       </Button>
     </div>
-  )
+  );
 }

@@ -8,7 +8,7 @@ import {
   CardTitle,
   Input,
   Label,
-} from '@praxor-kit/ui'
+} from "@praxor-kit/ui";
 
 export default function DevComponentsPage() {
   return (
@@ -84,5 +84,5 @@ export default function DevComponentsPage() {
         </section>
       </div>
     </div>
-  )
+  );
 }

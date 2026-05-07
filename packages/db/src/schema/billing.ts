@@ -1,27 +1,27 @@
-import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { user } from './auth'
+import { pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { user } from "./auth";
 
-export const subscriptionStatusEnum = pgEnum('subscription_status', [
-  'active',
-  'trialing',
-  'past_due',
-  'canceled',
-  'incomplete',
-  'incomplete_expired',
-  'unpaid',
-  'paused',
-])
+export const subscriptionStatusEnum = pgEnum("subscription_status", [
+  "active",
+  "trialing",
+  "past_due",
+  "canceled",
+  "incomplete",
+  "incomplete_expired",
+  "unpaid",
+  "paused",
+]);
 
-export const subscription = pgTable('subscription', {
-  id: text('id').primaryKey(),
-  userId: text('user_id')
+export const subscription = pgTable("subscription", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  stripeCustomerId: text('stripe_customer_id').unique(),
-  stripeSubscriptionId: text('stripe_subscription_id').unique(),
-  stripePriceId: text('stripe_price_id'),
-  stripeCurrentPeriodEnd: timestamp('stripe_current_period_end'),
-  status: subscriptionStatusEnum('status'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-})
+    .references(() => user.id, { onDelete: "cascade" }),
+  stripeCustomerId: text("stripe_customer_id").unique(),
+  stripeSubscriptionId: text("stripe_subscription_id").unique(),
+  stripePriceId: text("stripe_price_id"),
+  stripeCurrentPeriodEnd: timestamp("stripe_current_period_end"),
+  status: subscriptionStatusEnum("status"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});

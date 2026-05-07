@@ -1,24 +1,24 @@
-import { cn } from '../lib/utils'
-import { Button } from '../primitives/button'
-import { Badge } from '../primitives/badge'
+import { cn } from "../lib/utils";
+import { Badge } from "../primitives/badge";
+import { Button } from "../primitives/button";
 
 export interface PricingTier {
-  name: string
-  price: string
-  period?: string
-  description: string
-  features: string[]
-  cta: { label: string; href: string }
-  highlighted?: boolean
-  badge?: string
+  name: string;
+  price: string;
+  period?: string;
+  description: string;
+  features: string[];
+  cta: { label: string; href: string };
+  highlighted?: boolean;
+  badge?: string;
 }
 
-export type PricingCardProps = PricingTier & { className?: string }
+export type PricingCardProps = PricingTier & { className?: string };
 
 export function PricingCard({
   name,
   price,
-  period = '/month',
+  period = "/month",
   description,
   features,
   cta,
@@ -29,16 +29,16 @@ export function PricingCard({
   return (
     <div
       className={cn(
-        'relative flex flex-col rounded-2xl border p-8',
+        "relative flex flex-col rounded-2xl border p-8",
         highlighted
-          ? 'border-primary bg-primary text-primary-foreground shadow-xl'
-          : 'border-border bg-card',
+          ? "border-primary bg-primary text-primary-foreground shadow-xl"
+          : "border-border bg-card",
         className,
       )}
     >
       {badge && (
         <Badge
-          variant={highlighted ? 'secondary' : 'default'}
+          variant={highlighted ? "secondary" : "default"}
           className="absolute -top-3 left-1/2 -translate-x-1/2"
         >
           {badge}
@@ -51,8 +51,8 @@ export function PricingCard({
           {period && (
             <span
               className={cn(
-                'text-sm',
-                highlighted ? 'text-primary-foreground/70' : 'text-muted-foreground',
+                "text-sm",
+                highlighted ? "text-primary-foreground/70" : "text-muted-foreground",
               )}
             >
               {period}
@@ -61,8 +61,8 @@ export function PricingCard({
         </div>
         <p
           className={cn(
-            'mt-3 text-sm',
-            highlighted ? 'text-primary-foreground/80' : 'text-muted-foreground',
+            "mt-3 text-sm",
+            highlighted ? "text-primary-foreground/80" : "text-muted-foreground",
           )}
         >
           {description}
@@ -73,8 +73,8 @@ export function PricingCard({
             <li key={i} className="flex items-start gap-3 text-sm">
               <svg
                 className={cn(
-                  'mt-0.5 h-4 w-4 shrink-0',
-                  highlighted ? 'text-primary-foreground' : 'text-primary',
+                  "mt-0.5 h-4 w-4 shrink-0",
+                  highlighted ? "text-primary-foreground" : "text-primary",
                 )}
                 fill="none"
                 stroke="currentColor"
@@ -93,13 +93,9 @@ export function PricingCard({
           ))}
         </ul>
       </div>
-      <Button
-        asChild
-        variant={highlighted ? 'secondary' : 'default'}
-        className="mt-8 w-full"
-      >
+      <Button asChild variant={highlighted ? "secondary" : "default"} className="mt-8 w-full">
         <a href={cta.href}>{cta.label}</a>
       </Button>
     </div>
-  )
+  );
 }

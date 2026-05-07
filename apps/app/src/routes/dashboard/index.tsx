@@ -1,14 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@praxor-kit/ui'
-import { useSession } from '../../lib/auth'
+import { Card, CardContent, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { useSession } from "../../lib/auth";
 
 export function DashboardHome() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">
-          Welcome back{session?.user.name ? `, ${session.user.name}` : ''}
+          Welcome back{session?.user.name ? `, ${session.user.name}` : ""}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Here's what's happening with your account.
@@ -51,5 +51,5 @@ export function DashboardHome() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

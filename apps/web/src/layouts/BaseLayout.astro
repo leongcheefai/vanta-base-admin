@@ -1,18 +1,18 @@
 ---
-import '../styles/global.css'
-import Nav from '../components/Nav.astro'
-import Footer from '../components/Footer.astro'
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
 
 interface Props {
-  title: string
-  description: string
-  ogSlug?: string
+  title: string;
+  description: string;
+  ogSlug?: string;
 }
 
-const { title, description, ogSlug = 'home' } = Astro.props
-const site = Astro.site ?? new URL('https://kit.praxor.dev')
-const canonicalURL = new URL(Astro.url.pathname, site)
-const ogImage = new URL(`/og/${ogSlug}.png`, site)
+const { title, description, ogSlug = "home" } = Astro.props;
+const site = Astro.site ?? new URL("https://kit.praxor.dev");
+const canonicalURL = new URL(Astro.url.pathname, site);
+const ogImage = new URL(`/og/${ogSlug}.png`, site);
 ---
 
 <!doctype html>

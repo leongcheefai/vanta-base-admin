@@ -1,52 +1,52 @@
-import { PricingCard } from '@praxor-kit/ui'
+import { PricingCard } from "@praxor-kit/ui";
 
 const TIERS = [
   {
-    name: 'Free',
-    price: '$0',
-    period: '/month',
-    description: 'TODO: Perfect for getting started and exploring.',
+    name: "Free",
+    price: "$0",
+    period: "/month",
+    description: "TODO: Perfect for getting started and exploring.",
     features: [
-      'TODO: Core feature 1',
-      'TODO: Core feature 2',
-      'TODO: Core feature 3',
-      'TODO: Core feature 4',
+      "TODO: Core feature 1",
+      "TODO: Core feature 2",
+      "TODO: Core feature 3",
+      "TODO: Core feature 4",
     ],
-    cta: { label: 'Get started free', href: '/signup' },
+    cta: { label: "Get started free", href: "/signup" },
   },
   {
-    name: 'Pro',
-    price: '$TODO',
-    period: '/month',
-    description: 'TODO: For growing teams and serious projects.',
-    badge: 'Most popular',
+    name: "Pro",
+    price: "$TODO",
+    period: "/month",
+    description: "TODO: For growing teams and serious projects.",
+    badge: "Most popular",
     highlighted: true as const,
     features: [
-      'Everything in Free',
-      'TODO: Pro feature 1',
-      'TODO: Pro feature 2',
-      'TODO: Pro feature 3',
-      'TODO: Pro feature 4',
-      'Priority support',
+      "Everything in Free",
+      "TODO: Pro feature 1",
+      "TODO: Pro feature 2",
+      "TODO: Pro feature 3",
+      "TODO: Pro feature 4",
+      "Priority support",
     ],
-    cta: { label: 'Start free trial', href: '/signup?plan=pro' },
+    cta: { label: "Start free trial", href: "/signup?plan=pro" },
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    description: 'TODO: For large teams with advanced security and compliance needs.',
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    description: "TODO: For large teams with advanced security and compliance needs.",
     features: [
-      'Everything in Pro',
-      'TODO: Enterprise feature 1',
-      'TODO: Enterprise feature 2',
-      'SSO / SAML',
-      'Dedicated support',
-      'SLA guarantee',
+      "Everything in Pro",
+      "TODO: Enterprise feature 1",
+      "TODO: Enterprise feature 2",
+      "SSO / SAML",
+      "Dedicated support",
+      "SLA guarantee",
     ],
-    cta: { label: 'Contact sales', href: 'mailto:TODO@praxor.dev' },
+    cta: { label: "Contact sales", href: "mailto:TODO@praxor.dev" },
   },
-]
+];
 
 export function PricingContent() {
   return (
@@ -70,5 +70,5 @@ export function PricingContent() {
         </p>
       </div>
     </div>
-  )
+  );
 }

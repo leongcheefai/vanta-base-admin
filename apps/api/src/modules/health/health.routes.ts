@@ -1,5 +1,5 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-export const healthRouter = new Hono()
+export const healthRouter = new Hono();
 
-healthRouter.get('/', (c) => c.json({ ok: true }))
+healthRouter.get("/", (c) => c.json({ ok: true }));

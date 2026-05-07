@@ -1,5 +1,5 @@
 interface Props {
-  url: string
+  url: string;
 }
 
 export function VerifyEmail({ url }: Props) {
@@ -17,5 +17,5 @@ export function VerifyEmail({ url }: Props) {
         <p>Link expires in 24 hours. If you did not create this account, ignore this email.</p>
       </body>
     </html>
-  )
+  );
 }

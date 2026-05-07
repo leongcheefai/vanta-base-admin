@@ -1,17 +1,17 @@
-import type * as React from 'react'
-import { cn } from '../lib/utils'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from '../primitives/sheet'
-import type { NavItem } from './dashboard-shell'
+import type * as React from "react";
+import { cn } from "../lib/utils";
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "../primitives/sheet";
+import type { NavItem } from "./dashboard-shell";
 
 export interface MobileNavDrawerProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  navItems: NavItem[]
-  userName?: string
-  userEmail?: string
-  onSignOut?: () => void
-  renderNavLink?: (item: NavItem & { className: string; isCollapsed: boolean }) => React.ReactNode
-  sidebarFooter?: React.ReactNode
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  navItems: NavItem[];
+  userName?: string;
+  userEmail?: string;
+  onSignOut?: () => void;
+  renderNavLink?: (item: NavItem & { className: string; isCollapsed: boolean }) => React.ReactNode;
+  sidebarFooter?: React.ReactNode;
 }
 
 export function MobileNavDrawer({
@@ -25,7 +25,7 @@ export function MobileNavDrawer({
   sidebarFooter,
 }: MobileNavDrawerProps) {
   function close() {
-    onOpenChange(false)
+    onOpenChange(false);
   }
 
   return (
@@ -39,11 +39,11 @@ export function MobileNavDrawer({
           <ul className="space-y-0.5">
             {navItems.map((item) => {
               const className = cn(
-                'flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors',
+                "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
                 item.active
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
-              )
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+              );
               return (
                 <li key={item.href}>
                   <SheetClose asChild>
@@ -57,7 +57,7 @@ export function MobileNavDrawer({
                     )}
                   </SheetClose>
                 </li>
-              )
+              );
             })}
           </ul>
         </nav>
@@ -67,7 +67,7 @@ export function MobileNavDrawer({
         <div className="border-t p-3">
           <div className="flex items-center gap-2.5 rounded-md px-3 py-2">
             <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">
-              {(userName ?? userEmail ?? '?')[0]?.toUpperCase()}
+              {(userName ?? userEmail ?? "?")[0]?.toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
               {userName && <p className="truncate text-sm font-medium leading-none">{userName}</p>}
@@ -78,8 +78,8 @@ export function MobileNavDrawer({
             <button
               type="button"
               onClick={() => {
-                onSignOut()
-                close()
+                onSignOut();
+                close();
               }}
               className="mt-0.5 w-full rounded-md px-3 py-2 text-left text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
@@ -89,5 +89,5 @@ export function MobileNavDrawer({
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
