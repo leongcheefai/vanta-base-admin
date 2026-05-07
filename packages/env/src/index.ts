@@ -15,6 +15,12 @@ export const serverEnv = createEnv({
     STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
     STRIPE_PRO_PRICE_ID: z.string().optional(),
     RESEND_API_KEY: z.string().optional(),
+    S3_REGION: z.string().default('auto'), // 'auto' for R2; set to 'us-east-1' etc for AWS S3
+    S3_BUCKET: z.string().min(1).optional(),
+    S3_ACCESS_KEY_ID: z.string().min(1).optional(),
+    S3_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+    S3_ENDPOINT: z.string().url().optional(), // for Cloudflare R2
+    S3_PUBLIC_URL: z.string().url().optional(), // CDN base URL
   },
   runtimeEnv: process.env,
 })
