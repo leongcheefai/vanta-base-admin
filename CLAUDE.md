@@ -18,7 +18,7 @@ Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. 
 - "Start local DB" → `pnpm db:up`
 - "Run everything locally" → `pnpm db:up && pnpm dev`
 - "Run typecheck" → `pnpm typecheck`
-- "Before commit/push" → `pnpm build` must pass (auto-enforced via Claude Code hook)
+- "Before commit/push" → `pnpm lint && pnpm build` must both pass (auto-enforced via Claude Code hook)
 
 ## Gotchas
 - `pnpm` only — never `npm install` or `yarn`
