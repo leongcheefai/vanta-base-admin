@@ -15,8 +15,6 @@ export interface DashboardShellProps {
   children: React.ReactNode
   topbar?: React.ReactNode
   navItems: NavItem[]
-  userName?: string
-  userEmail?: string
   renderNavLink?: (item: NavItem & { className: string; isCollapsed: boolean }) => React.ReactNode
   sidebarFooter?: React.ReactNode
 }
@@ -25,8 +23,6 @@ export function DashboardShell({
   children,
   topbar,
   navItems,
-  userName,
-  userEmail,
   renderNavLink,
   sidebarFooter,
 }: DashboardShellProps) {
@@ -111,31 +107,8 @@ export function DashboardShell({
           </nav>
 
           {!isCollapsed && sidebarFooter && (
-            <div className="px-3 pb-2">{sidebarFooter}</div>
+            <div className="px-3 pb-3">{sidebarFooter}</div>
           )}
-
-          <div className="border-t p-3">
-            <div
-              className={cn(
-                'flex items-center rounded-md py-2',
-                isCollapsed ? 'justify-center px-0' : 'gap-2.5 px-3',
-              )}
-            >
-              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">
-                {(userName ?? userEmail ?? '?')[0]?.toUpperCase()}
-              </div>
-              {!isCollapsed && (
-                <div className="min-w-0 flex-1">
-                  {userName && (
-                    <p className="truncate text-sm font-medium leading-none">{userName}</p>
-                  )}
-                  {userEmail && (
-                    <p className="truncate text-xs text-muted-foreground">{userEmail}</p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">

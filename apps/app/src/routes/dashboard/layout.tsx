@@ -81,8 +81,6 @@ function DashboardContent() {
   return (
     <DashboardShell
       navItems={items}
-      userName={session?.user.name}
-      userEmail={session?.user.email}
       renderNavLink={renderNavLink}
       sidebarFooter={sidebarFooter}
       topbar={
