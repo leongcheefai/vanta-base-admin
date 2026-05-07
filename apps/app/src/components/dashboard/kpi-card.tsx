@@ -9,12 +9,7 @@ interface KpiCardProps {
   // For churn rate: deltaInverted=true so lower churn = green
 }
 
-export function KpiCard({
-  label,
-  value,
-  deltaPct,
-  deltaInverted = false,
-}: KpiCardProps) {
+export function KpiCard({ label, value, deltaPct, deltaInverted = false }: KpiCardProps) {
   const isPositive = deltaPct >= 0;
   const isGood = deltaInverted ? !isPositive : isPositive;
   const sign = isPositive ? "+" : "";
@@ -22,9 +17,7 @@ export function KpiCard({
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {label}
-        </CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-2xl font-bold">{value}</p>

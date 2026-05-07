@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@praxor-kit/ui";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@praxor-kit/ui";
 import { ActivationFunnelChart } from "../../components/dashboard/charts/activation-funnel-chart";
 import { ActiveUsersChart } from "../../components/dashboard/charts/active-users-chart";
 import { PlanDistributionChart } from "../../components/dashboard/charts/plan-distribution-chart";
@@ -16,9 +10,7 @@ import { useSession } from "../../lib/auth";
 import { useMetrics } from "../../lib/metrics";
 
 function SkeletonCard({ className = "" }: { className?: string }) {
-  return (
-    <div className={`rounded-xl border bg-card animate-pulse ${className}`} />
-  );
+  return <div className={`rounded-xl border bg-card animate-pulse ${className}`} />;
 }
 
 export function DashboardHome() {

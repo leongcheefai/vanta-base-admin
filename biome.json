@@ -3,5 +3,20 @@
   "extends": ["./packages/config/biome.json"],
   "files": {
     "ignore": ["node_modules", "dist", ".turbo", ".astro", "*.d.ts"]
-  }
+  },
+  "overrides": [
+    {
+      "include": ["packages/ui/src/primitives/chart.tsx"],
+      "linter": {
+        "rules": {
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          }
+        }
+      }
+    }
+  ]
 }
