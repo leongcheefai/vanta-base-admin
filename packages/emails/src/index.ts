@@ -2,6 +2,8 @@ import { render } from '@react-email/render'
 import type { ReactElement } from 'react'
 import { Resend } from 'resend'
 import { serverEnv } from '@praxor-kit/env'
+import { ChangeEmailEmail } from './templates/change-email'
+import { DeleteAccountEmail } from './templates/delete-account'
 import { PaymentFailedEmail } from './templates/payment-failed'
 import { ResetPasswordEmail } from './templates/reset-password'
 import { VerifyEmail } from './templates/verify-email'
@@ -39,4 +41,12 @@ export async function sendResetPasswordEmail(to: string, url: string) {
 
 export async function sendPaymentFailedEmail(to: string, appUrl: string) {
   await send(to, 'Action required: payment failed', PaymentFailedEmail({ appUrl }))
+}
+
+export async function sendChangeEmailConfirmationEmail(to: string, url: string, oldEmail: string) {
+  await send(to, 'Confirm your new email address', ChangeEmailEmail({ url, oldEmail }))
+}
+
+export async function sendDeleteAccountEmail(to: string, url: string) {
+  await send(to, 'Confirm account deletion', DeleteAccountEmail({ url }))
 }
