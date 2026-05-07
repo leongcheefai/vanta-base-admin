@@ -1,6 +1,6 @@
 import type * as React from 'react'
 import { cn } from '../lib/utils'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../primitives/sheet'
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from '../primitives/sheet'
 import type { NavItem } from './dashboard-shell'
 
 export interface MobileNavDrawerProps {
@@ -30,7 +30,7 @@ export function MobileNavDrawer({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-72 p-0 flex flex-col">
+      <SheetContent side="left" className="w-72 sm:w-72 sm:max-w-72 p-0 flex flex-col">
         <SheetHeader className="flex h-14 shrink-0 flex-row items-center border-b px-4 space-y-0">
           <SheetTitle className="flex-1 font-semibold tracking-tight">Praxor Kit</SheetTitle>
         </SheetHeader>
@@ -46,7 +46,7 @@ export function MobileNavDrawer({
               )
               return (
                 <li key={item.href}>
-                  <div onClick={close}>
+                  <SheetClose asChild>
                     {renderNavLink ? (
                       renderNavLink({ ...item, className, isCollapsed: false })
                     ) : (
@@ -55,7 +55,7 @@ export function MobileNavDrawer({
                         {item.label}
                       </a>
                     )}
-                  </div>
+                  </SheetClose>
                 </li>
               )
             })}
