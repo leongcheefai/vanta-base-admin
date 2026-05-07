@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useLocation } from 'react-router'
 import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@praxor-kit/ui'
 import { signIn } from '../lib/auth'
 
 export function LoginPage() {
   const navigate = useNavigate()
+  const { search } = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -19,7 +20,13 @@ export function LoginPage() {
       if (result.error) {
         setError(result.error.message ?? 'Sign in failed')
       } else {
-        navigate('/dashboard')
+        const params = new URLSearchParams(search)
+        const redirectTo = params.get('redirect')
+        const safe =
+          redirectTo?.startsWith('/') && !redirectTo.startsWith('//')
+            ? redirectTo
+            : '/dashboard'
+        navigate(safe, { replace: true })
       }
     } catch {
       setError('Something went wrong. Please try again.')
