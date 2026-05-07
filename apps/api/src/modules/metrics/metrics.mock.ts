@@ -1,17 +1,4 @@
-type MetricsOverview = {
-  kpis: {
-    mrr: { value: number; deltaPct: number };
-    signups: { value: number; deltaPct: number };
-    activeUsers: { value: number; deltaPct: number };
-    churnPct: { value: number; deltaPct: number };
-  };
-  revenue: { month: string; mrr: number }[];
-  signups: { week: string; count: number }[];
-  activeUsers: { day: string; dau: number; wau: number; mau: number }[];
-  planDistribution: { plan: string; users: number }[];
-  activationFunnel: { stage: string; count: number }[];
-  topCountries: { country: string; users: number }[];
-};
+import type { MetricsOverview } from "./metrics.schema";
 
 export function generateMockMetrics(): MetricsOverview {
   return {
@@ -56,36 +43,36 @@ export function generateMockMetrics(): MetricsOverview {
       { day: "Day 4", dau: 215, wau: 880, mau: 2080 },
       { day: "Day 5", dau: 230, wau: 890, mau: 2090 },
       { day: "Day 6", dau: 260, wau: 900, mau: 2100 },
-      { day: "Day 7", dau: 275, wau: 910, mau: 2110 },
-      { day: "Day 8", dau: 245, wau: 920, mau: 2115 },
-      { day: "Day 9", dau: 220, wau: 930, mau: 2120 },
-      { day: "Day 10", dau: 235, wau: 940, mau: 2130 },
-      { day: "Day 11", dau: 250, wau: 950, mau: 2140 },
-      { day: "Day 12", dau: 265, wau: 960, mau: 2150 },
-      { day: "Day 13", dau: 280, wau: 970, mau: 2160 },
-      { day: "Day 14", dau: 295, wau: 980, mau: 2170 },
-      { day: "Day 15", dau: 310, wau: 990, mau: 2180 },
-      { day: "Day 16", dau: 300, wau: 1000, mau: 2190 },
-      { day: "Day 17", dau: 285, wau: 1010, mau: 2195 },
-      { day: "Day 18", dau: 270, wau: 1020, mau: 2200 },
-      { day: "Day 19", dau: 320, wau: 1030, mau: 2210 },
-      { day: "Day 20", dau: 340, wau: 1050, mau: 2220 },
-      { day: "Day 21", dau: 355, wau: 1070, mau: 2230 },
-      { day: "Day 22", dau: 370, wau: 1090, mau: 2240 },
-      { day: "Day 23", dau: 360, wau: 1100, mau: 2250 },
-      { day: "Day 24", dau: 345, wau: 1110, mau: 2260 },
-      { day: "Day 25", dau: 330, wau: 1120, mau: 2270 },
-      { day: "Day 26", dau: 350, wau: 1130, mau: 2280 },
-      { day: "Day 27", dau: 365, wau: 1150, mau: 2290 },
-      { day: "Day 28", dau: 380, wau: 1170, mau: 2300 },
-      { day: "Day 29", dau: 390, wau: 1185, mau: 2310 },
-      { day: "Day 30", dau: 400, wau: 1200, mau: 2320 },
+      { day: "Day 7", dau: 275, wau: 910, mau: 2100 },
+      { day: "Day 8", dau: 245, wau: 920, mau: 2100 },
+      { day: "Day 9", dau: 220, wau: 930, mau: 2100 },
+      { day: "Day 10", dau: 235, wau: 940, mau: 2100 },
+      { day: "Day 11", dau: 250, wau: 950, mau: 2100 },
+      { day: "Day 12", dau: 265, wau: 960, mau: 2100 },
+      { day: "Day 13", dau: 280, wau: 970, mau: 2100 },
+      { day: "Day 14", dau: 295, wau: 980, mau: 2100 },
+      { day: "Day 15", dau: 310, wau: 990, mau: 2100 },
+      { day: "Day 16", dau: 300, wau: 1000, mau: 2100 },
+      { day: "Day 17", dau: 285, wau: 1010, mau: 2100 },
+      { day: "Day 18", dau: 270, wau: 1020, mau: 2100 },
+      { day: "Day 19", dau: 320, wau: 1030, mau: 2100 },
+      { day: "Day 20", dau: 340, wau: 1050, mau: 2100 },
+      { day: "Day 21", dau: 355, wau: 1070, mau: 2100 },
+      { day: "Day 22", dau: 370, wau: 1090, mau: 2100 },
+      { day: "Day 23", dau: 360, wau: 1100, mau: 2100 },
+      { day: "Day 24", dau: 345, wau: 1110, mau: 2100 },
+      { day: "Day 25", dau: 330, wau: 1120, mau: 2100 },
+      { day: "Day 26", dau: 350, wau: 1130, mau: 2100 },
+      { day: "Day 27", dau: 365, wau: 1150, mau: 2100 },
+      { day: "Day 28", dau: 380, wau: 1170, mau: 2100 },
+      { day: "Day 29", dau: 390, wau: 1185, mau: 2100 },
+      { day: "Day 30", dau: 400, wau: 1200, mau: 2100 },
     ],
     planDistribution: [
-      { plan: "Free", users: 1800 },
+      { plan: "Free", users: 1765 },
       { plan: "Pro", users: 280 },
-      { plan: "Team", users: 45 },
-      { plan: "Enterprise", users: 10 },
+      { plan: "Team", users: 35 },
+      { plan: "Enterprise", users: 20 },
     ],
     activationFunnel: [
       { stage: "Visited", count: 10000 },
