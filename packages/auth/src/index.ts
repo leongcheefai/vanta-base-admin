@@ -2,7 +2,13 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { db, schema } from '@praxor-kit/db'
 import { serverEnv } from '@praxor-kit/env'
-import { sendResetPasswordEmail, sendVerifyEmail, sendWelcomeEmail } from '@praxor-kit/emails'
+import {
+  sendChangeEmailConfirmationEmail,
+  sendDeleteAccountEmail,
+  sendResetPasswordEmail,
+  sendVerifyEmail,
+  sendWelcomeEmail,
+} from '@praxor-kit/emails'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -25,6 +31,34 @@ export const auth = betterAuth({
     },
     sendResetPassword: async ({ user, url }: { user: { email: string }; url: string }) => {
       await sendResetPasswordEmail(user.email, url)
+    },
+  },
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({
+        user,
+        newEmail,
+        url,
+      }: {
+        user: { email: string }
+        newEmail: string
+        url: string
+      }) => {
+        await sendChangeEmailConfirmationEmail(newEmail, url, user.email)
+      },
+    },
+    deletion: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({
+        user,
+        url,
+      }: {
+        user: { email: string }
+        url: string
+      }) => {
+        await sendDeleteAccountEmail(user.email, url)
+      },
     },
   },
   databaseHooks: {
