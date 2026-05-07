@@ -14,12 +14,12 @@ interface PlanDistributionChartProps {
 	data: MetricsOverview["planDistribution"];
 }
 
-const COLORS = [
-	"var(--chart-1)",
-	"var(--chart-2)",
-	"var(--chart-3)",
-	"var(--chart-4)",
-];
+const PLAN_COLORS: Record<string, string> = {
+	Free: "var(--chart-1)",
+	Pro: "var(--chart-2)",
+	Team: "var(--chart-3)",
+	Enterprise: "var(--chart-4)",
+};
 
 const chartConfig = {
 	users: { label: "Users" },
@@ -42,8 +42,8 @@ export function PlanDistributionChart({ data }: PlanDistributionChartProps) {
 					innerRadius={50}
 					outerRadius={80}
 				>
-					{data.map((entry: { plan: string; users: number }, index: number) => (
-						<Cell key={entry.plan} fill={COLORS[index % COLORS.length]} />
+					{data.map((entry: { plan: string; users: number }) => (
+						<Cell key={entry.plan} fill={PLAN_COLORS[entry.plan] ?? "var(--chart-1)"} />
 					))}
 				</Pie>
 				<ChartTooltip content={<ChartTooltipContent nameKey="plan" />} />

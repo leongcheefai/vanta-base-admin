@@ -5,7 +5,7 @@ import {
 	ChartTooltipContent,
 	type ChartConfig,
 } from "@praxor-kit/ui";
-import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import type { MetricsOverview } from "../../../lib/metrics";
 
 interface TopCountriesChartProps {
@@ -28,11 +28,7 @@ export function TopCountriesChart({ data }: TopCountriesChartProps) {
 					width={32}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
-				<Bar dataKey="users" fill="var(--chart-2)" radius={[0, 4, 4, 0]}>
-					{data.map((entry: { country: string; users: number }) => (
-						<Cell key={entry.country} fill="var(--chart-2)" />
-					))}
-				</Bar>
+				<Bar dataKey="users" fill="var(--chart-2)" radius={[0, 4, 4, 0]} />
 			</BarChart>
 		</ChartContainer>
 	);
