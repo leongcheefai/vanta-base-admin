@@ -118,3 +118,11 @@ export {
 } from "./primitives/alert-dialog";
 export { Separator } from "./primitives/separator";
 export { Switch } from "./primitives/switch";
+export {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "./primitives/chart";
+export type { ChartConfig } from "./primitives/chart";
