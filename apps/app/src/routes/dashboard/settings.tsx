@@ -1,39 +1,61 @@
-import { Card, CardContent, CardHeader, CardTitle, Input, Label, Button } from '@praxor-kit/ui'
-import { useSession } from '../../lib/auth'
+import { useSearchParams } from 'react-router'
+import {
+	Tabs,
+	TabsContent,
+	TabsList,
+	TabsTrigger,
+} from '@praxor-kit/ui'
+import { ProfileSection } from '../../components/settings/profile-section'
+import { SecuritySection } from '../../components/settings/security-section'
+import { SessionsSection } from '../../components/settings/sessions-section'
+import { DangerSection } from '../../components/settings/danger-section'
+
+const TABS = ['profile', 'security', 'sessions', 'danger'] as const
+type Tab = (typeof TABS)[number]
 
 export function SettingsPage() {
-  const { data: session } = useSession()
+	const [params, setParams] = useSearchParams()
+	const raw = params.get('tab')
+	const tab: Tab = (TABS as readonly string[]).includes(raw ?? '') ? (raw as Tab) : 'profile'
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Manage your account settings.</p>
-      </div>
+	const setTab = (value: string) => {
+		setParams(
+			(prev) => {
+				prev.set('tab', value)
+				return prev
+			},
+			{ replace: true },
+		)
+	}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              defaultValue={session?.user.name ?? ''}
-              placeholder="Your name"
-              disabled
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" defaultValue={session?.user.email ?? ''} type="email" disabled />
-          </div>
-          {/* TODO: wire up profile update mutation */}
-          <Button disabled>Save changes</Button>
-          <p className="text-xs text-muted-foreground">Profile editing coming soon.</p>
-        </CardContent>
-      </Card>
-    </div>
-  )
+	return (
+		<div className="space-y-6">
+			<div>
+				<h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+				<p className="mt-1 text-sm text-muted-foreground">Manage your account.</p>
+			</div>
+
+			<Tabs value={tab} onValueChange={setTab}>
+				<TabsList>
+					<TabsTrigger value="profile">Profile</TabsTrigger>
+					<TabsTrigger value="security">Security</TabsTrigger>
+					<TabsTrigger value="sessions">Sessions</TabsTrigger>
+					<TabsTrigger value="danger">Danger</TabsTrigger>
+				</TabsList>
+
+				<TabsContent value="profile">
+					<ProfileSection />
+				</TabsContent>
+				<TabsContent value="security">
+					<SecuritySection />
+				</TabsContent>
+				<TabsContent value="sessions">
+					<SessionsSection />
+				</TabsContent>
+				<TabsContent value="danger">
+					<DangerSection />
+				</TabsContent>
+			</Tabs>
+		</div>
+	)
 }
