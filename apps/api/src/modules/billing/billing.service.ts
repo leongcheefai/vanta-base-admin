@@ -56,9 +56,42 @@ export async function getSubscription(userId: string) {
   });
 }
 
+export async function getBillingConfig() {
+  return {
+    proMonthlyPriceId: serverEnv.STRIPE_PRO_PRICE_ID_MONTHLY ?? null,
+    proYearlyPriceId: serverEnv.STRIPE_PRO_PRICE_ID_YEARLY ?? null,
+  };
+}
+
+export async function listInvoices(userId: string) {
+  const sub = await db.query.subscription.findFirst({
+    where: eq(schema.subscription.userId, userId),
+  });
+  if (!sub?.stripeCustomerId) return [];
+  const invoices = await stripe.invoices.list({ customer: sub.stripeCustomerId, limit: 24 });
+  return invoices.data.map((inv) => ({
+    id: inv.id,
+    number: inv.number,
+    amountPaid: inv.amount_paid,
+    currency: inv.currency,
+    status: inv.status,
+    created: inv.created,
+    hostedInvoiceUrl: inv.hosted_invoice_url ?? null,
+    invoicePdf: inv.invoice_pdf ?? null,
+  }));
+}
+
 export async function handleWebhook(body: string, signature: string) {
   if (!serverEnv.STRIPE_WEBHOOK_SECRET) throw new Error("STRIPE_WEBHOOK_SECRET not set");
   const event = stripe.webhooks.constructEvent(body, signature, serverEnv.STRIPE_WEBHOOK_SECRET);
+
+  // Event-id dedup: skip already-processed events
+  const deduped = await db
+    .insert(schema.webhookEvent)
+    .values({ id: event.id, type: event.type })
+    .onConflictDoNothing({ target: schema.webhookEvent.id })
+    .returning({ id: schema.webhookEvent.id });
+  if (deduped.length === 0) return; // already processed
 
   switch (event.type) {
     case "checkout.session.completed": {
@@ -78,24 +111,21 @@ export async function handleWebhook(body: string, signature: string) {
         stripeSubscriptionId: sub.id,
         stripePriceId: sub.items.data[0]?.price.id ?? null,
         stripeCurrentPeriodEnd: new Date(sub.items.data[0]?.current_period_end * 1000),
+        cancelAtPeriodEnd: sub.cancel_at_period_end,
         status: sub.status as SubscriptionStatus,
       });
       break;
     }
 
+    case "customer.subscription.created": {
+      const sub = event.data.object;
+      await syncSubscriptionFromStripe(sub);
+      break;
+    }
+
     case "customer.subscription.updated": {
       const sub = event.data.object;
-      const userId = sub.metadata?.userId;
-      if (!userId) break;
-
-      await upsertSubscription({
-        userId,
-        stripeCustomerId: typeof sub.customer === "string" ? sub.customer : sub.customer.id,
-        stripeSubscriptionId: sub.id,
-        stripePriceId: sub.items.data[0]?.price.id ?? null,
-        stripeCurrentPeriodEnd: new Date(sub.items.data[0]?.current_period_end * 1000),
-        status: sub.status as SubscriptionStatus,
-      });
+      await syncSubscriptionFromStripe(sub);
       break;
     }
 
@@ -105,6 +135,26 @@ export async function handleWebhook(body: string, signature: string) {
         .update(schema.subscription)
         .set({ status: "canceled", updatedAt: new Date() })
         .where(eq(schema.subscription.stripeSubscriptionId, sub.id));
+      break;
+    }
+
+    case "invoice.paid": {
+      const invoice = event.data.object;
+      const subRef = invoice.parent?.subscription_details?.subscription;
+      if (!subRef) break;
+      const subId = typeof subRef === "string" ? subRef : subRef.id;
+      const sub = await stripe.subscriptions.retrieve(subId);
+      await syncSubscriptionFromStripe(sub);
+      break;
+    }
+
+    case "invoice.payment_succeeded": {
+      const invoice = event.data.object;
+      const subRef = invoice.parent?.subscription_details?.subscription;
+      if (!subRef) break;
+      const subId = typeof subRef === "string" ? subRef : subRef.id;
+      const sub = await stripe.subscriptions.retrieve(subId);
+      await syncSubscriptionFromStripe(sub);
       break;
     }
 
@@ -139,12 +189,37 @@ export async function handleWebhook(body: string, signature: string) {
   }
 }
 
+async function syncSubscriptionFromStripe(
+  sub: import("stripe").default.Subscription,
+): Promise<void> {
+  // Resolve userId: prefer metadata, fallback to DB lookup by stripeCustomerId
+  let userId = sub.metadata?.userId ?? undefined;
+  if (!userId) {
+    const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
+    const existing = await db.query.subscription.findFirst({
+      where: eq(schema.subscription.stripeCustomerId, customerId),
+    });
+    if (!existing) return; // cannot identify user, skip
+    userId = existing.userId;
+  }
+  await upsertSubscription({
+    userId,
+    stripeCustomerId: typeof sub.customer === "string" ? sub.customer : sub.customer.id,
+    stripeSubscriptionId: sub.id,
+    stripePriceId: sub.items.data[0]?.price.id ?? null,
+    stripeCurrentPeriodEnd: new Date(sub.items.data[0]?.current_period_end * 1000),
+    cancelAtPeriodEnd: sub.cancel_at_period_end,
+    status: sub.status as SubscriptionStatus,
+  });
+}
+
 type UpsertSubscriptionParams = {
   userId: string;
   stripeCustomerId: string;
   stripeSubscriptionId: string;
   stripePriceId: string | null;
   stripeCurrentPeriodEnd: Date;
+  cancelAtPeriodEnd: boolean;
   status: SubscriptionStatus;
 };
 
@@ -161,6 +236,7 @@ async function upsertSubscription(params: UpsertSubscriptionParams) {
         stripeSubscriptionId: params.stripeSubscriptionId,
         stripePriceId: params.stripePriceId,
         stripeCurrentPeriodEnd: params.stripeCurrentPeriodEnd,
+        cancelAtPeriodEnd: params.cancelAtPeriodEnd,
         status: params.status,
         updatedAt: new Date(),
       })
@@ -173,6 +249,7 @@ async function upsertSubscription(params: UpsertSubscriptionParams) {
       stripeSubscriptionId: params.stripeSubscriptionId,
       stripePriceId: params.stripePriceId,
       stripeCurrentPeriodEnd: params.stripeCurrentPeriodEnd,
+      cancelAtPeriodEnd: params.cancelAtPeriodEnd,
       status: params.status,
     });
   }

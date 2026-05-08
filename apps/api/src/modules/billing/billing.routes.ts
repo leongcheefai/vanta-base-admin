@@ -6,11 +6,25 @@ import { createCheckoutSchema, createPortalSchema } from "./billing.schema";
 import {
   createCheckoutSession,
   createPortalSession,
+  getBillingConfig,
   getSubscription,
   handleWebhook,
+  listInvoices,
 } from "./billing.service";
 
 export const billingRouter = new Hono<{ Variables: AppVariables }>();
+
+billingRouter.get("/config", async (c) => {
+  const result = await getBillingConfig();
+  return c.json(result);
+});
+
+billingRouter.get("/invoices", async (c) => {
+  const user = c.get("user");
+  if (!user) throw new HTTPException(401, { message: "Unauthorized" });
+  const invoices = await listInvoices(user.id);
+  return c.json({ invoices });
+});
 
 billingRouter.get("/subscription", async (c) => {
   const user = c.get("user");
