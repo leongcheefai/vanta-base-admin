@@ -6,7 +6,8 @@ Ask the user for the product name, price, and billing interval (monthly/yearly/o
 
 2. Add the price ID to `apps/api/.env`:
    ```
-   STRIPE_PRO_PRICE_ID=price_...
+   STRIPE_PRO_PRICE_ID_MONTHLY=price_...
+   STRIPE_PRO_PRICE_ID_YEARLY=price_...
    ```
    Or add a new env var in `packages/env/src/index.ts` for additional plan tiers (e.g. `STRIPE_ENTERPRISE_PRICE_ID`).
 
