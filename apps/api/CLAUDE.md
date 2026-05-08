@@ -46,9 +46,13 @@ stripe listen --forward-to localhost:3001/billing/webhook
 | Event | Action |
 |---|---|
 | `checkout.session.completed` | Upsert subscription row with active status |
-| `customer.subscription.updated` | Update plan/status/period-end |
+| `customer.subscription.created` | Upsert subscription row (handles non-checkout signups) |
+| `customer.subscription.updated` | Update plan/status/period-end/cancel_at_period_end |
 | `customer.subscription.deleted` | Mark subscription canceled |
-| `invoice.payment_failed` | Mark subscription past_due |
+| `invoice.paid` | Re-sync subscription status on successful payment |
+| `invoice.payment_failed` | Mark subscription past_due, send payment-failed email |
+
+Note: all webhook events are deduplicated via the `webhook_event` table (Stripe event ID as PK).
 
 ### Trigger test events
 ```bash

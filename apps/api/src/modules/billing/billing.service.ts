@@ -110,7 +110,10 @@ export async function handleWebhook(body: string, signature: string) {
           typeof session.customer === "string" ? session.customer : session.customer.id,
         stripeSubscriptionId: sub.id,
         stripePriceId: sub.items.data[0]?.price.id ?? null,
-        stripeCurrentPeriodEnd: new Date(sub.items.data[0]?.current_period_end * 1000),
+        stripeCurrentPeriodEnd:
+          sub.items.data[0]?.current_period_end != null
+            ? new Date(sub.items.data[0].current_period_end * 1000)
+            : null,
         cancelAtPeriodEnd: sub.cancel_at_period_end,
         status: sub.status as SubscriptionStatus,
       });
