@@ -136,3 +136,18 @@ export {
   TableCell,
   TableCaption,
 } from "./primitives/table";
+
+// Footer
+export { Footer } from "./patterns/footer";
+export type { FooterProps, FooterGroup, FooterLink } from "./patterns/footer";
+
+// Layout primitives
+export { Section } from "./patterns/layout/section";
+export type { SectionProps } from "./patterns/layout/section";
+export { Container } from "./patterns/layout/container";
+export type { ContainerProps } from "./patterns/layout/container";
+export { SectionHeader } from "./patterns/layout/section-header";
+export type { SectionHeaderProps } from "./patterns/layout/section-header";
+
+// toast re-export for islands that need it without adding sonner as direct dep
+export { toast } from "sonner";

@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
+import { Badge } from "@praxor-kit/ui";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { readingTime } from "../../lib/reading-time";
+import { articleSchema } from "../../lib/structured-data";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -11,13 +14,29 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
+const site = Astro.site ?? new URL("https://kit.praxor.dev");
+const canonicalURL = new URL(`/blog/${post.id}`, site).href;
+
+// Use remark-estimated-reading-time if available, otherwise fall back to our util
+const rt = remarkPluginFrontmatter?.readingTime ?? readingTime(post.body ?? "").text;
+
+const jsonLd = articleSchema({
+  title: post.data.title,
+  description: post.data.description,
+  date: post.data.date,
+  author: post.data.author,
+  image: post.data.image ? new URL(post.data.image, site).href : undefined,
+  url: canonicalURL,
+});
 ---
 
 <BaseLayout
   title={`${post.data.title} — Praxor Kit`}
   description={post.data.description}
   ogSlug={`blog-${post.id}`}
+  ogType="article"
+  jsonLd={jsonLd}
 >
   <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
     <a
@@ -27,18 +46,36 @@ const { Content } = await render(post);
       ← Back to blog
     </a>
     <article class="mt-8">
+      {post.data.image && (
+        <img
+          src={post.data.image}
+          alt={post.data.imageAlt ?? post.data.title}
+          class="mb-8 aspect-video w-full rounded-xl object-cover"
+        />
+      )}
       <header class="mb-10">
-        <time
-          datetime={post.data.date.toISOString()}
-          class="text-sm text-muted-foreground"
-        >
-          {post.data.date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </time>
-        <h1 class="mt-2 text-4xl font-bold tracking-tight">{post.data.title}</h1>
+        <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          <span aria-hidden="true">·</span>
+          <span>{rt}</span>
+          {post.data.tags.length > 0 && (
+            <>
+              <span aria-hidden="true">·</span>
+              {post.data.tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
+            </>
+          )}
+        </div>
+        <h1 class="mt-3 text-4xl font-bold tracking-tight">{post.data.title}</h1>
         <p class="mt-3 text-lg text-muted-foreground">{post.data.description}</p>
         <p class="mt-4 text-sm text-muted-foreground">By {post.data.author}</p>
       </header>

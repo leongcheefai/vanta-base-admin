@@ -3,34 +3,7 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { createElement } from "react";
 import satori from "satori";
-
-const STATIC_PAGES = [
-  {
-    slug: "home",
-    title: "Praxor Kit",
-    description: "Ship paid SaaS faster, without lock-in.",
-  },
-  {
-    slug: "pricing",
-    title: "Pricing — Praxor Kit",
-    description: "Simple, transparent pricing for every stage.",
-  },
-  {
-    slug: "blog",
-    title: "Blog — Praxor Kit",
-    description: "Insights and updates from the Praxor Kit team.",
-  },
-  {
-    slug: "terms",
-    title: "Terms of Service — Praxor Kit",
-    description: "",
-  },
-  {
-    slug: "privacy",
-    title: "Privacy Policy — Praxor Kit",
-    description: "",
-  },
-];
+import { MARKETING_PAGES } from "../../lib/pages";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("blog");
@@ -40,9 +13,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { slug: `blog-${post.id}` },
       props: { title: post.data.title, description: post.data.description },
     }));
-  const staticPaths = STATIC_PAGES.map((page) => ({
+  const staticPaths = MARKETING_PAGES.map((page) => ({
     params: { slug: page.slug },
-    props: { title: page.title, description: page.description },
+    props: {
+      title: page.ogTitle ?? page.title,
+      description: page.ogDescription ?? page.description,
+    },
   }));
   return [...staticPaths, ...blogPaths];
 };

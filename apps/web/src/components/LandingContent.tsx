@@ -1,4 +1,15 @@
-import { FAQ, FeatureSection, Hero, LogoCloud, Testimonial } from "@praxor-kit/ui";
+import {
+  Container,
+  FAQ,
+  FeatureSection,
+  Hero,
+  LogoCloud,
+  Section,
+  SectionHeader,
+  Testimonial,
+} from "@praxor-kit/ui";
+
+const APP_URL = (import.meta.env.PUBLIC_APP_URL as string | undefined) ?? "http://localhost:3000";
 
 const features = [
   { title: "TODO: Feature 1", description: "TODO: Describe this feature in one or two sentences." },
@@ -57,7 +68,7 @@ export function LandingContent() {
         badge="TODO: Badge text"
         headline="TODO: Your main headline goes here"
         subheadline="TODO: Supporting subheadline that explains your value proposition in two sentences."
-        primaryCta={{ label: "Get started free", href: "/signup" }}
+        primaryCta={{ label: "Get started free", href: `${APP_URL}/signup` }}
         secondaryCta={{ label: "See the demo", href: "#features" }}
       />
 
@@ -81,20 +92,16 @@ export function LandingContent() {
         />
       </div>
 
-      <section className="py-24 sm:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              TODO: What your customers say
-            </h2>
-          </div>
+      <Section>
+        <Container>
+          <SectionHeader headline="TODO: What your customers say" />
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t) => (
               <Testimonial key={t.quote} quote={t.quote} author={t.author} role={t.role} />
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       <FAQ eyebrow="FAQ" headline="Common questions" items={faqItems} />
     </>
