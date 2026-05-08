@@ -27,6 +27,6 @@ Navigate to `http://localhost:3000/_dev/components` in dev mode. This route is t
 
 ## Gotchas
 - Dev server: port 3000. The Vite proxy forwards `/api/*` to `http://localhost:3001` — both servers must be running for auth to work
-- `TODO_REPLACE_PRICE_ID` in `src/routes/dashboard/billing.tsx` must be replaced with a real Stripe price ID before launch
+- Billing price IDs come from `GET /billing/config` (server env `STRIPE_PRO_PRICE_ID_MONTHLY` / `STRIPE_PRO_PRICE_ID_YEARLY`) — set these in `apps/api/.env` before launch
 - `src/routes/dashboard/settings.tsx` profile update is a stub — the mutation is not wired
 - The `/_dev/components` route only exists in dev; it is absent from production builds
