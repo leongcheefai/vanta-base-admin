@@ -1,4 +1,4 @@
-import { PricingCard } from "@praxor-kit/ui";
+import { PricingCard, Tabs, TabsList, TabsTrigger } from "@praxor-kit/ui";
 import { useEffect, useState } from "react";
 
 // Baked in at Astro build time — must be set via PUBLIC_API_URL env var.
@@ -105,30 +105,15 @@ export function PricingContent() {
 
         {/* Billing cycle toggle */}
         <div className="flex justify-center mb-8 mt-8">
-          <div className="inline-flex rounded-lg border border-border p-1 bg-background">
-            <button
-              type="button"
-              onClick={() => setBillingCycle("monthly")}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                billingCycle === "monthly"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              type="button"
-              onClick={() => setBillingCycle("yearly")}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                billingCycle === "yearly"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Yearly
-            </button>
-          </div>
+          <Tabs
+            value={billingCycle}
+            onValueChange={(v) => setBillingCycle(v as "monthly" | "yearly")}
+          >
+            <TabsList>
+              <TabsTrigger value="monthly">Monthly</TabsTrigger>
+              <TabsTrigger value="yearly">Yearly</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-3">

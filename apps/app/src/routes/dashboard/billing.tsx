@@ -107,7 +107,7 @@ export function BillingPage() {
             <p className="text-sm text-muted-foreground">
               {subscription.cancelAtPeriodEnd
                 ? `Cancels on ${formatDate(subscription.stripeCurrentPeriodEnd)}`
-                : `Renews ${formatDate(subscription.stripeCurrentPeriodEnd)}`}
+                : `Renews on ${formatDate(subscription.stripeCurrentPeriodEnd)}`}
             </p>
           )}
 

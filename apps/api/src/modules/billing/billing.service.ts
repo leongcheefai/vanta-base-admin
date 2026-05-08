@@ -141,7 +141,8 @@ export async function handleWebhook(body: string, signature: string) {
       break;
     }
 
-    // Fires on successful payment; replaces both invoice.paid and invoice.payment_succeeded
+    // Fires on successful payment. `invoice.payment_succeeded` is NOT handled separately because
+    // on Stripe API ≥ 2024-09 (this project pins to 2026-04-22.dahlia) `invoice.paid` covers it.
     case "invoice.paid": {
       const invoice = event.data.object;
       const subRef = invoice.parent?.subscription_details?.subscription;
