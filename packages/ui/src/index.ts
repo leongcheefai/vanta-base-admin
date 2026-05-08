@@ -126,3 +126,13 @@ export {
   ChartLegendContent,
 } from "./primitives/chart";
 export type { ChartConfig } from "./primitives/chart";
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "./primitives/table";
