@@ -126,8 +126,12 @@ export function BillingPage() {
                 onValueChange={(v) => setBillingCycle(v as "monthly" | "yearly")}
               >
                 <TabsList>
-                  <TabsTrigger value="monthly">Monthly</TabsTrigger>
-                  <TabsTrigger value="yearly">Yearly</TabsTrigger>
+                  <TabsTrigger value="monthly" disabled={!config?.proMonthlyPriceId}>
+                    Monthly
+                  </TabsTrigger>
+                  <TabsTrigger value="yearly" disabled={!config?.proYearlyPriceId}>
+                    Yearly
+                  </TabsTrigger>
                 </TabsList>
               </Tabs>
 

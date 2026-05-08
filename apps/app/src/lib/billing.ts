@@ -59,9 +59,8 @@ export function useSubscription() {
 }
 
 export async function fetchBillingConfig(): Promise<BillingConfig> {
-  const res = await fetch(`${env.VITE_API_URL}/billing/config`, {
-    credentials: "include",
-  });
+  // Public endpoint — no credentials required
+  const res = await fetch(`${env.VITE_API_URL}/billing/config`);
   if (!res.ok) throw new Error("Failed to fetch billing config");
   return res.json();
 }
