@@ -1,6 +1,24 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@praxor-kit/ui";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from "@praxor-kit/ui";
 import { useMutation } from "@tanstack/react-query";
-import { useSubscription } from "../../lib/billing";
+import { useState } from "react";
+import { planLabel, useBillingConfig, useInvoices, useSubscription } from "../../lib/billing";
 import { env } from "../../lib/env";
 
 async function createPortalSession(): Promise<{ url: string }> {
@@ -38,7 +56,17 @@ function formatDate(iso: string) {
 }
 
 export function BillingPage() {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+
   const { data, isLoading, isPro: isActive } = useSubscription();
+  const { data: config } = useBillingConfig();
+  const { data: invoicesData, isLoading: invoicesLoading } = useInvoices();
+
+  const subscription = data?.subscription;
+  const invoices = invoicesData?.invoices;
+
+  const selectedPriceId =
+    billingCycle === "monthly" ? config?.proMonthlyPriceId : config?.proYearlyPriceId;
 
   const portalMutation = useMutation({
     mutationFn: createPortalSession,
@@ -54,8 +82,6 @@ export function BillingPage() {
     },
   });
 
-  const subscription = data?.subscription;
-
   return (
     <div className="space-y-6">
       <div>
@@ -67,7 +93,7 @@ export function BillingPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Current plan</CardTitle>
+          <CardTitle>{planLabel(subscription?.stripePriceId, config)}</CardTitle>
           <CardDescription>
             {isLoading
               ? "Loading…"
@@ -79,7 +105,9 @@ export function BillingPage() {
         <CardContent className="space-y-4">
           {subscription?.stripeCurrentPeriodEnd && (
             <p className="text-sm text-muted-foreground">
-              Renews {formatDate(subscription.stripeCurrentPeriodEnd)}
+              {subscription.cancelAtPeriodEnd
+                ? `Cancels on ${formatDate(subscription.stripeCurrentPeriodEnd)}`
+                : `Renews ${formatDate(subscription.stripeCurrentPeriodEnd)}`}
             </p>
           )}
 
@@ -92,12 +120,29 @@ export function BillingPage() {
               {portalMutation.isPending ? "Redirecting…" : "Manage subscription"}
             </Button>
           ) : (
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Upgrade to unlock all features.</p>
-              {/* TODO: replace price ID with your actual Stripe price ID */}
+            <div className="space-y-3">
+              <Tabs
+                value={billingCycle}
+                onValueChange={(v) => setBillingCycle(v as "monthly" | "yearly")}
+              >
+                <TabsList>
+                  <TabsTrigger value="monthly">Monthly</TabsTrigger>
+                  <TabsTrigger value="yearly">Yearly</TabsTrigger>
+                </TabsList>
+              </Tabs>
+
+              {billingCycle === "monthly" && !config?.proMonthlyPriceId && (
+                <p className="text-xs text-muted-foreground">Monthly plan not configured</p>
+              )}
+              {billingCycle === "yearly" && !config?.proYearlyPriceId && (
+                <p className="text-xs text-muted-foreground">Yearly plan not configured</p>
+              )}
+
               <Button
-                onClick={() => checkoutMutation.mutate("TODO_REPLACE_PRICE_ID")}
-                disabled={checkoutMutation.isPending}
+                onClick={() => {
+                  if (selectedPriceId) checkoutMutation.mutate(selectedPriceId);
+                }}
+                disabled={checkoutMutation.isPending || !selectedPriceId}
               >
                 {checkoutMutation.isPending ? "Redirecting…" : "Upgrade to Pro"}
               </Button>
@@ -108,6 +153,71 @@ export function BillingPage() {
             <p className="text-sm text-destructive">
               {portalMutation.error?.message ?? checkoutMutation.error?.message}
             </p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Invoice history</CardTitle>
+          <CardDescription>Your past payments.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {invoicesLoading ? (
+            <p className="text-sm text-muted-foreground">Loading…</p>
+          ) : !invoices?.length ? (
+            <p className="text-sm text-muted-foreground">No invoices yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Invoice</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invoices.map((inv) => (
+                  <TableRow key={inv.id}>
+                    <TableCell>{formatDate(new Date(inv.created * 1000).toISOString())}</TableCell>
+                    <TableCell>
+                      {(inv.amountPaid / 100).toLocaleString(undefined, {
+                        style: "currency",
+                        currency: inv.currency.toUpperCase(),
+                      })}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={inv.status === "paid" ? "default" : "destructive"}>
+                        {inv.status ?? "unknown"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="space-x-2">
+                      {inv.hostedInvoiceUrl && (
+                        <a
+                          href={inv.hostedInvoiceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm underline"
+                        >
+                          View
+                        </a>
+                      )}
+                      {inv.invoicePdf && (
+                        <a
+                          href={inv.invoicePdf}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm underline"
+                        >
+                          PDF
+                        </a>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
