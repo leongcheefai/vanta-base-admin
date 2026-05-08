@@ -138,17 +138,8 @@ export async function handleWebhook(body: string, signature: string) {
       break;
     }
 
+    // Fires on successful payment; replaces both invoice.paid and invoice.payment_succeeded
     case "invoice.paid": {
-      const invoice = event.data.object;
-      const subRef = invoice.parent?.subscription_details?.subscription;
-      if (!subRef) break;
-      const subId = typeof subRef === "string" ? subRef : subRef.id;
-      const sub = await stripe.subscriptions.retrieve(subId);
-      await syncSubscriptionFromStripe(sub);
-      break;
-    }
-
-    case "invoice.payment_succeeded": {
       const invoice = event.data.object;
       const subRef = invoice.parent?.subscription_details?.subscription;
       if (!subRef) break;
@@ -202,12 +193,13 @@ async function syncSubscriptionFromStripe(
     if (!existing) return; // cannot identify user, skip
     userId = existing.userId;
   }
+  const periodEnd = sub.items.data[0]?.current_period_end;
   await upsertSubscription({
     userId,
     stripeCustomerId: typeof sub.customer === "string" ? sub.customer : sub.customer.id,
     stripeSubscriptionId: sub.id,
     stripePriceId: sub.items.data[0]?.price.id ?? null,
-    stripeCurrentPeriodEnd: new Date(sub.items.data[0]?.current_period_end * 1000),
+    stripeCurrentPeriodEnd: periodEnd != null ? new Date(periodEnd * 1000) : null,
     cancelAtPeriodEnd: sub.cancel_at_period_end,
     status: sub.status as SubscriptionStatus,
   });
@@ -218,7 +210,7 @@ type UpsertSubscriptionParams = {
   stripeCustomerId: string;
   stripeSubscriptionId: string;
   stripePriceId: string | null;
-  stripeCurrentPeriodEnd: Date;
+  stripeCurrentPeriodEnd: Date | null;
   cancelAtPeriodEnd: boolean;
   status: SubscriptionStatus;
 };

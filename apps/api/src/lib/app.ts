@@ -16,7 +16,7 @@ import type { AppVariables } from "./context";
 export const app = new Hono<{ Variables: AppVariables }>();
 
 app.use("*", logger());
-app.use("*", cors({ origin: serverEnv.APP_URL, credentials: true }));
+app.use("*", cors({ origin: [serverEnv.APP_URL, serverEnv.WEB_URL], credentials: true }));
 app.use("*", sessionMiddleware);
 app.onError(errorHandler);
 
