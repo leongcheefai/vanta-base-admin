@@ -1,6 +1,10 @@
 import { PricingCard } from "@praxor-kit/ui";
 import { useEffect, useState } from "react";
 
+// Baked in at Astro build time — must be set via PUBLIC_API_URL env var.
+// Defaults to localhost for local dev only; production builds MUST set this.
+const API_URL = (import.meta.env.PUBLIC_API_URL as string | undefined) ?? "http://localhost:3001";
+
 const FREE_TIER = {
   name: "Free",
   price: "$0",
@@ -40,11 +44,8 @@ export function PricingContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const apiUrl =
-      (import.meta.env.PUBLIC_API_URL as string | undefined) ?? "http://localhost:3001";
-
     // Fetch billing config
-    fetch(`${apiUrl}/billing/config`)
+    fetch(`${API_URL}/billing/config`)
       .then((r) => r.json())
       .then((data) => setConfig(data))
       .catch(() => {
@@ -52,7 +53,7 @@ export function PricingContent() {
       });
 
     // Detect login
-    fetch(`${apiUrl}/me`, { credentials: "include" })
+    fetch(`${API_URL}/me`, { credentials: "include" })
       .then((r) => {
         if (r.ok) setIsLoggedIn(true);
       })
@@ -69,10 +70,8 @@ export function PricingContent() {
   async function handleProCtaClick(e: React.MouseEvent) {
     if (isLoggedIn && selectedProPriceId) {
       e.preventDefault();
-      const apiUrl =
-        (import.meta.env.PUBLIC_API_URL as string | undefined) ?? "http://localhost:3001";
       try {
-        const res = await fetch(`${apiUrl}/billing/checkout`, {
+        const res = await fetch(`${API_URL}/billing/checkout`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -135,27 +134,23 @@ export function PricingContent() {
         <div className="mt-8 grid gap-8 lg:grid-cols-3">
           <PricingCard {...FREE_TIER} />
 
-          {/* Pro tier — wrapped to intercept CTA click for logged-in checkout */}
-          {/* biome-ignore lint/a11y/useKeyWithClickEvents: click handler on interactive card wrapper */}
-          <div onClick={handleProCtaClick}>
-            <PricingCard
-              name="Pro"
-              price="$TODO"
-              period="/month"
-              description="TODO: For growing teams and serious projects."
-              badge="Most popular"
-              highlighted={true}
-              features={[
-                "Everything in Free",
-                "TODO: Pro feature 1",
-                "TODO: Pro feature 2",
-                "TODO: Pro feature 3",
-                "TODO: Pro feature 4",
-                "Priority support",
-              ]}
-              cta={{ label: "Start free trial", href: proCtaHref }}
-            />
-          </div>
+          <PricingCard
+            name="Pro"
+            price="$TODO"
+            period="/month"
+            description="TODO: For growing teams and serious projects."
+            badge="Most popular"
+            highlighted={true}
+            features={[
+              "Everything in Free",
+              "TODO: Pro feature 1",
+              "TODO: Pro feature 2",
+              "TODO: Pro feature 3",
+              "TODO: Pro feature 4",
+              "Priority support",
+            ]}
+            cta={{ label: "Start free trial", href: proCtaHref, onClick: handleProCtaClick }}
+          />
 
           <PricingCard {...ENTERPRISE_TIER} />
         </div>

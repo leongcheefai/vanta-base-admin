@@ -8,7 +8,7 @@ export interface PricingTier {
   period?: string;
   description: string;
   features: string[];
-  cta: { label: string; href: string };
+  cta: { label: string; href: string; onClick?: (e: React.MouseEvent) => void };
   highlighted?: boolean;
   badge?: string;
 }
@@ -94,7 +94,9 @@ export function PricingCard({
         </ul>
       </div>
       <Button asChild variant={highlighted ? "secondary" : "default"} className="mt-8 w-full">
-        <a href={cta.href}>{cta.label}</a>
+        <a href={cta.href} onClick={cta.onClick}>
+          {cta.label}
+        </a>
       </Button>
     </div>
   );
