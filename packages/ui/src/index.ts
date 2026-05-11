@@ -151,3 +151,10 @@ export type { SectionHeaderProps } from "./patterns/layout/section-header";
 
 // toast re-export for islands that need it without adding sonner as direct dep
 export { toast } from "sonner";
+
+export { Eyebrow } from "./primitives/eyebrow";
+export { Kbd } from "./primitives/kbd";
+export { EmptyState } from "./primitives/empty-state";
+export type { EmptyStateProps } from "./primitives/empty-state";
+export { Logo } from "./primitives/logo";
+export type { LogoProps } from "./primitives/logo";
