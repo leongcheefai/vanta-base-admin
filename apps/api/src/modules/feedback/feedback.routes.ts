@@ -11,6 +11,6 @@ feedbackRouter.post("/", zValidator("json", createFeedbackSchema), async (c) => 
   const user = c.get("user");
   if (!user) throw new HTTPException(401, { message: "Unauthorized" });
   const input = c.req.valid("json");
-  const result = await createFeedback(user.id, input);
+  const result = await createFeedback(user.id, user.email, input);
   return c.json(result);
 });

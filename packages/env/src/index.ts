@@ -23,6 +23,9 @@ export const serverEnv = createEnv({
     S3_SECRET_ACCESS_KEY: z.string().min(1).optional(),
     S3_ENDPOINT: z.string().url().optional(), // for Cloudflare R2
     S3_PUBLIC_URL: z.string().url().optional(), // CDN base URL
+    GITHUB_TOKEN: z.string().min(1).optional(),
+    GITHUB_OWNER: z.string().min(1).optional(),
+    GITHUB_REPO: z.string().min(1).optional(),
   },
   runtimeEnv: process.env,
 });
