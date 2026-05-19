@@ -30,6 +30,12 @@ export const MARKETING_PAGES: MarketingPage[] = [
     description: "Insights, updates, and tutorials from the Praxor Kit team.",
   },
   {
+    slug: "releases",
+    path: "/releases",
+    title: "Releases — Praxor Kit",
+    description: "What's new in Praxor Kit. Release notes, improvements, and changelog.",
+  },
+  {
     slug: "faq",
     path: "/faq",
     title: "FAQ — Praxor Kit",

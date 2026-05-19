@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview --port 4321",
     "lint": "biome check .",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "releases:sync": "tsx scripts/sync-releases.ts"
   },
   "dependencies": {
     "@praxor-kit/ui": "workspace:*",
@@ -22,6 +23,7 @@
     "@astrojs/react": "^4.0.0",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.0.0",
+    "@octokit/rest": "^22.0.1",
     "@praxor-kit/config": "workspace:*",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.0.0",

@@ -1,6 +1,8 @@
 ---
+import { getCollection } from "astro:content";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
+import { WhatsNewMenu } from "./WhatsNewMenu";
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL ?? "http://localhost:3000";
 const navLinks = [
@@ -9,6 +11,15 @@ const navLinks = [
   { label: "Customers", href: "/customers" },
   { label: "Blog", href: "/blog" },
 ];
+
+const recentReleases = (await getCollection("releases"))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 4)
+  .map((r) => ({
+    id: r.id,
+    name: r.data.name,
+    publishedAt: r.data.publishedAt.toISOString(),
+  }));
 ---
 
 <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-sm">
@@ -24,6 +35,7 @@ const navLinks = [
           {link.label}
         </a>
       ))}
+      <WhatsNewMenu client:load releases={recentReleases} />
     </nav>
 
     <div class="flex items-center gap-2">

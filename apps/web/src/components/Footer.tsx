@@ -24,7 +24,7 @@ const groups = [
     links: [
       { label: "TODO: Docs", href: "/docs" },
       { label: "RSS", href: "/rss.xml" },
-      { label: "TODO: Changelog", href: "/changelog" },
+      { label: "Releases", href: "/releases" },
     ],
   },
   {
