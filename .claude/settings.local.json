@@ -10,7 +10,8 @@
       "Bash(node *)",
       "Bash(git push *)",
       "Bash(pnpm *)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(psql *)"
     ]
   }
 }
