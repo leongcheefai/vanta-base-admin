@@ -1,5 +1,7 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import { AdminRoute } from "./components/admin-route";
+import { AdminReleasesPage } from "./routes/dashboard/admin/releases";
 import { BillingPage } from "./routes/dashboard/billing";
 import { DashboardHome } from "./routes/dashboard/index";
 import { DashboardLayout } from "./routes/dashboard/layout";
@@ -23,6 +25,16 @@ export function Router() {
           <Route index element={<DashboardHome />} />
           <Route path="billing" element={<BillingPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route
+            path="admin"
+            element={
+              <AdminRoute>
+                <Outlet />
+              </AdminRoute>
+            }
+          >
+            <Route path="releases" element={<AdminReleasesPage />} />
+          </Route>
         </Route>
         {import.meta.env.DEV && DevComponentsPage && (
           <Route

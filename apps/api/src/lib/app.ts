@@ -10,6 +10,7 @@ import { feedbackRouter } from "../modules/feedback/feedback.routes";
 import { healthRouter } from "../modules/health/health.routes";
 import { meRouter } from "../modules/me/me.routes";
 import { metricsRouter } from "../modules/metrics";
+import { releasesRouter } from "../modules/releases/releases.routes";
 import { uploadsRouter } from "../modules/uploads/uploads.routes";
 import type { AppVariables } from "./context";
 
@@ -28,3 +29,4 @@ app.route("/billing", billingRouter);
 app.route("/feedback", feedbackRouter);
 app.route("/uploads", uploadsRouter);
 app.route("/metrics", metricsRouter);
+app.route("/releases", releasesRouter);

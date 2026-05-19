@@ -1,5 +1,5 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@praxor-kit/ui";
-import { CreditCard, LayoutDashboard, Settings } from "lucide-react";
+import { CreditCard, LayoutDashboard, Rocket, Settings, Shield } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
@@ -11,10 +11,11 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/dashboard/billing": "Billing",
   "/dashboard/settings": "Settings",
+  "/dashboard/admin/releases": "Releases",
 };
 
-function navItems(pathname: string): NavItem[] {
-  return [
+function navItems(pathname: string, role?: string | null): NavItem[] {
+  const items: NavItem[] = [
     {
       label: "Dashboard",
       href: "/dashboard",
@@ -34,6 +35,23 @@ function navItems(pathname: string): NavItem[] {
       icon: <Settings size={16} />,
     },
   ];
+
+  if (role === "admin") {
+    items.push({
+      label: "Admin",
+      icon: <Shield size={16} />,
+      children: [
+        {
+          label: "Releases",
+          href: "/dashboard/admin/releases",
+          active: pathname === "/dashboard/admin/releases",
+          icon: <Rocket size={16} />,
+        },
+      ],
+    });
+  }
+
+  return items;
 }
 
 function DashboardContent() {
@@ -46,7 +64,7 @@ function DashboardContent() {
     navigate("/login");
   }
 
-  const items = navItems(pathname);
+  const items = navItems(pathname, session?.user.role);
   const title = PAGE_TITLES[pathname] ?? "Dashboard";
 
   function renderNavLink({
@@ -57,7 +75,7 @@ function DashboardContent() {
     isCollapsed,
   }: NavItem & { className: string; isCollapsed: boolean }) {
     return (
-      <Link to={href} className={className}>
+      <Link to={href ?? "#"} className={className}>
         {icon && <span className="size-4 shrink-0">{icon}</span>}
         {!isCollapsed && label}
       </Link>

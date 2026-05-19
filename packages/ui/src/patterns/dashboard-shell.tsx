@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import type * as React from "react";
 import { useEffect, useState } from "react";
 import { cn } from "../lib/utils";
@@ -6,9 +6,91 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../pri
 
 export interface NavItem {
   label: string;
-  href: string;
+  href?: string;
   icon?: React.ReactNode;
   active?: boolean;
+  children?: NavItem[];
+}
+
+function NavGroup({
+  item,
+  isCollapsed,
+  renderNavLink,
+}: {
+  item: NavItem;
+  isCollapsed: boolean;
+  renderNavLink?: DashboardShellProps["renderNavLink"];
+}) {
+  const anyChildActive = item.children?.some((c) => c.active) ?? false;
+  const [open, setOpen] = useState(anyChildActive);
+
+  if (isCollapsed) {
+    return (
+      <>
+        {item.children?.map((child) => {
+          const className = cn(
+            "flex w-full items-center justify-center rounded-md py-2 text-sm transition-colors",
+            child.active
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+          );
+          const linkNode = renderNavLink ? (
+            renderNavLink({ ...child, className, isCollapsed: true })
+          ) : (
+            <a href={child.href ?? "#"} className={className} aria-label={child.label}>
+              {child.icon && <span className="size-4 shrink-0">{child.icon}</span>}
+            </a>
+          );
+          return (
+            <li key={child.href ?? child.label}>
+              <Tooltip>
+                <TooltipTrigger asChild>{linkNode}</TooltipTrigger>
+                <TooltipContent side="right">{child.label}</TooltipContent>
+              </Tooltip>
+            </li>
+          );
+        })}
+      </>
+    );
+  }
+
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      >
+        {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
+        <span className="flex-1 text-left">{item.label}</span>
+        <ChevronDown
+          size={14}
+          className={cn("shrink-0 transition-transform", open && "rotate-180")}
+        />
+      </button>
+      {open && (
+        <ul className="mt-0.5 space-y-0.5 pl-4">
+          {item.children?.map((child) => {
+            const className = cn(
+              "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+              child.active
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+            );
+            const linkNode = renderNavLink ? (
+              renderNavLink({ ...child, className, isCollapsed: false })
+            ) : (
+              <a href={child.href ?? "#"} className={className}>
+                {child.icon && <span className="size-4 shrink-0">{child.icon}</span>}
+                {child.label}
+              </a>
+            );
+            return <li key={child.href ?? child.label}>{linkNode}</li>;
+          })}
+        </ul>
+      )}
+    </li>
+  );
 }
 
 export interface DashboardShellProps {
@@ -77,6 +159,16 @@ export function DashboardShell({
           <nav className="flex-1 overflow-y-auto px-3 py-4">
             <ul className="space-y-0.5">
               {navItems.map((item) => {
+                if (item.children) {
+                  return (
+                    <NavGroup
+                      key={item.label}
+                      item={item}
+                      isCollapsed={isCollapsed}
+                      renderNavLink={renderNavLink}
+                    />
+                  );
+                }
                 const className = cn(
                   "flex w-full items-center rounded-md py-2 text-sm transition-colors",
                   isCollapsed ? "justify-center px-0" : "gap-2.5 px-3",
@@ -88,7 +180,7 @@ export function DashboardShell({
                   renderNavLink({ ...item, className, isCollapsed })
                 ) : (
                   <a
-                    href={item.href}
+                    href={item.href ?? "#"}
                     className={className}
                     aria-label={isCollapsed ? item.label : undefined}
                   >
@@ -97,7 +189,7 @@ export function DashboardShell({
                   </a>
                 );
                 return (
-                  <li key={item.href}>
+                  <li key={item.href ?? item.label}>
                     {isCollapsed ? (
                       <Tooltip>
                         <TooltipTrigger asChild>{linkNode}</TooltipTrigger>

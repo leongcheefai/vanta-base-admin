@@ -9,6 +9,7 @@ import {
 import { serverEnv } from "@praxor-kit/env";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -73,6 +74,7 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [admin()],
   socialProviders: {
     ...(serverEnv.GOOGLE_CLIENT_ID && serverEnv.GOOGLE_CLIENT_SECRET
       ? {

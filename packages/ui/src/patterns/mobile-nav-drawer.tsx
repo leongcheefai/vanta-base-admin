@@ -38,6 +38,46 @@ export function MobileNavDrawer({
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-0.5">
             {navItems.map((item) => {
+              if (item.children) {
+                return (
+                  <li key={item.label}>
+                    <div className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground">
+                      {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
+                      <span className="font-medium">{item.label}</span>
+                    </div>
+                    <ul className="mt-0.5 space-y-0.5 pl-4">
+                      {item.children.map((child) => {
+                        const childClassName = cn(
+                          "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                          child.active
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                        );
+                        return (
+                          <li key={child.href ?? child.label}>
+                            <SheetClose asChild>
+                              {renderNavLink ? (
+                                renderNavLink({
+                                  ...child,
+                                  className: childClassName,
+                                  isCollapsed: false,
+                                })
+                              ) : (
+                                <a href={child.href ?? "#"} className={childClassName}>
+                                  {child.icon && (
+                                    <span className="size-4 shrink-0">{child.icon}</span>
+                                  )}
+                                  {child.label}
+                                </a>
+                              )}
+                            </SheetClose>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              }
               const className = cn(
                 "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
                 item.active
@@ -45,12 +85,12 @@ export function MobileNavDrawer({
                   : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               );
               return (
-                <li key={item.href}>
+                <li key={item.href ?? item.label}>
                   <SheetClose asChild>
                     {renderNavLink ? (
                       renderNavLink({ ...item, className, isCollapsed: false })
                     ) : (
-                      <a href={item.href} className={className}>
+                      <a href={item.href ?? "#"} className={className}>
                         {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
                         {item.label}
                       </a>

@@ -20,6 +20,17 @@ type FeedbackIssueInput = {
   userEmail: string;
 };
 
+export async function listGithubReleases() {
+  const config = getGithubConfig();
+  if (!config) return null;
+  const releases = await config.octokit.paginate(config.octokit.rest.repos.listReleases, {
+    owner: config.owner,
+    repo: config.repo,
+    per_page: 100,
+  });
+  return releases.filter((r) => !r.draft);
+}
+
 export async function createFeedbackIssue(input: FeedbackIssueInput) {
   const config = getGithubConfig();
   if (!config) return null; // feature flag off — GITHUB_TOKEN/OWNER/REPO not set
