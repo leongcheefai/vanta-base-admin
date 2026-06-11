@@ -26,3 +26,17 @@ Vanta Base Admin — production-ready SaaS boilerplate. Vite + NestJS on Node (E
 - Turbo caches aggressively — run `turbo <task> --force` if output stale
 - shadcn primitives in `packages/ui/src/primitives` — add via `pnpm dlx shadcn@latest add <component>` from `packages/ui`; export from `packages/ui/src/index.ts` after adding
 - UI components: use shadcn from `@vanta-base-admin/ui` — never raw HTML inputs, selects, buttons, or dialogs if shadcn equivalent exists or can be added
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues (`github.com/leongcheefai/vanta-base-admin`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+All five canonical triage roles use default label strings. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo — one `CONTEXT.md` + `docs/adr/` at repo root. See `docs/agents/domain.md`.
