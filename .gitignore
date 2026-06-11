@@ -34,3 +34,4 @@ pnpm-debug.log*
 # documentation
 docs/superpowers/*
 !docs/superpowers/specs/
+!docs/superpowers/plans/
