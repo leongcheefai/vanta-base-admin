@@ -67,5 +67,3 @@ Find-and-replace before launch:
 - `Vanta Base Admin` → your product name
 - `@vanta-base-admin/*` → your package scope
 - `vanta-base-admin.dev` → your domain
-# vanta-base-admin
-# vanta-base-admin
