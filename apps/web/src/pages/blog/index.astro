@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Badge } from "@praxor-kit/ui";
+import { Badge } from "@vanta-base-admin/ui";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const posts = (await getCollection("blog"))
@@ -9,8 +9,8 @@ const posts = (await getCollection("blog"))
 ---
 
 <BaseLayout
-  title="Blog — Praxor Kit"
-  description="Insights, updates, and tutorials from the Praxor Kit team."
+  title="Blog — Vanta Base Admin"
+  description="Insights, updates, and tutorials from the Vanta Base Admin team."
   ogSlug="blog"
 >
   <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32">

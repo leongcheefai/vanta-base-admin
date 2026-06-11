@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Toaster } from "@praxor-kit/ui";
+import { Toaster } from "@vanta-base-admin/ui";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav.astro";
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { title, description, ogSlug = "home", ogType = "website", jsonLd } = Astro.props;
-const site = Astro.site ?? new URL("https://kit.praxor.dev");
+const site = Astro.site ?? new URL("https://vanta-base-admin.dev");
 const canonicalURL = new URL(Astro.url.pathname, site);
 const ogImage = new URL(`/og/${ogSlug}.png`, site);
 const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
@@ -41,9 +41,9 @@ const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" type="application/rss+xml" title="Praxor Kit Blog" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Vanta Base Admin Blog" href="/rss.xml" />
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content="Praxor Kit" />
+    <meta property="og:site_name" content="Vanta Base Admin" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />

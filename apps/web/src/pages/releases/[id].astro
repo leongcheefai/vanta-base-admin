@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import { Badge } from "@praxor-kit/ui";
+import { Badge } from "@vanta-base-admin/ui";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -16,7 +16,7 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout
-  title={`${entry.data.name} — Praxor Kit`}
+  title={`${entry.data.name} — Vanta Base Admin`}
   description={`Release notes for ${entry.data.tag}`}
   ogSlug="releases"
   ogType="article"

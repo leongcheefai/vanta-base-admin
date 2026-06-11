@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Badge } from "@praxor-kit/ui";
+import { Badge } from "@vanta-base-admin/ui";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const entries = (await getCollection("releases")).sort(
@@ -9,14 +9,14 @@ const entries = (await getCollection("releases")).sort(
 ---
 
 <BaseLayout
-  title="Releases — Praxor Kit"
-  description="What's new in Praxor Kit. Release notes, improvements, and changelog."
+  title="Releases — Vanta Base Admin"
+  description="What's new in Vanta Base Admin. Release notes, improvements, and changelog."
   ogSlug="releases"
 >
   <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
     <h1 class="text-4xl font-bold tracking-tight">Releases</h1>
     <p class="mt-4 text-lg text-muted-foreground">
-      What's new in Praxor Kit.
+      What's new in Vanta Base Admin.
     </p>
 
     {

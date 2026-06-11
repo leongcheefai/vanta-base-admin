@@ -1,11 +1,11 @@
 ---
-import { FAQ } from "@praxor-kit/ui";
+import { FAQ } from "@vanta-base-admin/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { requirePage } from "../lib/pages";
 import { breadcrumbSchema, faqSchema } from "../lib/structured-data";
 
 const page = requirePage("faq");
-const site = Astro.site ?? new URL("https://kit.praxor.dev");
+const site = Astro.site ?? new URL("https://vanta-base-admin.dev");
 
 const faqItems = [
   {
