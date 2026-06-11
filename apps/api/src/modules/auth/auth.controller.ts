@@ -7,7 +7,7 @@ import { Public } from "../../common/decorators/public.decorator";
 @Public()
 @Controller()
 export class AuthController {
-	@All("/api/auth/*path")
+	@All("/api/auth/*")
 	async handleAuth(@Req() req: RawBodyRequest<Request>, @Res() res: Response) {
 		const proto = req.protocol;
 		const host = req.get("host") ?? "localhost";
