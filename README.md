@@ -1,4 +1,4 @@
-# Praxor Kit
+# Vanta Base Admin
 
 Ship paid SaaS faster, without lock-in.
 
@@ -64,7 +64,8 @@ Open:
 ## Branding
 
 Find-and-replace before launch:
-- `Praxor Kit` → your product name
-- `@praxor-kit/*` → your package scope
-- `kit.praxor.dev` → your domain
-# praxor-kit
+- `Vanta Base Admin` → your product name
+- `@vanta-base-admin/*` → your package scope
+- `vanta-base-admin.dev` → your domain
+# vanta-base-admin
+# vanta-base-admin
