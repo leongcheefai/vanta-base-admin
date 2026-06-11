@@ -26,7 +26,8 @@ describe('AuthGuard', () => {
   it('sets user and session when session exists', async () => {
     const mockSession = { user: { id: '1', email: 'a@b.com' }, session: { id: 's1' } }
     vi.mocked(auth.api.getSession).mockResolvedValue(mockSession as any)
-    const guard = new AuthGuard(null as any)
+    const mockReflector = { getAllAndOverride: vi.fn().mockReturnValue(false) } as any
+    const guard = new AuthGuard(mockReflector)
     const ctx = makeContext()
     const result = await guard.canActivate(ctx)
     expect(result).toBe(true)

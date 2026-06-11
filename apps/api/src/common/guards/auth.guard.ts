@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common'
 import { auth } from '@vanta-base-admin/auth'
 import type { Request } from 'express'
+import { type SessionSession, type SessionUser } from '../decorators/current-user.decorator'
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
 
 @Injectable()
@@ -14,7 +15,7 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request & { user: any; session: any }>()
+    const request = context.switchToHttp().getRequest<Request & { user: SessionUser | null; session: SessionSession | null }>()
 
     const headers = new Headers()
     for (const [key, value] of Object.entries(request.headers)) {
@@ -27,7 +28,7 @@ export class AuthGuard implements CanActivate {
     request.user = sessionData?.user ?? null
     request.session = sessionData?.session ?? null
 
-    const isPublic = this.reflector?.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ])
