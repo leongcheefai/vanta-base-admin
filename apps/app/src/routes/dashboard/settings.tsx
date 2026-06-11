@@ -1,4 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@praxor-kit/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@vanta-base-admin/ui";
 import { useSearchParams } from "react-router";
 import { DangerSection } from "../../components/settings/danger-section";
 import { ProfileSection } from "../../components/settings/profile-section";

@@ -18,7 +18,7 @@ Edit `src/styles/tokens.css`. All colors use OKLCH (`oklch(L C H)`). The current
 cd packages/ui
 pnpm dlx shadcn@latest add <component>
 ```
-Then export the new component from `src/index.ts`. After adding, fix any package-relative imports (e.g. `@praxor-kit/ui/lib/utils`) to relative paths (`../lib/utils`) — shadcn CLI generates these incorrectly for in-package use.
+Then export the new component from `src/index.ts`. After adding, fix any package-relative imports (e.g. `@vanta-base-admin/ui/lib/utils`) to relative paths (`../lib/utils`) — shadcn CLI generates these incorrectly for in-package use.
 
 ### Add a new pattern component
 1. Create `src/patterns/<name>.tsx`

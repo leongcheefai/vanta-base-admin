@@ -15,7 +15,7 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { planLabel, useBillingConfig, useInvoices, useSubscription } from "../../lib/billing";

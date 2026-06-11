@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://kit.praxor.dev",
+  site: "https://vanta-base-admin.dev",
   integrations: [react(), mdx(), sitemap({ filter: (page) => !page.includes("/og/") })],
   vite: {
     plugins: [tailwindcss()],

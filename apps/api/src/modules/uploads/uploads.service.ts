@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { serverEnv } from "@praxor-kit/env";
+import { serverEnv } from "@vanta-base-admin/env";
 import { HTTPException } from "hono/http-exception";
 import type { PresignAvatarInput } from "./uploads.schema";
 

@@ -1,4 +1,4 @@
-import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@praxor-kit/ui";
+import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
 import { CreditCard, LayoutDashboard, Rocket, Settings, Shield } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";

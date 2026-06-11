@@ -10,7 +10,7 @@ You are building a production-ready, sellable SaaS boilerplate for indie hackers
 
 ## Project Overview
 
-- **Working name**: `praxor-kit` (placeholder — will be confirmed before public launch)
+- **Working name**: `vanta-base-admin` (placeholder — will be confirmed before public launch)
 - **Tagline**: Ship paid SaaS faster, without lock-in.
 - **Target User**: Indie hackers and small agencies who want a typed, lightweight, AI-coding-friendly SaaS starter that isn't tied to Next.js, Vercel, or any single auth/DB vendor.
 - **Distribution model**: Sold via private GitHub repo access (Stripe payment → buyer added as collaborator). Out of scope for v1 — focus only on the codebase itself.
@@ -130,7 +130,7 @@ All env access goes through `packages/env`. Each app re-exports a typed env obje
 
 ### Branding placeholders
 
-Use `Praxor Kit` as the product name placeholder, `praxor-kit` as the package scope (`@praxor-kit/ui`, `@praxor-kit/db`, etc.), and `kit.praxor.dev` as the domain placeholder. These should be easy to find-and-replace later.
+Use `Vanta Base Admin` as the product name placeholder, `vanta-base-admin` as the package scope (`@vanta-base-admin/ui`, `@vanta-base-admin/db`, etc.), and `vanta-base-admin.dev` as the domain placeholder. These should be easy to find-and-replace later.
 
 ### Brand archetype (provisional, until confirmed)
 
@@ -192,7 +192,7 @@ Build in the following phases. Each phase must end in a runnable, committable st
 - Initial primitives: Button, Input, Label, Card, Dialog, DropdownMenu, Sonner (toast), Tooltip — customized to tokens
 - `cn()` utility in `packages/ui/src/lib/utils.ts`
 
-**Done when**: a sample app importing `@praxor-kit/ui` renders a themed Button correctly with dark mode toggle.
+**Done when**: a sample app importing `@vanta-base-admin/ui` renders a themed Button correctly with dark mode toggle.
 
 ### Phase 6 — Dashboard app (`apps/app`) ✅
 - Vite + React + React Router + TanStack Query

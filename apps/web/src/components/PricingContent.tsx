@@ -1,4 +1,4 @@
-import { PricingCard, Tabs, TabsList, TabsTrigger } from "@praxor-kit/ui";
+import { PricingCard, Tabs, TabsList, TabsTrigger } from "@vanta-base-admin/ui";
 import { useEffect, useState } from "react";
 
 // Baked in at Astro build time — must be set via PUBLIC_API_URL env var.
@@ -32,7 +32,7 @@ const ENTERPRISE_TIER = {
     "Dedicated support",
     "SLA guarantee",
   ],
-  cta: { label: "Contact sales", href: "mailto:TODO@praxor.dev" },
+  cta: { label: "Contact sales", href: "mailto:TODO@vanta-base-admin.dev" },
 };
 
 export function PricingContent() {

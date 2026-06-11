@@ -1,5 +1,5 @@
-import { auth } from "@praxor-kit/auth";
-import { serverEnv } from "@praxor-kit/env";
+import { auth } from "@vanta-base-admin/auth";
+import { serverEnv } from "@vanta-base-admin/env";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";

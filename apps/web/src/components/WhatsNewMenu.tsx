@@ -5,7 +5,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 
 interface ReleaseItem {
   id: string;

@@ -14,4 +14,4 @@ Ask the user for the section name, purpose, and where it should appear on the pa
 
 5. Tailwind classes from new pattern components are only generated if the `@source` directive in `apps/web/src/styles/global.css` covers `packages/ui/src`. It does by default — do not remove it.
 
-6. Run `pnpm typecheck` and start the dev server (`pnpm --filter @praxor-kit/web dev`) to verify the section renders correctly at `http://localhost:4321`.
+6. Run `pnpm typecheck` and start the dev server (`pnpm --filter @vanta-base-admin/web dev`) to verify the section renders correctly at `http://localhost:4321`.

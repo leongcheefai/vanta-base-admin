@@ -1,4 +1,4 @@
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@vanta-base-admin/ui";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { authClient, useSession } from "../../lib/auth";

@@ -6,7 +6,7 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import type { MetricsOverview } from "../../../lib/metrics";
 

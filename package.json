@@ -1,8 +1,8 @@
 {
-  "name": "praxor-kit",
+  "name": "vanta-base-admin",
   "private": true,
   "version": "0.0.0",
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@11.5.3",
   "engines": {
     "node": ">=22",
     "pnpm": ">=9"
@@ -14,10 +14,10 @@
     "typecheck": "turbo typecheck",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "db:generate": "pnpm --filter @praxor-kit/db db:generate",
-    "db:migrate": "pnpm --filter @praxor-kit/db db:migrate",
-    "db:push": "pnpm --filter @praxor-kit/db db:push",
-    "db:studio": "pnpm --filter @praxor-kit/db db:studio"
+    "db:generate": "pnpm --filter @vanta-base-admin/db db:generate",
+    "db:migrate": "pnpm --filter @vanta-base-admin/db db:migrate",
+    "db:push": "pnpm --filter @vanta-base-admin/db db:push",
+    "db:studio": "pnpm --filter @vanta-base-admin/db db:studio"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

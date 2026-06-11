@@ -59,7 +59,7 @@ export const GET: APIRoute = async ({ props }) => {
       createElement(
         "p",
         { style: { fontSize: "20px", color: "#6b7280", margin: "0 0 16px 0", fontWeight: 400 } },
-        "Praxor Kit",
+        "Vanta Base Admin",
       ),
       createElement(
         "h1",

@@ -1,4 +1,4 @@
-import { Footer as UIFooter } from "@praxor-kit/ui";
+import { Footer as UIFooter } from "@vanta-base-admin/ui";
 import { NewsletterForm } from "./NewsletterForm";
 
 const groups = [
@@ -43,7 +43,7 @@ export default function Footer() {
   return (
     <UIFooter
       brand={{
-        name: "Praxor Kit",
+        name: "Vanta Base Admin",
         tagline: "Ship paid SaaS faster, without lock-in.",
         href: "/",
       }}

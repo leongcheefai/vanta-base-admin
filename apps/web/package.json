@@ -1,5 +1,5 @@
 {
-  "name": "@praxor-kit/web",
+  "name": "@vanta-base-admin/web",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,7 +12,7 @@
     "releases:sync": "tsx scripts/sync-releases.ts"
   },
   "dependencies": {
-    "@praxor-kit/ui": "workspace:*",
+    "@vanta-base-admin/ui": "workspace:*",
     "lucide-react": "^0.453.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -24,7 +24,7 @@
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.0.0",
     "@octokit/rest": "^22.0.1",
-    "@praxor-kit/config": "workspace:*",
+    "@vanta-base-admin/config": "workspace:*",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",

@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@praxor-kit/ui/primitives",
-    "utils": "@praxor-kit/ui/lib/utils",
-    "ui": "@praxor-kit/ui/primitives",
-    "lib": "@praxor-kit/ui/lib",
-    "hooks": "@praxor-kit/ui/hooks"
+    "components": "@vanta-base-admin/ui/primitives",
+    "utils": "@vanta-base-admin/ui/lib/utils",
+    "ui": "@vanta-base-admin/ui/primitives",
+    "lib": "@vanta-base-admin/ui/lib",
+    "hooks": "@vanta-base-admin/ui/hooks"
   },
   "iconLibrary": "lucide"
 }

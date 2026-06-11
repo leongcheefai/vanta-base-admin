@@ -7,7 +7,7 @@ import {
   Section,
   SectionHeader,
   Testimonial,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 
 const APP_URL = (import.meta.env.PUBLIC_APP_URL as string | undefined) ?? "http://localhost:3000";
 

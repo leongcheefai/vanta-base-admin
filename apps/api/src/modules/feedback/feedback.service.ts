@@ -1,4 +1,4 @@
-import { db, schema } from "@praxor-kit/db";
+import { db, schema } from "@vanta-base-admin/db";
 import { createFeedbackIssue } from "../../lib/github";
 import { log } from "../../lib/logger";
 import type { CreateFeedbackInput } from "./feedback.schema";

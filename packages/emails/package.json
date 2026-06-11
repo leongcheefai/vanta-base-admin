@@ -1,5 +1,5 @@
 {
-  "name": "@praxor-kit/emails",
+  "name": "@vanta-base-admin/emails",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,14 +11,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@praxor-kit/env": "workspace:*",
+    "@vanta-base-admin/env": "workspace:*",
     "@react-email/render": "^2.0.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^4.0.0"
   },
   "devDependencies": {
-    "@praxor-kit/config": "workspace:*",
+    "@vanta-base-admin/config": "workspace:*",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "typescript": "^5.6.0"

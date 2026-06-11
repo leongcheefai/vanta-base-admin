@@ -1,5 +1,5 @@
 {
-  "name": "@praxor-kit/api",
+  "name": "@vanta-base-admin/api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -16,10 +16,10 @@
     "@hono/node-server": "^1.13.0",
     "@hono/zod-validator": "^0.7.6",
     "@octokit/rest": "^22.0.1",
-    "@praxor-kit/auth": "workspace:*",
-    "@praxor-kit/db": "workspace:*",
-    "@praxor-kit/emails": "workspace:*",
-    "@praxor-kit/env": "workspace:*",
+    "@vanta-base-admin/auth": "workspace:*",
+    "@vanta-base-admin/db": "workspace:*",
+    "@vanta-base-admin/emails": "workspace:*",
+    "@vanta-base-admin/env": "workspace:*",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.45.0",
     "hono": "^4.6.0",
@@ -27,7 +27,7 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
-    "@praxor-kit/config": "workspace:*",
+    "@vanta-base-admin/config": "workspace:*",
     "tsup": "^8.3.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"

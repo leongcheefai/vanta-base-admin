@@ -1,4 +1,4 @@
-import { serverEnv } from "@praxor-kit/env";
+import { serverEnv } from "@vanta-base-admin/env";
 import Stripe from "stripe";
 
 function createStripe() {

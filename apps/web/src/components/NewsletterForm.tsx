@@ -1,4 +1,4 @@
-import { Button, Input, toast } from "@praxor-kit/ui";
+import { Button, Input, toast } from "@vanta-base-admin/ui";
 
 export function NewsletterForm() {
   function handleSubmit(e: React.BaseSyntheticEvent) {

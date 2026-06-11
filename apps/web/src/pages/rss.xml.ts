@@ -8,9 +8,9 @@ export async function GET(context: APIContext) {
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
   return rss({
-    title: "Praxor Kit Blog",
-    description: "Insights, updates, and tutorials from the Praxor Kit team.",
-    site: context.site ?? "https://kit.praxor.dev",
+    title: "Vanta Base Admin Blog",
+    description: "Insights, updates, and tutorials from the Vanta Base Admin team.",
+    site: context.site ?? "https://vanta-base-admin.dev",
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

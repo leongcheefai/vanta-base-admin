@@ -1,4 +1,4 @@
-import { serverEnv } from "@praxor-kit/env";
+import { serverEnv } from "@vanta-base-admin/env";
 import { render } from "@react-email/render";
 import type { ReactElement } from "react";
 import { Resend } from "resend";
@@ -10,7 +10,7 @@ import { VerifyEmail } from "./templates/verify-email";
 import { WelcomeEmail } from "./templates/welcome";
 
 // Update to your verified Resend sender domain before going live
-const FROM = "Praxor Kit <noreply@kit.praxor.dev>";
+const FROM = "Vanta Base Admin <noreply@vanta-base-admin.dev>";
 
 const resend = serverEnv.RESEND_API_KEY ? new Resend(serverEnv.RESEND_API_KEY) : null;
 
@@ -28,7 +28,7 @@ async function send(to: string, subject: string, element: ReactElement) {
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {
-  await send(to, "Welcome to Praxor Kit", WelcomeEmail({ name }));
+  await send(to, "Welcome to Vanta Base Admin", WelcomeEmail({ name }));
 }
 
 export async function sendVerifyEmail(to: string, url: string) {

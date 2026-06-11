@@ -8,7 +8,7 @@ import {
   CardTitle,
   Input,
   Label,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 
 export default function DevComponentsPage() {
   return (

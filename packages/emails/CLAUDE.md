@@ -23,6 +23,6 @@ Set `RESEND_API_KEY` in `apps/api/.env`. Leave unset to have sends silently skip
 
 ## Gotchas
 - `RESEND_API_KEY` absent = silent no-op, not an error; check `console.warn` output to confirm skips
-- `FROM` address (`noreply@kit.praxor.dev`) will fail sending until that domain is verified in Resend
+- `FROM` address (`noreply@vanta-base-admin.dev`) will fail sending until that domain is verified in Resend
 - Templates are plain HTML stubs — functional but unstyled; visual polish is deferred
 - No build step — TypeScript source exported directly

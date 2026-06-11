@@ -10,7 +10,7 @@ import {
   Input,
   Label,
   Separator,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

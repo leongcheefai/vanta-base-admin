@@ -3,7 +3,7 @@ export function orgSchema(siteUrl: URL | string) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Praxor Kit",
+    name: "Vanta Base Admin",
     url: origin,
     logo: `${origin}/favicon.svg`,
     // sameAs: ["TODO: https://twitter.com/...", "TODO: https://github.com/..."],
@@ -15,7 +15,7 @@ export function websiteSchema(siteUrl: URL | string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Praxor Kit",
+    name: "Vanta Base Admin",
     url: origin,
   };
 }

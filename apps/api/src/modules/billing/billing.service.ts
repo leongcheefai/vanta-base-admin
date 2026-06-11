@@ -1,6 +1,6 @@
-import { db, schema } from "@praxor-kit/db";
-import { sendPaymentFailedEmail } from "@praxor-kit/emails";
-import { serverEnv } from "@praxor-kit/env";
+import { db, schema } from "@vanta-base-admin/db";
+import { sendPaymentFailedEmail } from "@vanta-base-admin/emails";
+import { serverEnv } from "@vanta-base-admin/env";
 import { eq } from "drizzle-orm";
 import { stripe } from "../../lib/stripe";
 import type { CreateCheckoutInput, CreatePortalInput } from "./billing.schema";

@@ -21,4 +21,4 @@ Ask the user for the feature name and what HTTP methods/endpoints are needed, th
 
 4. Run `pnpm typecheck` to verify no type errors.
 
-Follow existing modules (`billing`, `me`) as reference for structure and patterns. All env access via `serverEnv` from `@praxor-kit/env` — never `process.env`.
+Follow existing modules (`billing`, `me`) as reference for structure and patterns. All env access via `serverEnv` from `@vanta-base-admin/env` — never `process.env`.

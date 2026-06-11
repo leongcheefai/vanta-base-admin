@@ -1,4 +1,4 @@
-import { Button } from "@praxor-kit/ui";
+import { Button } from "@vanta-base-admin/ui";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 

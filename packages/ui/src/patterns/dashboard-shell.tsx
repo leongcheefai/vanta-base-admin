@@ -139,7 +139,7 @@ export function DashboardShell({
           <div className="flex h-14 shrink-0 items-center border-b px-3 gap-2">
             {!isCollapsed && (
               <span className="flex-1 font-semibold tracking-tight whitespace-nowrap">
-                Praxor Kit
+                Vanta Base Admin
               </span>
             )}
             <button

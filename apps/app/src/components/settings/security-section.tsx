@@ -8,7 +8,7 @@ import {
   Label,
   Separator,
   Switch,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

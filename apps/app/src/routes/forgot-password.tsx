@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "@praxor-kit/ui";
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "@vanta-base-admin/ui";
 import { useState } from "react";
 import { Link } from "react-router";
 import { authClient } from "../lib/auth";

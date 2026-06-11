@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@vanta-base-admin/ui";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface KpiCardProps {

@@ -16,4 +16,4 @@ Ask the user for the page name and what it should display, then:
 
 4. Run `pnpm typecheck` to verify no type errors.
 
-The page is automatically wrapped in `ProtectedRoute` + `DashboardShell` because it is nested under the `/dashboard` route. Import UI primitives from `@praxor-kit/ui`. Use `@praxor-kit/ui` `Card` for content sections.
+The page is automatically wrapped in `ProtectedRoute` + `DashboardShell` because it is nested under the `/dashboard` route. Import UI primitives from `@vanta-base-admin/ui`. Use `@vanta-base-admin/ui` `Card` for content sections.

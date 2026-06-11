@@ -1,10 +1,10 @@
 {
-  "extends": "@praxor-kit/config/tsconfig",
+  "extends": "@vanta-base-admin/config/tsconfig",
   "compilerOptions": {
     "jsx": "react-jsx",
     "paths": {
-      "@praxor-kit/ui": ["./src/index.ts"],
-      "@praxor-kit/ui/*": ["./src/*"]
+      "@vanta-base-admin/ui": ["./src/index.ts"],
+      "@vanta-base-admin/ui/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"]

@@ -1,4 +1,4 @@
-@import "@praxor-kit/ui/styles";
+@import "@vanta-base-admin/ui/styles";
 @source "../../../../packages/ui/src";
 
 /* Blog prose styles — applied via .prose wrapper on rendered markdown */

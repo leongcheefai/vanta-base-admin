@@ -32,7 +32,7 @@ export function MobileNavDrawer({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="left" className="w-72 sm:w-72 sm:max-w-72 p-0 flex flex-col">
         <SheetHeader className="flex h-14 shrink-0 flex-row items-center border-b px-4 space-y-0">
-          <SheetTitle className="flex-1 font-semibold tracking-tight">Praxor Kit</SheetTitle>
+          <SheetTitle className="flex-1 font-semibold tracking-tight">Vanta Base Admin</SheetTitle>
         </SheetHeader>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">

@@ -1,5 +1,5 @@
 {
-  "extends": "@praxor-kit/config/tsconfig",
+  "extends": "@vanta-base-admin/config/tsconfig",
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],

@@ -1,12 +1,12 @@
-import { db, schema } from "@praxor-kit/db";
+import { db, schema } from "@vanta-base-admin/db";
 import {
   sendChangeEmailConfirmationEmail,
   sendDeleteAccountEmail,
   sendResetPasswordEmail,
   sendVerifyEmail,
   sendWelcomeEmail,
-} from "@praxor-kit/emails";
-import { serverEnv } from "@praxor-kit/env";
+} from "@vanta-base-admin/emails";
+import { serverEnv } from "@vanta-base-admin/env";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";

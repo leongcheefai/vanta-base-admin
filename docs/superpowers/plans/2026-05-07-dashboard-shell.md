@@ -6,7 +6,7 @@
 
 **Architecture:** Split `DashboardShell` into composable pieces — `DashboardTopbar` owns the topbar and mobile drawer state, `MobileNavDrawer` is a Sheet-based nav drawer, and `DashboardShell` gains a `topbar` slot prop. Sign-out moves from sidebar to the topbar avatar dropdown. Protected route redirect-back uses `?redirect=<pathname>` validated against open redirect. Tasks are ordered so typecheck passes after every commit.
 
-**Tech Stack:** React 19, React Router v7, shadcn/ui (Sheet, DropdownMenu, Tooltip), Lucide icons, Tailwind v4, pnpm monorepo (`@praxor-kit/ui` package)
+**Tech Stack:** React 19, React Router v7, shadcn/ui (Sheet, DropdownMenu, Tooltip), Lucide icons, Tailwind v4, pnpm monorepo (`@vanta-base-admin/ui` package)
 
 ---
 
@@ -43,7 +43,7 @@
 cd packages/ui && pnpm dlx shadcn@latest add sheet
 ```
 
-Open `packages/ui/src/primitives/sheet.tsx`. If any import references `@praxor-kit/ui/lib/utils`, change it to `../lib/utils`.
+Open `packages/ui/src/primitives/sheet.tsx`. If any import references `@vanta-base-admin/ui/lib/utils`, change it to `../lib/utils`.
 
 - [ ] **Step 2: Add dropdown-menu**
 
@@ -51,7 +51,7 @@ Open `packages/ui/src/primitives/sheet.tsx`. If any import references `@praxor-k
 cd packages/ui && pnpm dlx shadcn@latest add dropdown-menu
 ```
 
-Open `packages/ui/src/primitives/dropdown-menu.tsx`. Fix any `@praxor-kit/ui/lib/utils` import → `../lib/utils`.
+Open `packages/ui/src/primitives/dropdown-menu.tsx`. Fix any `@vanta-base-admin/ui/lib/utils` import → `../lib/utils`.
 
 - [ ] **Step 3: Add tooltip**
 
@@ -59,7 +59,7 @@ Open `packages/ui/src/primitives/dropdown-menu.tsx`. Fix any `@praxor-kit/ui/lib
 cd packages/ui && pnpm dlx shadcn@latest add tooltip
 ```
 
-Open `packages/ui/src/primitives/tooltip.tsx`. Fix any `@praxor-kit/ui/lib/utils` import → `../lib/utils`.
+Open `packages/ui/src/primitives/tooltip.tsx`. Fix any `@vanta-base-admin/ui/lib/utils` import → `../lib/utils`.
 
 - [ ] **Step 4: Export from index.ts**
 
@@ -170,7 +170,7 @@ export function MobileNavDrawer({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="left" className="w-72 p-0 flex flex-col">
         <SheetHeader className="flex h-14 shrink-0 flex-row items-center border-b px-4 space-y-0">
-          <SheetTitle className="flex-1 font-semibold tracking-tight">Praxor Kit</SheetTitle>
+          <SheetTitle className="flex-1 font-semibold tracking-tight">Vanta Base Admin</SheetTitle>
         </SheetHeader>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
@@ -490,7 +490,7 @@ export function DashboardShell({
         >
           <div className="flex h-14 shrink-0 items-center border-b px-3 gap-2">
             {!isCollapsed && (
-              <span className="flex-1 font-semibold tracking-tight whitespace-nowrap">Praxor Kit</span>
+              <span className="flex-1 font-semibold tracking-tight whitespace-nowrap">Vanta Base Admin</span>
             )}
             <button
               type="button"
@@ -606,7 +606,7 @@ This fixes the typecheck error introduced in Task 4 and wires `DashboardTopbar` 
 
 ```tsx
 import { useNavigate, Outlet, useLocation, Link } from 'react-router'
-import { DashboardShell, DashboardTopbar, type NavItem, Button } from '@praxor-kit/ui'
+import { DashboardShell, DashboardTopbar, type NavItem, Button } from '@vanta-base-admin/ui'
 import { LayoutDashboard, CreditCard, Settings } from 'lucide-react'
 import { ProtectedRoute } from '../../components/protected-route'
 import { FeedbackDialog } from '../../components/feedback-dialog'
@@ -795,7 +795,7 @@ The only change from the original is: import `useLocation`, read `search`, and n
 ```tsx
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@praxor-kit/ui'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@vanta-base-admin/ui'
 import { signIn } from '../lib/auth'
 
 export function LoginPage() {

@@ -4,7 +4,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import type { MetricsOverview } from "../../../lib/metrics";
 

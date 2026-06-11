@@ -1,4 +1,4 @@
-import { auth } from "@praxor-kit/auth";
+import { auth } from "@vanta-base-admin/auth";
 import type { MiddlewareHandler } from "hono";
 import type { AppVariables } from "../lib/context";
 

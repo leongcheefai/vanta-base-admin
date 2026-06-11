@@ -1,4 +1,4 @@
-import { serverEnv } from "@praxor-kit/env";
+import { serverEnv } from "@vanta-base-admin/env";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";

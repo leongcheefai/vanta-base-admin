@@ -11,7 +11,7 @@ export function WelcomeEmail({ name }: Props) {
       </head>
       <body>
         <p>Hi {name},</p>
-        <p>Welcome to Praxor Kit. Your account is ready — sign in to get started.</p>
+        <p>Welcome to Vanta Base Admin. Your account is ready — sign in to get started.</p>
         <p>Questions? Reply to this email.</p>
       </body>
     </html>

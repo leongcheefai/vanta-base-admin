@@ -1,4 +1,4 @@
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@vanta-base-admin/ui";
 import { RefreshCw } from "lucide-react";
 import { useReleases, useSyncReleases } from "../../../lib/releases";
 

@@ -4,7 +4,7 @@
 Drizzle ORM schema, the Postgres client singleton, and migration tooling. Every other package or app that needs database access imports `db` and `schema` from here.
 
 ## Conventions
-- `drizzle.config.ts` reads `process.env.DATABASE_URL` directly (Drizzle Kit CLI runs outside the app context and cannot use `serverEnv`) — all application code uses `serverEnv` from `@praxor-kit/env`
+- `drizzle.config.ts` reads `process.env.DATABASE_URL` directly (Drizzle Kit CLI runs outside the app context and cannot use `serverEnv`) — all application code uses `serverEnv` from `@vanta-base-admin/env`
 - `auth.ts` schema table shapes must stay in sync with Better Auth's adapter — do not rename columns without checking Better Auth's adapter requirements
 - No build step — exports point to TypeScript source directly
 

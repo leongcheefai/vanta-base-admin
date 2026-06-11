@@ -8,7 +8,7 @@ Hono API server on Node.js. Handles auth (Better Auth), billing (Stripe), and al
 - Routes export a Hono router; mount it in `src/lib/app.ts` — never add routes directly to `app.ts`
 - Use `@hono/zod-validator` for request validation — never trust raw `c.req.json()` on mutating endpoints
 - Auth check: `const user = c.get('user'); if (!user) throw new HTTPException(401, ...)`
-- All env access via `@praxor-kit/env` (the `serverEnv` export) — never `process.env`
+- All env access via `@vanta-base-admin/env` (the `serverEnv` export) — never `process.env`
 
 ## Common tasks
 

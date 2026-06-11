@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@praxor-kit/ui";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@vanta-base-admin/ui";
 import { ActivationFunnelChart } from "../../components/dashboard/charts/activation-funnel-chart";
 import { ActiveUsersChart } from "../../components/dashboard/charts/active-users-chart";
 import { PlanDistributionChart } from "../../components/dashboard/charts/plan-distribution-chart";

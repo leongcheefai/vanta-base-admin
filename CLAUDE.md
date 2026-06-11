@@ -1,10 +1,10 @@
-# Praxor Kit
+# Vanta Base Admin
 
 ## Purpose
 Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
 
 ## Conventions
-- Package scope: `@praxor-kit/*`
+- Package scope: `@vanta-base-admin/*`
 - Env access via `packages/env` — never `process.env` directly
 - Retheme: edit `packages/ui/src/styles/tokens.css` only — never Tailwind config
 - Lint/format: Biome only — no ESLint, no Prettier
@@ -13,8 +13,8 @@ Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. 
 - New deps: check locked stack first — no Next.js, Prisma, Clerk, tRPC, ESLint, Prettier, Express, Fastify, NestJS
 
 ## Common tasks
-- "Add new app" → create `apps/<name>/`, add `package.json` name `@praxor-kit/<name>`, add tsconfig extending `@praxor-kit/config/tsconfig`, register turbo pipelines
-- "Add new package" → create `packages/<name>/`, add `package.json` name `@praxor-kit/<name>`, run `pnpm install`
+- "Add new app" → create `apps/<name>/`, add `package.json` name `@vanta-base-admin/<name>`, add tsconfig extending `@vanta-base-admin/config/tsconfig`, register turbo pipelines
+- "Add new package" → create `packages/<name>/`, add `package.json` name `@vanta-base-admin/<name>`, run `pnpm install`
 - "Start local DB" → `pnpm db:up`
 - "Run everything locally" → `pnpm db:up && pnpm dev`
 - "Run typecheck" → `pnpm typecheck`
@@ -22,8 +22,8 @@ Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. 
 
 ## Gotchas
 - `pnpm` only — never `npm install` or `yarn`
-- Env validated through `@praxor-kit/env` — apps must not read `process.env` directly
+- Env validated through `@vanta-base-admin/env` — apps must not read `process.env` directly
 - Turbo caches aggressively — run `turbo <task> --force` if output stale
-- Brand placeholders before launch: `Praxor Kit` (product name), `@praxor-kit/*` (package scope), `kit.praxor.dev` (domain)
+- Brand placeholders before launch: `Vanta Base Admin` (product name), `@vanta-base-admin/*` (package scope), `vanta-base-admin.dev` (domain)
 - shadcn primitives in `packages/ui/src/primitives` — add via `pnpm dlx shadcn@latest add <component>` from `packages/ui`; export from `packages/ui/src/index.ts` after adding
-- UI components: use shadcn from `@praxor-kit/ui` — never raw HTML inputs, selects, buttons, or dialogs if shadcn equivalent exists or can be added
+- UI components: use shadcn from `@vanta-base-admin/ui` — never raw HTML inputs, selects, buttons, or dialogs if shadcn equivalent exists or can be added

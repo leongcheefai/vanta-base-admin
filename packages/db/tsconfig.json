@@ -1,4 +1,4 @@
 {
-  "extends": "@praxor-kit/config/tsconfig",
+  "extends": "@vanta-base-admin/config/tsconfig",
   "include": ["src/**/*", "drizzle.config.ts"]
 }

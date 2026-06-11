@@ -1,14 +1,14 @@
 # apps/web
 
 ## Purpose
-Astro 5 marketing site, statically generated. Public-facing at `kit.praxor.dev`. No auth — purely content and conversion. Ships React islands for interactive sections and generates OG images at build time via Satori.
+Astro 5 marketing site, statically generated. Public-facing at `vanta-base-admin.dev`. No auth — purely content and conversion. Ships React islands for interactive sections and generates OG images at build time via Satori.
 
 ## Conventions
 - Pages live in `src/pages/` as `.astro` files — use `BaseLayout` for consistent `<head>` SEO and OG meta
 - Interactive sections are React islands in `src/components/*.tsx` — activate with `client:load` or `client:visible`
 - All marketing copy lives in `src/components/LandingContent.tsx` and `src/components/PricingContent.tsx` — do not scatter copy into `.astro` files
-- `PUBLIC_APP_URL` links the nav "Sign in" and "Get started" buttons to the dashboard — read via `import.meta.env` directly (not `@praxor-kit/env`, which is server-only)
-- Tailwind utility classes from `@praxor-kit/ui` patterns are only generated because of the `@source` directive in `src/styles/global.css` — do not remove it
+- `PUBLIC_APP_URL` links the nav "Sign in" and "Get started" buttons to the dashboard — read via `import.meta.env` directly (not `@vanta-base-admin/env`, which is server-only)
+- Tailwind utility classes from `@vanta-base-admin/ui` patterns are only generated because of the `@source` directive in `src/styles/global.css` — do not remove it
 
 ## Common tasks
 
@@ -27,7 +27,7 @@ Create a markdown/MDX file in the `blog` content collection. OG image auto-gener
 Update `site` in `astro.config.ts`.
 
 ## Gotchas
-- Dev server runs on port 4321: `pnpm --filter @praxor-kit/web dev`
+- Dev server runs on port 4321: `pnpm --filter @vanta-base-admin/web dev`
 - Type-check with `astro check`, not `tsc`
 - OG image generation (`src/pages/og/[slug].png.ts`) fetches fonts from jsDelivr at build time — offline builds fail; swap to `fs.readFileSync` for local testing
 - React components are islands: they render static HTML by default; add a `client:*` directive in the `.astro` file to hydrate them

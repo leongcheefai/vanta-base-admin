@@ -6,7 +6,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@praxor-kit/ui";
+} from "@vanta-base-admin/ui";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
@@ -34,7 +34,7 @@ export function MobileNav({ navItems, appUrl }: MobileNavProps) {
         <SheetHeader>
           <SheetTitle>
             <a href="/" className="text-lg font-bold tracking-tight" onClick={() => setOpen(false)}>
-              Praxor Kit
+              Vanta Base Admin
             </a>
           </SheetTitle>
         </SheetHeader>

@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { serverEnv } from "@praxor-kit/env";
+import { serverEnv } from "@vanta-base-admin/env";
 
 let _octokit: Octokit | null = null;
 

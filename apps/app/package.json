@@ -1,5 +1,5 @@
 {
-  "name": "@praxor-kit/app",
+  "name": "@vanta-base-admin/app",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@praxor-kit/auth": "workspace:*",
-    "@praxor-kit/ui": "workspace:*",
+    "@vanta-base-admin/auth": "workspace:*",
+    "@vanta-base-admin/ui": "workspace:*",
     "@tanstack/react-query": "^5.59.0",
     "better-auth": "^1.2.0",
     "lucide-react": "^0.453.0",
@@ -24,7 +24,7 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
-    "@praxor-kit/config": "workspace:*",
+    "@vanta-base-admin/config": "workspace:*",
     "@t3-oss/env-core": "^0.11.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",

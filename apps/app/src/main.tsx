@@ -1,8 +1,8 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "@praxor-kit/ui/styles";
-import { Toaster } from "@praxor-kit/ui";
+import "@vanta-base-admin/ui/styles";
+import { Toaster } from "@vanta-base-admin/ui";
 import { queryClient } from "./lib/query";
 import { ThemeProvider } from "./lib/theme";
 import { Router } from "./router";

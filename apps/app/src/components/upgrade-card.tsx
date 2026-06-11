@@ -1,4 +1,4 @@
-import { Button } from "@praxor-kit/ui";
+import { Button } from "@vanta-base-admin/ui";
 import { Zap } from "lucide-react";
 import { Link } from "react-router";
 import { useSubscription } from "../lib/billing";

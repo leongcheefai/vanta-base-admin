@@ -1,4 +1,4 @@
-import type { auth } from "@praxor-kit/auth";
+import type { auth } from "@vanta-base-admin/auth";
 
 export type AppVariables = {
   user: typeof auth.$Infer.Session.user | null;

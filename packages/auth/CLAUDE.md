@@ -17,7 +17,7 @@ Set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in `apps/api/.env`. The condit
 Add to the `socialProviders` object in `src/index.ts` using the same conditional pattern as Google.
 
 ### Add a new email hook
-Add an entry to `databaseHooks` or extend the `emailAndPassword` callbacks. Import the sender from `@praxor-kit/emails`. Use fire-and-forget (`.catch()`) for non-critical emails.
+Add an entry to `databaseHooks` or extend the `emailAndPassword` callbacks. Import the sender from `@vanta-base-admin/emails`. Use fire-and-forget (`.catch()`) for non-critical emails.
 
 ### Require email verification on signup
 Set `requireEmailVerification: true` in the `emailAndPassword` block.
