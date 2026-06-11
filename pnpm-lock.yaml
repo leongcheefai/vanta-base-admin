@@ -65,6 +65,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      rxjs:
+        specifier: ^7.8.0
+        version: 7.8.2
       stripe:
         specifier: ^22.1.0
         version: 22.1.0(@types/node@22.19.17)
@@ -78,6 +81,9 @@ importers:
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.6
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.17
       '@types/supertest':
         specifier: ^6.0.0
         version: 6.0.3
@@ -98,7 +104,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@24.12.2)(lightningcss@1.32.0)
+        version: 2.1.9(@types/node@22.19.17)(lightningcss@1.32.0)
 
   apps/app:
     dependencies:
@@ -9200,7 +9206,6 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 5.4.21(@types/node@22.19.17)(lightningcss@1.32.0)
-    optional: true
 
   '@vitest/mocker@2.1.9(vite@5.4.21(@types/node@24.12.2)(lightningcss@1.32.0))':
     dependencies:
@@ -9209,6 +9214,7 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 5.4.21(@types/node@24.12.2)(lightningcss@1.32.0)
+    optional: true
 
   '@vitest/pretty-format@2.1.9':
     dependencies:
@@ -12271,7 +12277,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-    optional: true
 
   vite-node@2.1.9(@types/node@24.12.2)(lightningcss@1.32.0):
     dependencies:
@@ -12290,6 +12295,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+    optional: true
 
   vite@5.4.21(@types/node@22.19.17)(lightningcss@1.32.0):
     dependencies:
@@ -12300,7 +12306,6 @@ snapshots:
       '@types/node': 22.19.17
       fsevents: 2.3.3
       lightningcss: 1.32.0
-    optional: true
 
   vite@5.4.21(@types/node@24.12.2)(lightningcss@1.32.0):
     dependencies:
@@ -12311,6 +12316,7 @@ snapshots:
       '@types/node': 24.12.2
       fsevents: 2.3.3
       lightningcss: 1.32.0
+    optional: true
 
   vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3):
     dependencies:
@@ -12382,7 +12388,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-    optional: true
 
   vitest@2.1.9(@types/node@24.12.2)(lightningcss@1.32.0):
     dependencies:
@@ -12418,6 +12423,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+    optional: true
 
   volar-service-css@0.0.70(@volar/language-service@2.4.28):
     dependencies:
