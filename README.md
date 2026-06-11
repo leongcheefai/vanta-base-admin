@@ -9,7 +9,7 @@ Ship paid SaaS faster, without lock-in.
 | Monorepo | pnpm + Turborepo |
 | Marketing | Astro + React islands |
 | Dashboard | Vite + React + React Router + TanStack Query |
-| API | Hono on Node |
+| API | NestJS on Node (Express platform) |
 | Database | Postgres + Drizzle ORM |
 | Auth | Better Auth |
 | Payments | Stripe |

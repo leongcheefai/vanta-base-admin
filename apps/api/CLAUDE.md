@@ -1,23 +1,24 @@
 # apps/api
 
 ## Purpose
-Hono API server on Node.js. Handles auth (Better Auth), billing (Stripe), and all business logic. Runs on port 3001 in development.
+NestJS API server on Node.js (Express platform). Handles auth (Better Auth), billing (Stripe), and all business logic. Runs on port 3001 in development.
 
 ## Conventions
-- Every feature lives in `src/modules/<name>/` — three files: `<name>.routes.ts`, `<name>.service.ts`, `<name>.schema.ts`
-- Routes export a Hono router; mount it in `src/lib/app.ts` — never add routes directly to `app.ts`
-- Use `@hono/zod-validator` for request validation — never trust raw `c.req.json()` on mutating endpoints
-- Auth check: `const user = c.get('user'); if (!user) throw new HTTPException(401, ...)`
-- All env access via `@vanta-base-admin/env` (the `serverEnv` export) — never `process.env`
+- Every feature lives in `src/modules/<name>/` — four files: `<name>.module.ts`, `<name>.controller.ts`, `<name>.service.ts`, `dto/<input>.dto.ts`
+- All routes require auth by default (global `AuthGuard`). Public routes use `@Public()` from `src/common/decorators/public.decorator.ts`
+- Use `@Body() dto: SomeDto` with class-validator DTOs for request validation — never trust `@Body()` without a typed DTO
+- Auth user in controller: `@CurrentUser() user: SessionUser` from `src/common/decorators/current-user.decorator.ts`
+- All env access via `@vanta-base-admin/env` (`serverEnv` export) — never `process.env`
+- Better Auth routes handled by `AuthController` in `src/modules/auth/` — do not add auth routes elsewhere
 
 ## Common tasks
 
 ### Add a new API route
 1. Create or extend `src/modules/<feature>/`
-2. Add Zod schema in `<feature>.schema.ts`
-3. Add business logic in `<feature>.service.ts`
-4. Export a Hono router from `<feature>.routes.ts`
-5. Mount in `src/lib/app.ts`: `app.route('/<feature>', featureRouter)`
+2. Add DTO in `dto/<input>.dto.ts` using class-validator decorators
+3. Add business logic in `<feature>.service.ts` — `@Injectable()` class
+4. Export a controller from `<feature>.controller.ts` — `@Controller('<feature>')`
+5. Register in `<feature>.module.ts` and import in `src/app.module.ts`
 
 ### Test an endpoint manually
 ```bash
@@ -32,43 +33,22 @@ curl http://localhost:3001/me -H "Cookie: <session-cookie>"
 
 ### Local webhook testing with Stripe CLI
 ```bash
-# Install Stripe CLI: https://stripe.com/docs/stripe-cli
-# Login
 stripe login
-
-# Forward webhooks to local server
 stripe listen --forward-to localhost:3001/billing/webhook
-
-# The CLI prints a webhook signing secret — add to .env as STRIPE_WEBHOOK_SECRET
+# CLI prints a webhook signing secret — add to .env as STRIPE_WEBHOOK_SECRET
 ```
 
 ### Webhook events handled
 | Event | Action |
 |---|---|
 | `checkout.session.completed` | Upsert subscription row with active status |
-| `customer.subscription.created` | Upsert subscription row (handles non-checkout signups) |
+| `customer.subscription.created` | Upsert subscription row |
 | `customer.subscription.updated` | Update plan/status/period-end/cancel_at_period_end |
 | `customer.subscription.deleted` | Mark subscription canceled |
-| `invoice.paid` | Re-sync subscription status on successful payment |
+| `invoice.paid` | Re-sync subscription status |
 | `invoice.payment_failed` | Mark subscription past_due, send payment-failed email |
 
-Note: all webhook events are deduplicated via the `webhook_event` table (Stripe event ID as PK).
-
-### Trigger test events
-```bash
-# Simulate a completed checkout
-stripe trigger checkout.session.completed
-
-# Simulate payment failure
-stripe trigger invoice.payment_failed
-```
-
-### Adding a new Stripe product
-1. Create product + price in Stripe Dashboard (test mode)
-2. Copy the `price_...` ID
-3. Pass it as `priceId` to `POST /billing/checkout`
-
 ## Gotchas
-- Webhook endpoint at `POST /billing/webhook` must receive the **raw body** for signature verification — do not add JSON body-parsing middleware to this route
-- Stripe API version is pinned in `src/lib/stripe.ts` — update after checking Stripe changelog for breaking changes
-- `subscription_data.metadata.userId` is set on checkout so webhooks can look up the user without a customer lookup
+- Webhook `POST /billing/webhook` uses raw body — NestJS bootstrapped with `rawBody: true`, controller reads `req.rawBody` as Buffer
+- Stripe API version pinned in `src/lib/stripe.ts`
+- `subscription_data.metadata.userId` set on checkout so webhooks can identify the user

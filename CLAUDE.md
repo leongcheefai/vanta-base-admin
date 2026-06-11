@@ -1,7 +1,7 @@
 # Vanta Base Admin
 
 ## Purpose
-Vanta Base Admin — production-ready SaaS boilerplate. Vite + Hono + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
+Vanta Base Admin — production-ready SaaS boilerplate. Vite + NestJS on Node (Express platform) + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
 
 ## Conventions
 - Package scope: `@vanta-base-admin/*`
@@ -10,7 +10,7 @@ Vanta Base Admin — production-ready SaaS boilerplate. Vite + Hono + Better Aut
 - Lint/format: Biome only — no ESLint, no Prettier
 - TypeScript strict — no `any`, no `@ts-ignore` without inline justification
 - Conventional commits: `feat:`, `chore:`, `fix:`, `docs:`
-- New deps: check locked stack first — no Next.js, Prisma, Clerk, tRPC, ESLint, Prettier, Express, Fastify, NestJS
+- New deps: check locked stack first — no Next.js, Prisma, Clerk, tRPC, ESLint, Prettier, Fastify
 
 ## Common tasks
 - "Add new app" → create `apps/<name>/`, add `package.json` name `@vanta-base-admin/<name>`, add tsconfig extending `@vanta-base-admin/config/tsconfig`, register turbo pipelines
