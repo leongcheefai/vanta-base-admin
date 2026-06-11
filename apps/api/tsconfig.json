@@ -1,12 +1,11 @@
 {
-  "extends": "@vanta-base-admin/config/tsconfig",
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node16",
-    "verbatimModuleSyntax": false,
-    "noEmit": true
-  },
-  "include": ["src/**/*", "vitest.config.ts"]
+	"extends": "@vanta-base-admin/config/tsconfig",
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"verbatimModuleSyntax": false,
+		"noEmit": true,
+		"types": ["vitest/globals", "node"]
+	},
+	"include": ["src/**/*"]
 }

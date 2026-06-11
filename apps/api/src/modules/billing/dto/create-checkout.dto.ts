@@ -1,13 +1,13 @@
-import { IsString, IsUrl, MinLength } from 'class-validator'
+import { IsString, IsUrl, MinLength } from "class-validator";
 
 export class CreateCheckoutDto {
-  @IsString()
-  @MinLength(1)
-  priceId: string
+	@IsString()
+	@MinLength(1)
+	priceId!: string;
 
-  @IsUrl()
-  successUrl: string
+	@IsUrl()
+	successUrl!: string;
 
-  @IsUrl()
-  cancelUrl: string
+	@IsUrl()
+	cancelUrl!: string;
 }
