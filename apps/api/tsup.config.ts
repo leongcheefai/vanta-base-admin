@@ -15,4 +15,16 @@ export default defineConfig({
 		/^@(?!vanta-base-admin\/)/, // @scoped npm packages except workspace
 		/^[a-zA-Z0-9]/, // unscoped npm packages (react, zod, express, etc.)
 	],
+	// SWC handles JSX before esbuild (activated by emitDecoratorMetadata in tsconfig).
+	// Default SWC JSX runtime is classic → React.createElement without React in scope.
+	// Set to automatic so it imports from react/jsx-runtime instead.
+	swc: {
+		jsc: {
+			transform: {
+				react: {
+					runtime: "automatic",
+				},
+			},
+		},
+	},
 });
