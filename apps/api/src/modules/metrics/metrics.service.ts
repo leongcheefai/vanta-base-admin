@@ -1,6 +1,10 @@
-import { generateMockMetrics } from "./metrics.mock";
-import type { MetricsOverview } from "./metrics.schema";
+import { Injectable } from '@nestjs/common'
+import { generateMockMetrics } from './metrics.mock'
+import type { MetricsOverview } from './metrics.schema'
 
-export function getMetricsOverview(): MetricsOverview {
-  return generateMockMetrics();
+@Injectable()
+export class MetricsService {
+  getOverview(): MetricsOverview {
+    return generateMockMetrics()
+  }
 }

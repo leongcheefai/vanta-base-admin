@@ -4,5 +4,6 @@ packages:
 allowBuilds:
   '@biomejs/biome': true
   '@nestjs/core': true
+  '@swc/core': true
   esbuild: true
   sharp: true
