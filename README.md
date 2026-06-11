@@ -61,6 +61,10 @@ Open:
 | `pnpm db:migrate` | Run migrations |
 | `pnpm db:studio` | Open Drizzle Studio |
 
+## Contributing
+
+This repo uses [Matt Pocock's engineering skills](https://github.com/mattpocock/skills) for AI-assisted development. Follow the install instructions in that repo, then run `/setup-matt-pocock-skills` in Claude Code to configure the issue tracker and domain docs for this repo.
+
 ## Branding
 
 Find-and-replace before launch:
