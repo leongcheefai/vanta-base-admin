@@ -1,7 +1,7 @@
 # Vanta Base Admin
 
 ## Purpose
-Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
+Vanta Base Admin — production-ready SaaS boilerplate. Vite + Hono + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
 
 ## Conventions
 - Package scope: `@vanta-base-admin/*`
@@ -24,6 +24,5 @@ Production-ready SaaS boilerplate for indie hackers. Vite + Hono + Better Auth. 
 - `pnpm` only — never `npm install` or `yarn`
 - Env validated through `@vanta-base-admin/env` — apps must not read `process.env` directly
 - Turbo caches aggressively — run `turbo <task> --force` if output stale
-- Brand placeholders before launch: `Vanta Base Admin` (product name), `@vanta-base-admin/*` (package scope), `vanta-base-admin.dev` (domain)
 - shadcn primitives in `packages/ui/src/primitives` — add via `pnpm dlx shadcn@latest add <component>` from `packages/ui`; export from `packages/ui/src/index.ts` after adding
 - UI components: use shadcn from `@vanta-base-admin/ui` — never raw HTML inputs, selects, buttons, or dialogs if shadcn equivalent exists or can be added
