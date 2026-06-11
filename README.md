@@ -4,17 +4,19 @@ Ship paid SaaS faster, without lock-in.
 
 ## Stack
 
-| Layer | Tech |
-|---|---|
-| Monorepo | pnpm + Turborepo |
-| Marketing | Astro + React islands |
+
+| Layer     | Tech                                         |
+| --------- | -------------------------------------------- |
+| Monorepo  | pnpm + Turborepo                             |
+| Marketing | Astro + React islands                        |
 | Dashboard | Vite + React + React Router + TanStack Query |
-| API | NestJS on Node (Express platform) |
-| Database | Postgres + Drizzle ORM |
-| Auth | Better Auth |
-| Payments | Stripe |
-| Email | Resend + React Email |
-| UI | shadcn/ui + Tailwind CSS |
+| API       | NestJS on Node (Express platform)            |
+| Database  | Postgres + Drizzle ORM                       |
+| Auth      | Better Auth                                  |
+| Payments  | Stripe                                       |
+| Email     | Resend + React Email                         |
+| UI        | shadcn/ui + Tailwind CSS                     |
+
 
 ## Prerequisites
 
@@ -40,26 +42,33 @@ pnpm db:push
 
 # 5. Start dev servers
 pnpm dev
+
+# 6. Install Claude Code GitHub App (enables AI-assisted PRs and code review)
+# Run in Claude Code:
+/install-github-app
 ```
 
 Open:
-- Dashboard: http://localhost:3000
-- API: http://localhost:3001
-- Marketing: http://localhost:4321
+
+- Dashboard: [http://localhost:3000](http://localhost:3000)
+- API: [http://localhost:3001](http://localhost:3001)
+- Marketing: [http://localhost:4321](http://localhost:4321)
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start all dev servers |
-| `pnpm build` | Build all apps |
-| `pnpm lint` | Lint all packages |
-| `pnpm typecheck` | Type-check all packages |
-| `pnpm db:up` | Start local Postgres |
-| `pnpm db:down` | Stop local Postgres |
-| `pnpm db:push` | Push schema to DB (dev only) |
-| `pnpm db:migrate` | Run migrations |
-| `pnpm db:studio` | Open Drizzle Studio |
+
+| Command           | Description                  |
+| ----------------- | ---------------------------- |
+| `pnpm dev`        | Start all dev servers        |
+| `pnpm build`      | Build all apps               |
+| `pnpm lint`       | Lint all packages            |
+| `pnpm typecheck`  | Type-check all packages      |
+| `pnpm db:up`      | Start local Postgres         |
+| `pnpm db:down`    | Stop local Postgres          |
+| `pnpm db:push`    | Push schema to DB (dev only) |
+| `pnpm db:migrate` | Run migrations               |
+| `pnpm db:studio`  | Open Drizzle Studio          |
+
 
 ## Contributing
 
@@ -68,6 +77,8 @@ This repo uses [Matt Pocock's engineering skills](https://github.com/mattpocock/
 ## Branding
 
 Find-and-replace before launch:
+
 - `Vanta Base Admin` → your product name
 - `@vanta-base-admin/*` → your package scope
 - `vanta-base-admin.dev` → your domain
+
