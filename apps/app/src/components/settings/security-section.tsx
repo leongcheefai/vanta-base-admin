@@ -1,3 +1,4 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Button,
   Card,
@@ -9,7 +10,6 @@ import {
   Separator,
   Switch,
 } from "@vanta-base-admin/ui";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { authClient, useSession } from "../../lib/auth";

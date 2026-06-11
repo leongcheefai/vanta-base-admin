@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import {
   Avatar,
   AvatarFallback,
@@ -11,7 +12,6 @@ import {
   Label,
   Separator,
 } from "@vanta-base-admin/ui";
-import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { authClient, useSession } from "../../lib/auth";

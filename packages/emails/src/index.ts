@@ -1,5 +1,5 @@
-import { serverEnv } from "@vanta-base-admin/env";
 import { render } from "@react-email/render";
+import { serverEnv } from "@vanta-base-admin/env";
 import type { ReactElement } from "react";
 import { Resend } from "resend";
 import { ChangeEmailEmail } from "./templates/change-email";

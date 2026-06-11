@@ -1,4 +1,12 @@
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "@vanta-base-admin/ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+} from "@vanta-base-admin/ui";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { signUp } from "../lib/auth";
