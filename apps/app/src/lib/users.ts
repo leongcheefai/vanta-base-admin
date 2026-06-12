@@ -10,6 +10,7 @@ export interface AdminUser {
   createdAt: string;
   updatedAt: string;
   role: string | null;
+  roleId: string | null;
   banned: boolean | null;
   banReason: string | null;
   deletedAt: string | null;
@@ -45,7 +46,7 @@ export interface ListUsersParams {
   limit?: number;
   offset?: number;
   search?: string;
-  role?: "admin" | "user";
+  role?: string;
   banned?: boolean;
   includeDeleted?: boolean;
   sortBy?: "createdAt" | "name" | "email";
@@ -55,12 +56,11 @@ export interface CreateUserInput {
   name: string;
   email: string;
   password: string;
-  role?: "admin" | "user";
+  roleId?: string;
 }
 
 export interface EditUserInput {
   name?: string;
-  role?: "admin" | "user";
 }
 
 async function fetchUsers(params: ListUsersParams): Promise<UserListResponse> {
@@ -152,6 +152,17 @@ async function restoreUser(id: string): Promise<AdminUser> {
   return res.json() as Promise<AdminUser>;
 }
 
+async function assignUserRole(id: string, roleId: string): Promise<AdminUser> {
+  const res = await fetch(`${env.VITE_API_URL}/users/${id}/role`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ roleId }),
+  });
+  if (!res.ok) throw new Error("Failed to assign role");
+  return res.json() as Promise<AdminUser>;
+}
+
 async function revokeUserSessions(id: string): Promise<{ revoked: number }> {
   const res = await fetch(`${env.VITE_API_URL}/users/${id}/revoke-sessions`, {
     method: "POST",
@@ -227,6 +238,16 @@ export function useRestoreUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => restoreUser(id),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+  });
+}
+
+export function useAssignUserRole() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, roleId }: { id: string; roleId: string }) =>
+      assignUserRole(id, roleId),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });

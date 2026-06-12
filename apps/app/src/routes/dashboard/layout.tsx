@@ -1,10 +1,11 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { CreditCard, LayoutDashboard, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
+import { CreditCard, LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
 import { ThemeToggle } from "../../components/theme-toggle";
 import { UpgradeCard } from "../../components/upgrade-card";
+import { usePermissions } from "../../hooks/use-permissions";
 import { signOut, useSession } from "../../lib/auth";
 
 const PAGE_TITLES: Record<string, string> = {
@@ -14,10 +15,15 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard/inventory/products": "Products",
   "/dashboard/inventory/categories": "Categories",
   "/dashboard/admin/releases": "Releases",
+  "/dashboard/admin/roles": "Roles",
   "/dashboard/admin/users": "Users",
 };
 
-function navItems(pathname: string, role?: string | null): NavItem[] {
+function navItems(
+  pathname: string,
+  isAdmin: boolean,
+  hasPermission: (p: string) => boolean,
+): NavItem[] {
   const items: NavItem[] = [
     {
       label: "Dashboard",
@@ -57,24 +63,40 @@ function navItems(pathname: string, role?: string | null): NavItem[] {
     },
   ];
 
-  if (role === "admin") {
+  const adminChildren: NavItem[] = [];
+
+  if (isAdmin || hasPermission("roles:read")) {
+    adminChildren.push({
+      label: "Releases",
+      href: "/dashboard/admin/releases",
+      active: pathname === "/dashboard/admin/releases",
+      icon: <Rocket size={16} />,
+    });
+  }
+
+  if (isAdmin || hasPermission("roles:read")) {
+    adminChildren.push({
+      label: "Roles",
+      href: "/dashboard/admin/roles",
+      active: pathname === "/dashboard/admin/roles",
+      icon: <Lock size={16} />,
+    });
+  }
+
+  if (isAdmin || hasPermission("users:read")) {
+    adminChildren.push({
+      label: "Users",
+      href: "/dashboard/admin/users",
+      active: pathname.startsWith("/dashboard/admin/users"),
+      icon: <Users size={16} />,
+    });
+  }
+
+  if (adminChildren.length > 0) {
     items.push({
       label: "Admin",
       icon: <Shield size={16} />,
-      children: [
-        {
-          label: "Releases",
-          href: "/dashboard/admin/releases",
-          active: pathname === "/dashboard/admin/releases",
-          icon: <Rocket size={16} />,
-        },
-        {
-          label: "Users",
-          href: "/dashboard/admin/users",
-          active: pathname.startsWith("/dashboard/admin/users"),
-          icon: <Users size={16} />,
-        },
-      ],
+      children: adminChildren,
     });
   }
 
@@ -85,13 +107,14 @@ function DashboardContent() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: session } = useSession();
+  const { isAdmin, hasPermission } = usePermissions();
 
   async function handleSignOut() {
     await signOut();
     navigate("/login");
   }
 
-  const items = navItems(pathname, session?.user.role);
+  const items = navItems(pathname, isAdmin, hasPermission);
   const title = PAGE_TITLES[pathname] ?? "Dashboard";
 
   function renderNavLink({

@@ -1,6 +1,5 @@
 import {
 	IsEmail,
-	IsEnum,
 	IsOptional,
 	IsString,
 	MaxLength,
@@ -22,6 +21,6 @@ export class CreateUserDto {
 	password!: string;
 
 	@IsOptional()
-	@IsEnum(["admin", "user"])
-	role?: "admin" | "user" = "user";
+	@IsString()
+	roleId?: string;
 }

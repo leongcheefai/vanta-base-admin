@@ -36,6 +36,13 @@
       "when": 1781243580232,
       "tag": "0005_normal_viper",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1749772800000,
+      "tag": "0006_rbac_roles",
+      "breakpoints": true
     }
   ]
 }

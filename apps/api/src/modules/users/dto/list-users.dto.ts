@@ -28,8 +28,8 @@ export class ListUsersDto {
 	search?: string;
 
 	@IsOptional()
-	@IsEnum(["admin", "user"])
-	role?: "admin" | "user";
+	@IsString()
+	role?: string;
 
 	@IsOptional()
 	@Transform(({ value }) => value === "true")
