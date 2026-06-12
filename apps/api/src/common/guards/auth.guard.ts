@@ -43,6 +43,13 @@ export class AuthGuard implements CanActivate {
 
 		if (isPublic) return true;
 		if (!request.user) throw new UnauthorizedException();
+
+		// Soft-deleted users cannot log in
+		const userWithDeleted = request.user as SessionUser & {
+			deletedAt?: Date | null;
+		};
+		if (userWithDeleted.deletedAt) throw new UnauthorizedException();
+
 		return true;
 	}
 }
