@@ -6,6 +6,7 @@ import { AuthModule } from "./modules/auth/auth.module";
 import { BillingModule } from "./modules/billing/billing.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
 import { HealthModule } from "./modules/health/health.module";
+import { InventoryModule } from "./modules/inventory/inventory.module";
 import { MeModule } from "./modules/me/me.module";
 import { MetricsModule } from "./modules/metrics/metrics.module";
 import { ReleasesModule } from "./modules/releases/releases.module";
@@ -18,6 +19,7 @@ import { UsersModule } from "./modules/users/users.module";
 		BillingModule,
 		FeedbackModule,
 		HealthModule,
+		InventoryModule,
 		MeModule,
 		MetricsModule,
 		ReleasesModule,

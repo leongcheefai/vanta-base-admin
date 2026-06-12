@@ -7,22 +7,27 @@ vi.mock("@vanta-base-admin/auth", () => ({
 	},
 }));
 
-// Mocks defined here so individual tests can override via mockResolvedValueOnce / mockReturnValueOnce
-const mockDbDelete = vi.fn();
-const mockDbUpdate = vi.fn();
-const mockDbSelect = vi.fn();
-const mockDbQueryUserFindFirst = vi.fn();
-const mockDbQuerySubscriptionFindFirst = vi.fn();
+// vi.hoisted so variables are available when the vi.mock factory runs (which is hoisted too)
+const { mockDbDelete, mockDbUpdate, mockDbSelect, mockDbQueryUserFindFirst, mockDbQuerySubscriptionFindFirst } = vi.hoisted(() => ({
+	mockDbDelete: vi.fn(),
+	mockDbUpdate: vi.fn(),
+	mockDbSelect: vi.fn(),
+	mockDbQueryUserFindFirst: vi.fn(),
+	mockDbQuerySubscriptionFindFirst: vi.fn(),
+}));
 
 vi.mock("@vanta-base-admin/db", () => {
 	// Drizzle-like chainable builder that ends with a returning() or execute()
 	function chain(terminal: ReturnType<typeof vi.fn>) {
+		const chainableKeys = new Set(["where", "from", "set", "orderBy", "limit", "offset"]);
 		const obj: Record<string, unknown> = {};
 		const self = new Proxy(obj, {
 			get(_t, key) {
 				if (key === "returning" || key === "execute") return terminal;
-				// .where(), .from(), .set(), .orderBy(), .limit(), .offset() all return the same chain
-				return () => self;
+				// Only intercept known chainable keys — returning undefined for `then`/`catch`
+				// prevents the proxy from being treated as a malformed thenable on await.
+				if (typeof key === "string" && chainableKeys.has(key)) return () => self;
+				return undefined;
 			},
 		});
 		return self;

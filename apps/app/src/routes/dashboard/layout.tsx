@@ -1,5 +1,5 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { CreditCard, LayoutDashboard, Rocket, Settings, Shield, Users } from "lucide-react";
+import { CreditCard, LayoutDashboard, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
@@ -11,6 +11,8 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/dashboard/billing": "Billing",
   "/dashboard/settings": "Settings",
+  "/dashboard/inventory/products": "Products",
+  "/dashboard/inventory/categories": "Categories",
   "/dashboard/admin/releases": "Releases",
   "/dashboard/admin/users": "Users",
 };
@@ -34,6 +36,24 @@ function navItems(pathname: string, role?: string | null): NavItem[] {
       href: "/dashboard/settings",
       active: pathname === "/dashboard/settings",
       icon: <Settings size={16} />,
+    },
+    {
+      label: "Inventory",
+      icon: <Package size={16} />,
+      children: [
+        {
+          label: "Products",
+          href: "/dashboard/inventory/products",
+          active: pathname.startsWith("/dashboard/inventory/products"),
+          icon: <Package size={16} />,
+        },
+        {
+          label: "Categories",
+          href: "/dashboard/inventory/categories",
+          active: pathname === "/dashboard/inventory/categories",
+          icon: <Tag size={16} />,
+        },
+      ],
     },
   ];
 
