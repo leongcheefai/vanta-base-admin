@@ -138,12 +138,12 @@ function EditProductDialog({
       </div>
       <div className="space-y-1">
         <Label htmlFor="edit-category">Category</Label>
-        <Select value={categoryId} onValueChange={setCategoryId}>
+        <Select value={categoryId || "__none__"} onValueChange={(v) => setCategoryId(v === "__none__" ? "" : v)}>
           <SelectTrigger id="edit-category">
             <SelectValue placeholder="No category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">No category</SelectItem>
+            <SelectItem value="__none__">No category</SelectItem>
             {categories?.map((c) => (
               <SelectItem key={c.id} value={c.id}>
                 {c.name}
