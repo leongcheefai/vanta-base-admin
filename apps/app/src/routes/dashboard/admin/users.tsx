@@ -528,9 +528,12 @@ export function AdminUsersPage() {
                           </AvatarFallback>
                         </Avatar>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">
+                          <Link
+                            to={`/dashboard/admin/users/${user.id}`}
+                            className="truncate text-sm font-medium hover:underline"
+                          >
                             {user.name}
-                          </p>
+                          </Link>
                           <p className="truncate text-xs text-muted-foreground">
                             {user.email}
                           </p>

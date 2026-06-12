@@ -133,6 +133,8 @@ export class UsersService {
 	}
 
 	async ban(id: string, dto: BanUserDto) {
+		await db.delete(schema.session).where(eq(schema.session.userId, id));
+
 		const [user] = await db
 			.update(schema.user)
 			.set({ banned: true, banReason: dto.banReason, updatedAt: new Date() })
