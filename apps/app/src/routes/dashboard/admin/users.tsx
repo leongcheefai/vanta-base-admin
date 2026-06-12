@@ -50,8 +50,10 @@ import {
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router";
+import { useRoles } from "../../../lib/roles";
 import {
   type AdminUser,
+  useAssignUserRole,
   useBanUser,
   useCreateUser,
   useDeleteUser,
@@ -73,13 +75,14 @@ function CreateUserDialog({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"admin" | "user">("user");
+  const [roleId, setRoleId] = useState<string>("");
   const create = useCreateUser();
+  const { data: roles } = useRoles();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      await create.mutateAsync({ name, email, password, role });
+      await create.mutateAsync({ name, email, password, roleId: roleId || undefined });
       toast.success("User created");
       onClose();
     } catch (err) {
@@ -121,16 +124,16 @@ function CreateUserDialog({ onClose }: { onClose: () => void }) {
       </div>
       <div className="space-y-2">
         <Label htmlFor="role">Role</Label>
-        <Select
-          value={role}
-          onValueChange={(v) => setRole(v as "admin" | "user")}
-        >
+        <Select value={roleId} onValueChange={setRoleId}>
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue placeholder="Default (user)" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="user">User</SelectItem>
-            <SelectItem value="admin">Admin</SelectItem>
+            {roles?.map((r) => (
+              <SelectItem key={r.id} value={r.id}>
+                {r.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -151,15 +154,12 @@ function EditUserDialog({
   onClose: () => void;
 }) {
   const [name, setName] = useState(user.name);
-  const [role, setRole] = useState<"admin" | "user">(
-    (user.role as "admin" | "user") ?? "user",
-  );
   const edit = useEditUser();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      await edit.mutateAsync({ id: user.id, input: { name, role } });
+      await edit.mutateAsync({ id: user.id, input: { name } });
       toast.success("User updated");
       onClose();
     } catch {
@@ -178,24 +178,57 @@ function EditUserDialog({
           required
         />
       </div>
+      <DialogFooter>
+        <Button type="submit" disabled={edit.isPending}>
+          {edit.isPending ? "Saving…" : "Save changes"}
+        </Button>
+      </DialogFooter>
+    </form>
+  );
+}
+
+function AssignRoleDialog({
+  user,
+  onClose,
+}: {
+  user: AdminUser;
+  onClose: () => void;
+}) {
+  const [roleId, setRoleId] = useState(user.roleId ?? "");
+  const assign = useAssignUserRole();
+  const { data: roles } = useRoles();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      await assign.mutateAsync({ id: user.id, roleId });
+      toast.success("Role assigned");
+      onClose();
+    } catch {
+      toast.error("Failed to assign role");
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="edit-role">Role</Label>
-        <Select
-          value={role}
-          onValueChange={(v) => setRole(v as "admin" | "user")}
-        >
+        <Label htmlFor="assign-role">Role</Label>
+        <Select value={roleId} onValueChange={setRoleId}>
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue placeholder="Select a role" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="user">User</SelectItem>
-            <SelectItem value="admin">Admin</SelectItem>
+            {roles?.map((r) => (
+              <SelectItem key={r.id} value={r.id}>
+                {r.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
       <DialogFooter>
-        <Button type="submit" disabled={edit.isPending}>
-          {edit.isPending ? "Saving…" : "Save changes"}
+        <Button type="submit" disabled={assign.isPending || !roleId}>
+          {assign.isPending ? "Assigning…" : "Assign role"}
         </Button>
       </DialogFooter>
     </form>
@@ -250,6 +283,7 @@ function BanUserDialog({
 
 function UserRowActions({ user }: { user: AdminUser }) {
   const [editOpen, setEditOpen] = useState(false);
+  const [assignRoleOpen, setAssignRoleOpen] = useState(false);
   const [banOpen, setBanOpen] = useState(false);
   const unban = useUnbanUser();
   const deleteUser = useDeleteUser();
@@ -288,11 +322,24 @@ function UserRowActions({ user }: { user: AdminUser }) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit user</DialogTitle>
-            <DialogDescription>
-              Update {user.email}&apos;s name or role.
-            </DialogDescription>
+            <DialogDescription>Update {user.email}&apos;s name.</DialogDescription>
           </DialogHeader>
           <EditUserDialog user={user} onClose={() => setEditOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={assignRoleOpen} onOpenChange={setAssignRoleOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Assign role</DialogTitle>
+            <DialogDescription>
+              Change {user.email}&apos;s access role.
+            </DialogDescription>
+          </DialogHeader>
+          <AssignRoleDialog
+            user={user}
+            onClose={() => setAssignRoleOpen(false)}
+          />
         </DialogContent>
       </Dialog>
 
@@ -321,7 +368,12 @@ function UserRowActions({ user }: { user: AdminUser }) {
           </DropdownMenuItem>
           {!user.deletedAt && (
             <DropdownMenuItem onSelect={() => setEditOpen(true)}>
-              Edit
+              Edit name
+            </DropdownMenuItem>
+          )}
+          {!user.deletedAt && (
+            <DropdownMenuItem onSelect={() => setAssignRoleOpen(true)}>
+              Assign role
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
@@ -372,18 +424,19 @@ function UserRowActions({ user }: { user: AdminUser }) {
 export function AdminUsersPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [role, setRole] = useState<"all" | "admin" | "user">("all");
+  const [roleFilter, setRoleFilter] = useState<string>("all");
   const [banned, setBanned] = useState<"all" | "banned" | "active">("all");
   const [includeDeleted, setIncludeDeleted] = useState(false);
   const [page, setPage] = useState(0);
   const [createOpen, setCreateOpen] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const { data: roles } = useRoles();
 
   const params = {
     limit: PAGE_SIZE,
     offset: page * PAGE_SIZE,
     search: debouncedSearch || undefined,
-    role: role === "all" ? undefined : role,
+    role: roleFilter === "all" ? undefined : roleFilter,
     banned: banned === "all" ? undefined : banned === "banned",
     includeDeleted,
   };
@@ -442,9 +495,9 @@ export function AdminUsersPage() {
           />
         </div>
         <Select
-          value={role}
+          value={roleFilter}
           onValueChange={(v) => {
-            setRole(v as "all" | "admin" | "user");
+            setRoleFilter(v);
             setPage(0);
           }}
         >
@@ -453,8 +506,11 @@ export function AdminUsersPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All roles</SelectItem>
-            <SelectItem value="user">User</SelectItem>
-            <SelectItem value="admin">Admin</SelectItem>
+            {roles?.map((r) => (
+              <SelectItem key={r.slug} value={r.slug}>
+                {r.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Select

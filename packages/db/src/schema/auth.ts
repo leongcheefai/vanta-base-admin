@@ -1,4 +1,5 @@
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { roles } from "./roles";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -13,6 +14,7 @@ export const user = pgTable("user", {
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
   deletedAt: timestamp("deleted_at"),
+  roleId: text("role_id").references(() => roles.id),
 });
 
 export const session = pgTable("session", {

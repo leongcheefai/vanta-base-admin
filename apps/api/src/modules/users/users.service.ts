@@ -102,13 +102,16 @@ export class UsersService {
 	}
 
 	async create(dto: CreateUserDto, adminHeaders: Headers) {
-		// Delegate to Better Auth admin plugin for correct password hashing
+		const roleSlug = dto.roleId
+			? await this.resolveRoleSlug(dto.roleId)
+			: "user";
+
 		const result = await auth.api.adminCreateUser({
 			body: {
 				email: dto.email,
 				name: dto.name,
 				password: dto.password,
-				role: dto.role ?? "user",
+				role: roleSlug,
 			},
 			headers: adminHeaders,
 		});
@@ -120,12 +123,27 @@ export class UsersService {
 			updatedAt: new Date(),
 		};
 		if (dto.name !== undefined) updates.name = dto.name;
-		if (dto.role !== undefined) updates.role = dto.role;
 
 		const [user] = await db
 			.update(schema.user)
 			.set(updates)
 			.where(eq(schema.user.id, id))
+			.returning();
+
+		if (!user) throw new NotFoundException("User not found");
+		return user;
+	}
+
+	async assignRole(userId: string, roleId: string) {
+		const role = await db.query.roles.findFirst({
+			where: eq(schema.roles.id, roleId),
+		});
+		if (!role) throw new NotFoundException("Role not found");
+
+		const [user] = await db
+			.update(schema.user)
+			.set({ roleId: role.id, role: role.slug, updatedAt: new Date() })
+			.where(eq(schema.user.id, userId))
 			.returning();
 
 		if (!user) throw new NotFoundException("User not found");
@@ -191,5 +209,12 @@ export class UsersService {
 			.returning();
 
 		return { revoked: deleted.length };
+	}
+
+	private async resolveRoleSlug(roleId: string): Promise<string> {
+		const role = await db.query.roles.findFirst({
+			where: eq(schema.roles.id, roleId),
+		});
+		return role?.slug ?? "user";
 	}
 }

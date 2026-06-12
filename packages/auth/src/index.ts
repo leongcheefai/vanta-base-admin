@@ -1,4 +1,5 @@
 import { db, schema } from "@vanta-base-admin/db";
+import { eq } from "drizzle-orm";
 import {
   sendChangeEmailConfirmationEmail,
   sendDeleteAccountEmail,
@@ -66,6 +67,18 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
+          // Assign roleId based on the role slug set by Better Auth
+          const roleSlug = (user as { role?: string | null }).role ?? "user";
+          const role = await db.query.roles.findFirst({
+            where: eq(schema.roles.slug, roleSlug),
+          });
+          if (role) {
+            await db
+              .update(schema.user)
+              .set({ roleId: role.id })
+              .where(eq(schema.user.id, user.id));
+          }
+
           // fire-and-forget — email failure must not break signup
           sendWelcomeEmail(user.email, user.name).catch((err) =>
             console.error("[auth] welcome email failed", err),

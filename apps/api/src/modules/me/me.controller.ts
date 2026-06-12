@@ -4,9 +4,13 @@ import {
 	CurrentUser,
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
+import { ALL_PERMISSIONS } from "../../common/constants/permissions";
+import { RolesService } from "../roles/roles.service";
 
 @Controller("me")
 export class MeController {
+	constructor(private readonly rolesService: RolesService) {}
+
 	@Get()
 	getMe(@CurrentUser() user: SessionUser) {
 		return { user };
@@ -19,5 +23,14 @@ export class MeController {
 				and(eq(acc.userId, user.id), eq(acc.providerId, "credential")),
 		});
 		return { hasPassword: account !== undefined };
+	}
+
+	@Get("permissions")
+	getPermissions(@CurrentUser() user: SessionUser) {
+		const isAdmin = user.role === "admin";
+		const permissions = isAdmin
+			? ALL_PERMISSIONS
+			: this.rolesService.getPermissions(user.role);
+		return { role: user.role ?? null, permissions, isAdmin };
 	}
 }

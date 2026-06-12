@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class EditUserDto {
 	@IsOptional()
@@ -6,8 +6,4 @@ export class EditUserDto {
 	@MinLength(1)
 	@MaxLength(100)
 	name?: string;
-
-	@IsOptional()
-	@IsEnum(["admin", "user"])
-	role?: "admin" | "user";
 }
