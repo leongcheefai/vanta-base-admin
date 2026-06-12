@@ -29,6 +29,13 @@
       "when": 1749693600000,
       "tag": "0003_admin_users_deleted_at",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1749866400000,
+      "tag": "0004_inventory_module",
+      "breakpoints": true
     }
   ]
 }
