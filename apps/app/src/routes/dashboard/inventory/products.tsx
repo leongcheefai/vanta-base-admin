@@ -102,12 +102,12 @@ function CreateProductDialog({ onClose }: { onClose: () => void }) {
       </div>
       <div className="space-y-1">
         <Label htmlFor="prod-category">Category</Label>
-        <Select value={categoryId} onValueChange={setCategoryId}>
+        <Select value={categoryId || "__none__"} onValueChange={(v) => setCategoryId(v === "__none__" ? "" : v)}>
           <SelectTrigger id="prod-category">
             <SelectValue placeholder="No category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">No category</SelectItem>
+            <SelectItem value="__none__">No category</SelectItem>
             {categories?.map((c) => (
               <SelectItem key={c.id} value={c.id}>
                 {c.name}
@@ -160,7 +160,7 @@ export function InventoryProductsPage() {
   }
 
   function handleCategoryChange(value: string) {
-    setCategoryId(value);
+    setCategoryId(value === "__all__" ? "" : value);
     setPage(1);
   }
 
@@ -212,12 +212,12 @@ export function InventoryProductsPage() {
           />
         </div>
 
-        <Select value={categoryId} onValueChange={handleCategoryChange}>
+        <Select value={categoryId || "__all__"} onValueChange={handleCategoryChange}>
           <SelectTrigger className="w-44">
             <SelectValue placeholder="All categories" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All categories</SelectItem>
+            <SelectItem value="__all__">All categories</SelectItem>
             {categories?.map((c) => (
               <SelectItem key={c.id} value={c.id}>
                 {c.name}
