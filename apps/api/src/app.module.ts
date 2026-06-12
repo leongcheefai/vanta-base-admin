@@ -10,6 +10,7 @@ import { MeModule } from "./modules/me/me.module";
 import { MetricsModule } from "./modules/metrics/metrics.module";
 import { ReleasesModule } from "./modules/releases/releases.module";
 import { UploadsModule } from "./modules/uploads/uploads.module";
+import { UsersModule } from "./modules/users/users.module";
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { UploadsModule } from "./modules/uploads/uploads.module";
 		MetricsModule,
 		ReleasesModule,
 		UploadsModule,
+		UsersModule,
 	],
 	providers: [
 		Reflector,

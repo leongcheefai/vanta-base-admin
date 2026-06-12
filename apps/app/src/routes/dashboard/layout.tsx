@@ -1,5 +1,5 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { CreditCard, LayoutDashboard, Rocket, Settings, Shield } from "lucide-react";
+import { CreditCard, LayoutDashboard, Rocket, Settings, Shield, Users } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
@@ -12,6 +12,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard/billing": "Billing",
   "/dashboard/settings": "Settings",
   "/dashboard/admin/releases": "Releases",
+  "/dashboard/admin/users": "Users",
 };
 
 function navItems(pathname: string, role?: string | null): NavItem[] {
@@ -46,6 +47,12 @@ function navItems(pathname: string, role?: string | null): NavItem[] {
           href: "/dashboard/admin/releases",
           active: pathname === "/dashboard/admin/releases",
           icon: <Rocket size={16} />,
+        },
+        {
+          label: "Users",
+          href: "/dashboard/admin/users",
+          active: pathname.startsWith("/dashboard/admin/users"),
+          icon: <Users size={16} />,
         },
       ],
     });

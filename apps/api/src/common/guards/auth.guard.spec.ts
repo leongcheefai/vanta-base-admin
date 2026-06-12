@@ -59,4 +59,18 @@ describe("AuthGuard", () => {
 		const ctx = makeContext();
 		await expect(guard.canActivate(ctx)).rejects.toThrow(UnauthorizedException);
 	});
+
+	it("throws UnauthorizedException when session user is soft-deleted", async () => {
+		const mockSession = {
+			user: { id: "1", email: "a@b.com", deletedAt: new Date() },
+			session: { id: "s1" },
+		};
+		vi.mocked(auth.api.getSession).mockResolvedValue(mockSession as any);
+		const mockReflector = {
+			getAllAndOverride: vi.fn().mockReturnValue(false),
+		} as any;
+		const guard = new AuthGuard(mockReflector);
+		const ctx = makeContext();
+		await expect(guard.canActivate(ctx)).rejects.toThrow(UnauthorizedException);
+	});
 });

@@ -2,6 +2,8 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import { AdminRoute } from "./components/admin-route";
 import { AdminReleasesPage } from "./routes/dashboard/admin/releases";
+import { AdminUserDetailPage } from "./routes/dashboard/admin/user-detail";
+import { AdminUsersPage } from "./routes/dashboard/admin/users";
 import { BillingPage } from "./routes/dashboard/billing";
 import { DashboardHome } from "./routes/dashboard/index";
 import { DashboardLayout } from "./routes/dashboard/layout";
@@ -34,6 +36,8 @@ export function Router() {
             }
           >
             <Route path="releases" element={<AdminReleasesPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="users/:id" element={<AdminUserDetailPage />} />
           </Route>
         </Route>
         {import.meta.env.DEV && DevComponentsPage && (
