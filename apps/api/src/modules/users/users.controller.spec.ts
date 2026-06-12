@@ -61,14 +61,14 @@ describe("UsersController", () => {
 
 	describe("admin-only enforcement", () => {
 		const endpoints: Array<[string, () => Promise<unknown>]> = [
-			["list", () => controller.list(regularUser, {} as any)],
-			["findById", () => controller.findById(regularUser, "u3")],
-			["edit", () => controller.edit(regularUser, "u3", {})],
-			["ban", () => controller.ban(regularUser, "u3", { banReason: "spam" })],
-			["unban", () => controller.unban(regularUser, "u3")],
-			["softDelete", () => controller.softDelete(regularUser, "u3")],
-			["restore", () => controller.restore(regularUser, "u3")],
-			["revokeSessions", () => controller.revokeSessions(regularUser, "u3")],
+			["list", async () => controller.list(regularUser, {} as any)],
+			["findById", async () => controller.findById(regularUser, "u3")],
+			["edit", async () => controller.edit(regularUser, "u3", {})],
+			["ban", async () => controller.ban(regularUser, "u3", { banReason: "spam" })],
+			["unban", async () => controller.unban(regularUser, "u3")],
+			["softDelete", async () => controller.softDelete(regularUser, "u3")],
+			["restore", async () => controller.restore(regularUser, "u3")],
+			["revokeSessions", async () => controller.revokeSessions(regularUser, "u3")],
 		];
 
 		for (const [name, call] of endpoints) {
