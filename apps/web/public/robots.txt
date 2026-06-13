@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://kit.praxor.dev/sitemap-index.xml
