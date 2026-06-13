@@ -1,7 +1,7 @@
 # apps/app
 
 ## Purpose
-Vite + React 19 SPA. The authenticated dashboard — signup, login, and all post-auth product UI (billing, settings). Runs on port 3000. All API calls proxy to `apps/api` on port 3001 via the Vite dev server.
+Vite + React 19 SPA. The authenticated dashboard — login and all post-auth product UI (settings, admin). Runs on port 3000. All API calls proxy to `apps/api` on port 3001 via the Vite dev server. No public signup — accounts are admin-provisioned.
 
 ## Conventions
 - All env access through `src/lib/env.ts` (validated via `@t3-oss/env-core`) — never `import.meta.env.VITE_*` directly
@@ -19,14 +19,10 @@ Vite + React 19 SPA. The authenticated dashboard — signup, login, and all post
 ### Add a new API call
 Use `useQuery` or `useMutation` from TanStack Query. Fetch against `${env.VITE_API_URL}/<endpoint>` with `credentials: 'include'`.
 
-### Enable Google sign-in
-Add a button calling `signIn.social({ provider: 'google', callbackURL: '/dashboard' })`. No other config needed here — Google OAuth activates in `packages/auth` when the env vars are set.
-
 ### Browse the component library
 Navigate to `http://localhost:3000/_dev/components` in dev mode. This route is tree-shaken from production builds.
 
 ## Gotchas
 - Dev server: port 3000. The Vite proxy forwards `/api/*` to `http://localhost:3001` — both servers must be running for auth to work
-- Billing price IDs come from `GET /billing/config` (server env `STRIPE_PRO_PRICE_ID_MONTHLY` / `STRIPE_PRO_PRICE_ID_YEARLY`) — set these in `apps/api/.env` before launch
 - `src/routes/dashboard/settings.tsx` profile update is a stub — the mutation is not wired
 - The `/_dev/components` route only exists in dev; it is absent from production builds

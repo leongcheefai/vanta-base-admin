@@ -1,26 +1,14 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import {
-  CreditCard,
-  LayoutDashboard,
-  Lock,
-  Package,
-  Rocket,
-  Settings,
-  Shield,
-  Tag,
-  Users,
-} from "lucide-react";
+import { LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
 import { ThemeToggle } from "../../components/theme-toggle";
-import { UpgradeCard } from "../../components/upgrade-card";
 import { usePermissions } from "../../hooks/use-permissions";
 import { signOut, useSession } from "../../lib/auth";
 
 const PAGE_TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
-  "/dashboard/billing": "Billing",
   "/dashboard/settings": "Settings",
   "/dashboard/inventory/products": "Products",
   "/dashboard/inventory/categories": "Categories",
@@ -40,12 +28,6 @@ function navItems(
       href: "/dashboard",
       active: pathname === "/dashboard",
       icon: <LayoutDashboard size={16} />,
-    },
-    {
-      label: "Billing",
-      href: "/dashboard/billing",
-      active: pathname === "/dashboard/billing",
-      icon: <CreditCard size={16} />,
     },
     {
       label: "Settings",
@@ -144,7 +126,6 @@ function DashboardContent() {
 
   const sidebarFooter = (
     <div className="flex flex-col gap-2">
-      <UpgradeCard />
       <div className="flex items-center gap-2">
         <FeedbackDialog>
           <Button variant="ghost" size="sm" className="flex-1 justify-start text-muted-foreground">

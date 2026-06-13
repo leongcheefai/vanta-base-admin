@@ -24,16 +24,8 @@ export interface AdminSession {
   userAgent: string | null;
 }
 
-export interface AdminSubscription {
-  status: string | null;
-  stripePriceId: string | null;
-  stripeCurrentPeriodEnd: string | null;
-  cancelAtPeriodEnd: boolean;
-}
-
 export interface UserDetail {
   user: AdminUser;
-  subscription: AdminSubscription | null;
   sessions: AdminSession[];
 }
 

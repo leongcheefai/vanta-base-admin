@@ -4,7 +4,6 @@ import { GlobalExceptionFilter } from "./common/filters/http-exception.filter";
 import { AuthGuard } from "./common/guards/auth.guard";
 import { PermissionsGuard } from "./common/guards/permissions.guard";
 import { AuthModule } from "./modules/auth/auth.module";
-import { BillingModule } from "./modules/billing/billing.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
 import { HealthModule } from "./modules/health/health.module";
 import { InventoryModule } from "./modules/inventory/inventory.module";
@@ -18,7 +17,6 @@ import { UsersModule } from "./modules/users/users.module";
 @Module({
 	imports: [
 		AuthModule,
-		BillingModule,
 		FeedbackModule,
 		HealthModule,
 		InventoryModule,

@@ -74,23 +74,10 @@ export class UsersService {
 
 		if (!user) throw new NotFoundException("User not found");
 
-		const [subscription, sessions] = await Promise.all([
-			db.query.subscription.findFirst({
-				where: eq(schema.subscription.userId, id),
-			}),
-			db.select().from(schema.session).where(eq(schema.session.userId, id)),
-		]);
+		const sessions = await db.select().from(schema.session).where(eq(schema.session.userId, id));
 
 		return {
 			user,
-			subscription: subscription
-				? {
-						status: subscription.status,
-						stripePriceId: subscription.stripePriceId,
-						stripeCurrentPeriodEnd: subscription.stripeCurrentPeriodEnd,
-						cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-					}
-				: null,
 			sessions: sessions.map((s) => ({
 				id: s.id,
 				createdAt: s.createdAt,

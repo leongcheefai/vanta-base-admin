@@ -76,18 +76,6 @@ export {
 export { cn } from "./lib/utils";
 export { DashboardShell } from "./patterns/dashboard-shell";
 export type { NavItem, DashboardShellProps } from "./patterns/dashboard-shell";
-export { Hero } from "./patterns/hero";
-export type { HeroProps } from "./patterns/hero";
-export { FeatureSection } from "./patterns/feature-section";
-export type { Feature, FeatureSectionProps } from "./patterns/feature-section";
-export { PricingCard } from "./patterns/pricing-card";
-export type { PricingCardProps, PricingTier } from "./patterns/pricing-card";
-export { LogoCloud } from "./patterns/logo-cloud";
-export type { LogoCloudProps, LogoEntry } from "./patterns/logo-cloud";
-export { Testimonial } from "./patterns/testimonial";
-export type { TestimonialProps } from "./patterns/testimonial";
-export { FAQ } from "./patterns/faq";
-export type { FAQItem, FAQProps } from "./patterns/faq";
 export { MobileNavDrawer } from "./patterns/mobile-nav-drawer";
 export type { MobileNavDrawerProps } from "./patterns/mobile-nav-drawer";
 export { DashboardTopbar } from "./patterns/dashboard-topbar";
@@ -137,10 +125,6 @@ export {
   TableCell,
   TableCaption,
 } from "./primitives/table";
-
-// Footer
-export { Footer } from "./patterns/footer";
-export type { FooterProps, FooterGroup, FooterLink } from "./patterns/footer";
 
 // Layout primitives
 export { Section } from "./patterns/layout/section";

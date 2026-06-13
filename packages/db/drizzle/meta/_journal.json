@@ -43,6 +43,13 @@
       "when": 1749772800000,
       "tag": "0006_rbac_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1781323191894,
+      "tag": "0006_brave_spencer_smythe",
+      "breakpoints": true
     }
   ]
 }

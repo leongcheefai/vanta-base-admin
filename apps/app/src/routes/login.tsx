@@ -85,12 +85,6 @@ export function LoginPage() {
               {loading ? "Signing in…" : "Sign in"}
             </Button>
           </form>
-          <p className="mt-4 text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-foreground underline-offset-4 hover:underline">
-              Create one
-            </Link>
-          </p>
         </CardContent>
       </Card>
     </div>

@@ -8,7 +8,7 @@ import { AppModule } from "./app.module";
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, { rawBody: true });
 	app.enableCors({
-		origin: [serverEnv.APP_URL, serverEnv.WEB_URL],
+		origin: [serverEnv.APP_URL],
 		credentials: true,
 	});
 	app.useGlobalPipes(

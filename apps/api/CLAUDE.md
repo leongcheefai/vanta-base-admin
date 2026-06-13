@@ -1,7 +1,7 @@
 # apps/api
 
 ## Purpose
-NestJS API server on Node.js (Express platform). Handles auth (Better Auth), billing (Stripe), and all business logic. Runs on port 3001 in development.
+NestJS API server on Node.js (Express platform). Handles auth (Better Auth) and all business logic. Runs on port 3001 in development. No billing/Stripe — internal tooling only.
 
 ## Conventions
 - Every feature lives in `src/modules/<name>/` — four files: `<name>.module.ts`, `<name>.controller.ts`, `<name>.service.ts`, `dto/<input>.dto.ts`
@@ -29,26 +29,5 @@ curl http://localhost:3001/health
 curl http://localhost:3001/me -H "Cookie: <session-cookie>"
 ```
 
-## Stripe + Billing
-
-### Local webhook testing with Stripe CLI
-```bash
-stripe login
-stripe listen --forward-to localhost:3001/billing/webhook
-# CLI prints a webhook signing secret — add to .env as STRIPE_WEBHOOK_SECRET
-```
-
-### Webhook events handled
-| Event | Action |
-|---|---|
-| `checkout.session.completed` | Upsert subscription row with active status |
-| `customer.subscription.created` | Upsert subscription row |
-| `customer.subscription.updated` | Update plan/status/period-end/cancel_at_period_end |
-| `customer.subscription.deleted` | Mark subscription canceled |
-| `invoice.paid` | Re-sync subscription status |
-| `invoice.payment_failed` | Mark subscription past_due, send payment-failed email |
-
 ## Gotchas
-- Webhook `POST /billing/webhook` uses raw body — NestJS bootstrapped with `rawBody: true`, controller reads `req.rawBody` as Buffer
-- Stripe API version pinned in `src/lib/stripe.ts`
-- `subscription_data.metadata.userId` set on checkout so webhooks can identify the user
+- `rawBody: true` is still set in NestFactory.create — harmless if no webhook endpoints exist, but can be removed if desired

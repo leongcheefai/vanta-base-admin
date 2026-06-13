@@ -76,7 +76,7 @@ export function AdminUserDetailPage() {
     );
   }
 
-  const { user, subscription, sessions } = data;
+  const { user, sessions } = data;
 
   return (
     <div className="space-y-6">
@@ -149,52 +149,6 @@ export function AdminUserDetailPage() {
                 </div>
               )}
             </dl>
-          </CardContent>
-        </Card>
-
-        {/* Subscription card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Subscription</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {!subscription ? (
-              <p className="text-sm text-muted-foreground">No active subscription.</p>
-            ) : (
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Status</dt>
-                  <dd>
-                    <Badge variant="outline" className="capitalize">
-                      {subscription.status ?? "—"}
-                    </Badge>
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Price ID</dt>
-                  <dd className="font-mono text-xs">{subscription.stripePriceId ?? "—"}</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Period end</dt>
-                  <dd>
-                    {subscription.stripeCurrentPeriodEnd
-                      ? new Date(subscription.stripeCurrentPeriodEnd).toLocaleDateString(
-                          undefined,
-                          {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          },
-                        )
-                      : "—"}
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Cancel at period end</dt>
-                  <dd>{subscription.cancelAtPeriodEnd ? "Yes" : "No"}</dd>
-                </div>
-              </dl>
-            )}
           </CardContent>
         </Card>
       </div>

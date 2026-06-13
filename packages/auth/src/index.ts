@@ -7,6 +7,7 @@ import {
   sendWelcomeEmail,
 } from "@vanta-base-admin/emails";
 import { serverEnv } from "@vanta-base-admin/env";
+// Google OAuth imports intentionally removed — internal tooling uses admin-provisioned accounts
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
@@ -27,6 +28,7 @@ export const auth = betterAuth({
   trustedOrigins: [serverEnv.APP_URL],
   emailAndPassword: {
     enabled: true,
+    disableSignUp: true,
     requireEmailVerification: false,
     sendVerificationEmail: async ({ user, url }: { user: { email: string }; url: string }) => {
       await sendVerifyEmail(user.email, url);
@@ -88,16 +90,6 @@ export const auth = betterAuth({
     },
   },
   plugins: [admin()],
-  socialProviders: {
-    ...(serverEnv.GOOGLE_CLIENT_ID && serverEnv.GOOGLE_CLIENT_SECRET
-      ? {
-          google: {
-            clientId: serverEnv.GOOGLE_CLIENT_ID,
-            clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
-          },
-        }
-      : {}),
-  },
 });
 
 export type Auth = typeof auth;
