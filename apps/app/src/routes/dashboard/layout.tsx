@@ -30,12 +30,6 @@ function navItems(
       icon: <LayoutDashboard size={16} />,
     },
     {
-      label: "Settings",
-      href: "/dashboard/settings",
-      active: pathname === "/dashboard/settings",
-      icon: <Settings size={16} />,
-    },
-    {
       label: "Inventory",
       icon: <Package size={16} />,
       children: [
@@ -91,6 +85,13 @@ function navItems(
       children: adminChildren,
     });
   }
+
+  items.push({
+    label: "Settings",
+    href: "/dashboard/settings",
+    active: pathname === "/dashboard/settings",
+    icon: <Settings size={16} />,
+  });
 
   return items;
 }
