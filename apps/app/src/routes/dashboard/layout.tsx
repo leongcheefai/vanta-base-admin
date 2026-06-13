@@ -1,5 +1,15 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { CreditCard, LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
+import {
+  CreditCard,
+  LayoutDashboard,
+  Lock,
+  Package,
+  Rocket,
+  Settings,
+  Shield,
+  Tag,
+  Users,
+} from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";

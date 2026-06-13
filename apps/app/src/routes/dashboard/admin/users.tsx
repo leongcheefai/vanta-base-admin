@@ -41,13 +41,7 @@ import {
   Textarea,
   toast,
 } from "@vanta-base-admin/ui";
-import {
-  ChevronLeft,
-  ChevronRight,
-  MoreHorizontal,
-  Search,
-  UserPlus,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, MoreHorizontal, Search, UserPlus } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { useRoles } from "../../../lib/roles";
@@ -94,12 +88,7 @@ function CreateUserDialog({ onClose }: { onClose: () => void }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
@@ -171,12 +160,7 @@ function EditUserDialog({
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="edit-name">Name</Label>
-        <Input
-          id="edit-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <Input id="edit-name" value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
       <DialogFooter>
         <Button type="submit" disabled={edit.isPending}>
@@ -332,14 +316,9 @@ function UserRowActions({ user }: { user: AdminUser }) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Assign role</DialogTitle>
-            <DialogDescription>
-              Change {user.email}&apos;s access role.
-            </DialogDescription>
+            <DialogDescription>Change {user.email}&apos;s access role.</DialogDescription>
           </DialogHeader>
-          <AssignRoleDialog
-            user={user}
-            onClose={() => setAssignRoleOpen(false)}
-          />
+          <AssignRoleDialog user={user} onClose={() => setAssignRoleOpen(false)} />
         </DialogContent>
       </Dialog>
 
@@ -347,9 +326,7 @@ function UserRowActions({ user }: { user: AdminUser }) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Ban user</DialogTitle>
-            <DialogDescription>
-              Provide a reason for banning this account.
-            </DialogDescription>
+            <DialogDescription>Provide a reason for banning this account.</DialogDescription>
           </DialogHeader>
           <BanUserDialog user={user} onClose={() => setBanOpen(false)} />
         </DialogContent>
@@ -367,9 +344,7 @@ function UserRowActions({ user }: { user: AdminUser }) {
             <Link to={`/dashboard/admin/users/${user.id}`}>View detail</Link>
           </DropdownMenuItem>
           {!user.deletedAt && (
-            <DropdownMenuItem onSelect={() => setEditOpen(true)}>
-              Edit name
-            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setEditOpen(true)}>Edit name</DropdownMenuItem>
           )}
           {!user.deletedAt && (
             <DropdownMenuItem onSelect={() => setAssignRoleOpen(true)}>
@@ -378,9 +353,7 @@ function UserRowActions({ user }: { user: AdminUser }) {
           )}
           <DropdownMenuSeparator />
           {!user.deletedAt && !user.banned && (
-            <DropdownMenuItem onSelect={() => setBanOpen(true)}>
-              Ban
-            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setBanOpen(true)}>Ban</DropdownMenuItem>
           )}
           {!user.deletedAt && user.banned && (
             <DropdownMenuItem onSelect={handleUnban}>Unban</DropdownMenuItem>
@@ -389,10 +362,7 @@ function UserRowActions({ user }: { user: AdminUser }) {
           {!user.deletedAt ? (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem
-                  onSelect={(e) => e.preventDefault()}
-                  className="text-destructive"
-                >
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive">
                   Delete
                 </DropdownMenuItem>
               </AlertDialogTrigger>
@@ -400,15 +370,13 @@ function UserRowActions({ user }: { user: AdminUser }) {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete user?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will soft-delete {user.email} and revoke all active
-                    sessions. The account can be restored later.
+                    This will soft-delete {user.email} and revoke all active sessions. The account
+                    can be restored later.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDelete}>
-                    Delete
-                  </AlertDialogAction>
+                  <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -458,9 +426,7 @@ export function AdminUsersPage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Users</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Manage registered user accounts.
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">Manage registered user accounts.</p>
         </div>
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
@@ -472,9 +438,7 @@ export function AdminUsersPage() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create user</DialogTitle>
-              <DialogDescription>
-                Add a new user account directly.
-              </DialogDescription>
+              <DialogDescription>Add a new user account directly.</DialogDescription>
             </DialogHeader>
             <CreateUserDialog onClose={() => setCreateOpen(false)} />
           </DialogContent>
@@ -542,9 +506,7 @@ export function AdminUsersPage() {
         </Button>
       </div>
 
-      {isLoading && (
-        <p className="text-sm text-muted-foreground">Loading users…</p>
-      )}
+      {isLoading && <p className="text-sm text-muted-foreground">Loading users…</p>}
 
       {!isLoading && data && (
         <>
@@ -571,10 +533,7 @@ export function AdminUsersPage() {
                   </TableRow>
                 )}
                 {data.users.map((user) => (
-                  <TableRow
-                    key={user.id}
-                    className={user.deletedAt ? "opacity-50" : undefined}
-                  >
+                  <TableRow key={user.id} className={user.deletedAt ? "opacity-50" : undefined}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="size-8">
@@ -590,9 +549,7 @@ export function AdminUsersPage() {
                           >
                             {user.name}
                           </Link>
-                          <p className="truncate text-xs text-muted-foreground">
-                            {user.email}
-                          </p>
+                          <p className="truncate text-xs text-muted-foreground">{user.email}</p>
                         </div>
                       </div>
                     </TableCell>

@@ -60,25 +60,19 @@ export function AdminUserDetailPage() {
   async function handleRevokeSessions() {
     try {
       const result = await revoke.mutateAsync();
-      toast.success(
-        `Revoked ${result.revoked} session${result.revoked !== 1 ? "s" : ""}`,
-      );
+      toast.success(`Revoked ${result.revoked} session${result.revoked !== 1 ? "s" : ""}`);
     } catch {
       toast.error("Failed to revoke sessions");
     }
   }
 
   if (isLoading) {
-    return (
-      <p className="text-sm text-muted-foreground">Loading user…</p>
-    );
+    return <p className="text-sm text-muted-foreground">Loading user…</p>;
   }
 
   if (error || !data) {
     return (
-      <p className="text-sm text-destructive">
-        Failed to load user. The account may not exist.
-      </p>
+      <p className="text-sm text-destructive">Failed to load user. The account may not exist.</p>
     );
   }
 
@@ -105,9 +99,7 @@ export function AdminUserDetailPage() {
             <div className="flex items-center gap-4">
               <Avatar className="size-14">
                 <AvatarImage src={user.image ?? undefined} />
-                <AvatarFallback>
-                  {user.name.slice(0, 2).toUpperCase()}
-                </AvatarFallback>
+                <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div>
                 <p className="font-medium">{user.name}</p>
@@ -141,9 +133,7 @@ export function AdminUserDetailPage() {
               {user.banned && (
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">Ban reason</dt>
-                  <dd className="max-w-48 text-right text-destructive">
-                    {user.banReason}
-                  </dd>
+                  <dd className="max-w-48 text-right text-destructive">{user.banReason}</dd>
                 </div>
               )}
               {user.deletedAt && (
@@ -169,9 +159,7 @@ export function AdminUserDetailPage() {
           </CardHeader>
           <CardContent>
             {!subscription ? (
-              <p className="text-sm text-muted-foreground">
-                No active subscription.
-              </p>
+              <p className="text-sm text-muted-foreground">No active subscription.</p>
             ) : (
               <dl className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -184,21 +172,20 @@ export function AdminUserDetailPage() {
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">Price ID</dt>
-                  <dd className="font-mono text-xs">
-                    {subscription.stripePriceId ?? "—"}
-                  </dd>
+                  <dd className="font-mono text-xs">{subscription.stripePriceId ?? "—"}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">Period end</dt>
                   <dd>
                     {subscription.stripeCurrentPeriodEnd
-                      ? new Date(
-                          subscription.stripeCurrentPeriodEnd,
-                        ).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })
+                      ? new Date(subscription.stripeCurrentPeriodEnd).toLocaleDateString(
+                          undefined,
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )
                       : "—"}
                   </dd>
                 </div>

@@ -73,10 +73,9 @@ async function fetchUsers(params: ListUsersParams): Promise<UserListResponse> {
   if (params.includeDeleted) query.set("includeDeleted", "true");
   if (params.sortBy) query.set("sortBy", params.sortBy);
 
-  const res = await fetch(
-    `${env.VITE_API_URL}/users?${query.toString()}`,
-    { credentials: "include" },
-  );
+  const res = await fetch(`${env.VITE_API_URL}/users?${query.toString()}`, {
+    credentials: "include",
+  });
   if (!res.ok) throw new Error("Failed to fetch users");
   return res.json() as Promise<UserListResponse>;
 }
@@ -97,7 +96,7 @@ async function createUser(input: CreateUserInput): Promise<AdminUser> {
     body: JSON.stringify(input),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({})) as { message?: string };
+    const err = (await res.json().catch(() => ({}))) as { message?: string };
     throw new Error(err.message ?? "Failed to create user");
   }
   return res.json() as Promise<AdminUser>;
@@ -191,28 +190,23 @@ export function useCreateUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createUser,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
 export function useEditUser() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: EditUserInput }) =>
-      editUser(id, input),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    mutationFn: ({ id, input }: { id: string; input: EditUserInput }) => editUser(id, input),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
 export function useBanUser() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, banReason }: { id: string; banReason: string }) =>
-      banUser(id, banReason),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    mutationFn: ({ id, banReason }: { id: string; banReason: string }) => banUser(id, banReason),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
@@ -220,8 +214,7 @@ export function useUnbanUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => unbanUser(id),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
@@ -229,8 +222,7 @@ export function useDeleteUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteUser(id),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
@@ -238,18 +230,15 @@ export function useRestoreUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => restoreUser(id),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
 export function useAssignUserRole() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, roleId }: { id: string; roleId: string }) =>
-      assignUserRole(id, roleId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
+    mutationFn: ({ id, roleId }: { id: string; roleId: string }) => assignUserRole(id, roleId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] }),
   });
 }
 
@@ -257,7 +246,6 @@ export function useRevokeUserSessions(userId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => revokeUserSessions(userId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["admin", "users", userId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "users", userId] }),
   });
 }

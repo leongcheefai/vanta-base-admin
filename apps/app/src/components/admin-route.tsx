@@ -1,7 +1,7 @@
-import { Navigate, useLocation } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { env } from "../lib/env";
+import { Navigate, useLocation } from "react-router";
 import { useSession } from "../lib/auth";
+import { env } from "../lib/env";
 
 interface PermissionsResponse {
   role: string | null;
@@ -51,8 +51,7 @@ export function AdminRoute({ children }: { children: React.ReactNode }) {
   const isAdmin = permData?.isAdmin ?? false;
   const permissions = permData?.permissions ?? [];
 
-  const hasAnyAdminPermission =
-    isAdmin || ADMIN_PERMISSIONS.some((p) => permissions.includes(p));
+  const hasAnyAdminPermission = isAdmin || ADMIN_PERMISSIONS.some((p) => permissions.includes(p));
 
   if (!hasAnyAdminPermission) {
     return <Navigate to="/dashboard" replace />;

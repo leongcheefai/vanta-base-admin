@@ -34,11 +34,14 @@ export class RolesService implements OnModuleInit {
 			if (!this.permissionsCache.has(slug)) {
 				this.permissionsCache.set(slug, new Set());
 			}
-			this.permissionsCache.get(slug)!.add(permission);
+			this.permissionsCache.get(slug)?.add(permission);
 		}
 	}
 
-	hasPermission(roleSlug: string | null | undefined, permission: string): boolean {
+	hasPermission(
+		roleSlug: string | null | undefined,
+		permission: string,
+	): boolean {
 		if (!roleSlug) return false;
 		return this.permissionsCache.get(roleSlug)?.has(permission) ?? false;
 	}
@@ -83,7 +86,8 @@ export class RolesService implements OnModuleInit {
 		const existing = await db.query.roles.findFirst({
 			where: eq(schema.roles.slug, slug),
 		});
-		if (existing) throw new BadRequestException("A role with this name already exists");
+		if (existing)
+			throw new BadRequestException("A role with this name already exists");
 
 		const id = `role_${slug}_${Date.now()}`;
 		const permissions = dto.permissions ?? [];
@@ -101,9 +105,11 @@ export class RolesService implements OnModuleInit {
 			.returning();
 
 		if (permissions.length > 0) {
-			await db.insert(schema.rolePermissions).values(
-				permissions.map((permission) => ({ roleId: role.id, permission })),
-			);
+			await db
+				.insert(schema.rolePermissions)
+				.values(
+					permissions.map((permission) => ({ roleId: role.id, permission })),
+				);
 		}
 
 		await this.reloadCache();
@@ -137,7 +143,9 @@ export class RolesService implements OnModuleInit {
 			if (dto.permissions.length > 0) {
 				await db
 					.insert(schema.rolePermissions)
-					.values(dto.permissions.map((permission) => ({ roleId: id, permission })));
+					.values(
+						dto.permissions.map((permission) => ({ roleId: id, permission })),
+					);
 			}
 
 			await this.reloadCache();
@@ -151,7 +159,8 @@ export class RolesService implements OnModuleInit {
 			where: eq(schema.roles.id, id),
 		});
 		if (!role) throw new NotFoundException("Role not found");
-		if (role.isSystem) throw new BadRequestException("Cannot delete a system role");
+		if (role.isSystem)
+			throw new BadRequestException("Cannot delete a system role");
 
 		await db.delete(schema.roles).where(eq(schema.roles.id, id));
 		await this.reloadCache();

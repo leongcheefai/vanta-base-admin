@@ -5,7 +5,10 @@ import type { RolesService } from "../../modules/roles/roles.service";
 import { PERMISSIONS_KEY } from "../decorators/permissions.decorator";
 import { PermissionsGuard } from "./permissions.guard";
 
-function makeContext(user: { role: string } | null, permissions: string[] | undefined) {
+function makeContext(
+	user: { role: string } | null,
+	permissions: string[] | undefined,
+) {
 	const reflector = new Reflector();
 	vi.spyOn(reflector, "getAllAndOverride").mockReturnValue(permissions);
 
@@ -48,39 +51,40 @@ describe("PermissionsGuard", () => {
 	});
 
 	it("passes for admin role regardless of required permissions", () => {
-		const { reflector, context } = makeContext(
-			{ role: "admin" },
-			["users:read", "roles:write"],
-		);
+		const { reflector, context } = makeContext({ role: "admin" }, [
+			"users:read",
+			"roles:write",
+		]);
 		const guard = new PermissionsGuard(reflector, makeRolesService({}));
 		expect(guard.canActivate(context)).toBe(true);
 	});
 
 	it("passes when user has all required permissions (AND semantics)", () => {
-		const { reflector, context } = makeContext(
-			{ role: "moderator" },
-			["users:read", "users:ban"],
-		);
-		const rolesService = makeRolesService({ moderator: ["users:read", "users:ban"] });
+		const { reflector, context } = makeContext({ role: "moderator" }, [
+			"users:read",
+			"users:ban",
+		]);
+		const rolesService = makeRolesService({
+			moderator: ["users:read", "users:ban"],
+		});
 		const guard = new PermissionsGuard(reflector, rolesService);
 		expect(guard.canActivate(context)).toBe(true);
 	});
 
 	it("throws ForbiddenException when user is missing one permission", () => {
-		const { reflector, context } = makeContext(
-			{ role: "moderator" },
-			["users:read", "roles:write"],
-		);
+		const { reflector, context } = makeContext({ role: "moderator" }, [
+			"users:read",
+			"roles:write",
+		]);
 		const rolesService = makeRolesService({ moderator: ["users:read"] });
 		const guard = new PermissionsGuard(reflector, rolesService);
 		expect(() => guard.canActivate(context)).toThrow(ForbiddenException);
 	});
 
 	it("throws ForbiddenException when user has no permissions", () => {
-		const { reflector, context } = makeContext(
-			{ role: "user" },
-			["users:read"],
-		);
+		const { reflector, context } = makeContext({ role: "user" }, [
+			"users:read",
+		]);
 		const rolesService = makeRolesService({});
 		const guard = new PermissionsGuard(reflector, rolesService);
 		expect(() => guard.canActivate(context)).toThrow(ForbiddenException);

@@ -7,7 +7,14 @@ vi.mock("@vanta-base-admin/auth", () => ({
 	},
 }));
 
-const { mockDbDelete, mockDbUpdate, mockDbSelect, mockDbQueryUserFindFirst, mockDbQuerySubscriptionFindFirst, mockDbQueryRolesFindFirst } = vi.hoisted(() => ({
+const {
+	mockDbDelete,
+	mockDbUpdate,
+	mockDbSelect,
+	mockDbQueryUserFindFirst,
+	mockDbQuerySubscriptionFindFirst,
+	mockDbQueryRolesFindFirst,
+} = vi.hoisted(() => ({
 	mockDbDelete: vi.fn(),
 	mockDbUpdate: vi.fn(),
 	mockDbSelect: vi.fn(),
@@ -18,12 +25,20 @@ const { mockDbDelete, mockDbUpdate, mockDbSelect, mockDbQueryUserFindFirst, mock
 
 vi.mock("@vanta-base-admin/db", () => {
 	function chain(terminal: ReturnType<typeof vi.fn>) {
-		const chainableKeys = new Set(["where", "from", "set", "orderBy", "limit", "offset"]);
+		const chainableKeys = new Set([
+			"where",
+			"from",
+			"set",
+			"orderBy",
+			"limit",
+			"offset",
+		]);
 		const obj: Record<string, unknown> = {};
 		const self = new Proxy(obj, {
 			get(_t, key) {
 				if (key === "returning" || key === "execute") return terminal;
-				if (typeof key === "string" && chainableKeys.has(key)) return () => self;
+				if (typeof key === "string" && chainableKeys.has(key))
+					return () => self;
 				return undefined;
 			},
 		});
@@ -98,12 +113,19 @@ describe("UsersService", () => {
 	describe("create", () => {
 		it("resolves role slug from roleId and delegates to Better Auth admin API", async () => {
 			const expectedResult = { user: mockUserRow };
-			vi.mocked(auth.api.adminCreateUser).mockResolvedValue(expectedResult as any);
+			vi.mocked(auth.api.adminCreateUser).mockResolvedValue(
+				expectedResult as any,
+			);
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleRow);
 
 			const headers = new Headers({ cookie: "session=abc" });
 			const result = await service.create(
-				{ name: "Alice", email: "alice@example.com", password: "password1", roleId: "role_user" },
+				{
+					name: "Alice",
+					email: "alice@example.com",
+					password: "password1",
+					roleId: "role_user",
+				},
 				headers,
 			);
 
@@ -121,7 +143,9 @@ describe("UsersService", () => {
 
 		it("defaults to user role when roleId is not provided", async () => {
 			const expectedResult = { user: mockUserRow };
-			vi.mocked(auth.api.adminCreateUser).mockResolvedValue(expectedResult as any);
+			vi.mocked(auth.api.adminCreateUser).mockResolvedValue(
+				expectedResult as any,
+			);
 
 			const headers = new Headers({ cookie: "session=abc" });
 			await service.create(
@@ -130,7 +154,9 @@ describe("UsersService", () => {
 			);
 
 			expect(auth.api.adminCreateUser).toHaveBeenCalledWith(
-				expect.objectContaining({ body: expect.objectContaining({ role: "user" }) }),
+				expect.objectContaining({
+					body: expect.objectContaining({ role: "user" }),
+				}),
 			);
 		});
 	});
@@ -141,7 +167,15 @@ describe("UsersService", () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(adminRole);
 			const { db } = await import("@vanta-base-admin/db");
 			vi.spyOn(db, "update").mockReturnValueOnce({
-				set: () => ({ where: () => ({ returning: vi.fn().mockResolvedValue([{ ...mockUserRow, role: "admin", roleId: "role_admin" }]) }) }),
+				set: () => ({
+					where: () => ({
+						returning: vi
+							.fn()
+							.mockResolvedValue([
+								{ ...mockUserRow, role: "admin", roleId: "role_admin" },
+							]),
+					}),
+				}),
 			} as any);
 
 			const result = await service.assignRole("u1", "role_admin");
@@ -151,7 +185,9 @@ describe("UsersService", () => {
 
 		it("throws NotFoundException when role not found", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(null);
-			await expect(service.assignRole("u1", "role_missing")).rejects.toThrow(NotFoundException);
+			await expect(service.assignRole("u1", "role_missing")).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 	});
 
@@ -160,7 +196,9 @@ describe("UsersService", () => {
 			const banned = { ...mockUserRow, banned: true, banReason: "spam" };
 			const { db } = await import("@vanta-base-admin/db");
 			vi.spyOn(db, "update").mockReturnValueOnce({
-				set: () => ({ where: () => ({ returning: vi.fn().mockResolvedValue([banned]) }) }),
+				set: () => ({
+					where: () => ({ returning: vi.fn().mockResolvedValue([banned]) }),
+				}),
 			} as any);
 
 			const result = await service.ban("u1", { banReason: "spam" });
@@ -171,16 +209,22 @@ describe("UsersService", () => {
 		it("throws NotFoundException when user not found", async () => {
 			const { db } = await import("@vanta-base-admin/db");
 			vi.spyOn(db, "update").mockReturnValueOnce({
-				set: () => ({ where: () => ({ returning: vi.fn().mockResolvedValue([]) }) }),
+				set: () => ({
+					where: () => ({ returning: vi.fn().mockResolvedValue([]) }),
+				}),
 			} as any);
 
-			await expect(service.ban("missing", { banReason: "x" })).rejects.toThrow(NotFoundException);
+			await expect(service.ban("missing", { banReason: "x" })).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 	});
 
 	describe("softDelete", () => {
 		it("throws ForbiddenException when deleting own account", async () => {
-			await expect(service.softDelete("u1", "u1")).rejects.toThrow(ForbiddenException);
+			await expect(service.softDelete("u1", "u1")).rejects.toThrow(
+				ForbiddenException,
+			);
 		});
 
 		it("revokes sessions then sets deletedAt", async () => {
@@ -192,7 +236,9 @@ describe("UsersService", () => {
 			vi.spyOn(db, "update").mockReturnValueOnce({
 				set: () => ({
 					where: () => ({
-						returning: vi.fn().mockResolvedValue([{ ...mockUserRow, deletedAt }]),
+						returning: vi
+							.fn()
+							.mockResolvedValue([{ ...mockUserRow, deletedAt }]),
 					}),
 				}),
 			} as any);

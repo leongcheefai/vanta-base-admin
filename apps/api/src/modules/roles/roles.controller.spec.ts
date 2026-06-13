@@ -68,7 +68,9 @@ describe("RolesController", () => {
 	});
 
 	it("update delegates to service", async () => {
-		await controller.update("role_mod", { permissions: ["users:read", "users:ban"] });
+		await controller.update("role_mod", {
+			permissions: ["users:read", "users:ban"],
+		});
 		expect(service.update).toHaveBeenCalledWith("role_mod", {
 			permissions: ["users:read", "users:ban"],
 		});
@@ -80,14 +82,20 @@ describe("RolesController", () => {
 	});
 
 	it("remove propagates NotFoundException for missing role", async () => {
-		vi.mocked(service.remove).mockRejectedValueOnce(new NotFoundException("Role not found"));
-		await expect(controller.remove("missing")).rejects.toThrow(NotFoundException);
+		vi.mocked(service.remove).mockRejectedValueOnce(
+			new NotFoundException("Role not found"),
+		);
+		await expect(controller.remove("missing")).rejects.toThrow(
+			NotFoundException,
+		);
 	});
 
 	it("remove propagates BadRequestException for system role", async () => {
 		vi.mocked(service.remove).mockRejectedValueOnce(
 			new BadRequestException("Cannot delete a system role"),
 		);
-		await expect(controller.remove("role_admin")).rejects.toThrow(BadRequestException);
+		await expect(controller.remove("role_admin")).rejects.toThrow(
+			BadRequestException,
+		);
 	});
 });

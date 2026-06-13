@@ -1,7 +1,7 @@
+import { resolve } from "node:path";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { resolve } from "node:path";
 import postgres from "postgres";
 
 config({ path: resolve(import.meta.dirname, "../../../.env") });

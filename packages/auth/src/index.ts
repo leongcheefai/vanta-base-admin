@@ -1,5 +1,4 @@
 import { db, schema } from "@vanta-base-admin/db";
-import { eq } from "drizzle-orm";
 import {
   sendChangeEmailConfirmationEmail,
   sendDeleteAccountEmail,
@@ -11,6 +10,7 @@ import { serverEnv } from "@vanta-base-admin/env";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
+import { eq } from "drizzle-orm";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

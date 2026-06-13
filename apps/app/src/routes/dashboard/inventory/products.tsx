@@ -102,7 +102,10 @@ function CreateProductDialog({ onClose }: { onClose: () => void }) {
       </div>
       <div className="space-y-1">
         <Label htmlFor="prod-category">Category</Label>
-        <Select value={categoryId || "__none__"} onValueChange={(v) => setCategoryId(v === "__none__" ? "" : v)}>
+        <Select
+          value={categoryId || "__none__"}
+          onValueChange={(v) => setCategoryId(v === "__none__" ? "" : v)}
+        >
           <SelectTrigger id="prod-category">
             <SelectValue placeholder="No category" />
           </SelectTrigger>

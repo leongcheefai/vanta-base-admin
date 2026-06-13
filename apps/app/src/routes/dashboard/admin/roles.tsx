@@ -132,8 +132,8 @@ function RolePermissionsPanel({ role }: { role: Role }) {
 
       {isAdmin ? (
         <p className="text-sm text-muted-foreground">
-          The admin role has unrestricted access to all features and cannot have
-          its permissions modified.
+          The admin role has unrestricted access to all features and cannot have its permissions
+          modified.
         </p>
       ) : (
         <div className="space-y-2">
@@ -145,10 +145,7 @@ function RolePermissionsPanel({ role }: { role: Role }) {
                 onCheckedChange={() => togglePermission(key)}
                 disabled={update.isPending}
               />
-              <Label
-                htmlFor={`${role.id}-${key}`}
-                className="cursor-pointer text-sm font-normal"
-              >
+              <Label htmlFor={`${role.id}-${key}`} className="cursor-pointer text-sm font-normal">
                 {label}
               </Label>
             </div>
@@ -259,9 +256,7 @@ export function AdminRolesPage() {
         </Dialog>
       </div>
 
-      {isLoading && (
-        <p className="text-sm text-muted-foreground">Loading roles…</p>
-      )}
+      {isLoading && <p className="text-sm text-muted-foreground">Loading roles…</p>}
 
       {!isLoading && roles && (
         <div className="flex gap-6">
@@ -309,20 +304,15 @@ export function AdminRolesPage() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Delete &quot;{role.name}&quot;?
-                                </AlertDialogTitle>
+                                <AlertDialogTitle>Delete &quot;{role.name}&quot;?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This will permanently delete the role. Users
-                                  assigned this role will keep their current
-                                  access until their role is changed.
+                                  This will permanently delete the role. Users assigned this role
+                                  will keep their current access until their role is changed.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDelete(role)}
-                                >
+                                <AlertDialogAction onClick={() => handleDelete(role)}>
                                   Delete
                                 </AlertDialogAction>
                               </AlertDialogFooter>

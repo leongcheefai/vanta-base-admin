@@ -11,6 +11,10 @@ import {
 } from "@nestjs/common";
 import type { Request } from "express";
 import { PERMISSIONS } from "../../common/constants/permissions";
+import {
+	CurrentUser,
+	type SessionUser,
+} from "../../common/decorators/current-user.decorator";
 import { Permissions } from "../../common/decorators/permissions.decorator";
 import { AssignRoleDto } from "./dto/assign-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
@@ -18,10 +22,6 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { EditUserDto } from "./dto/edit-user.dto";
 import { ListUsersDto } from "./dto/list-users.dto";
 import { UsersService } from "./users.service";
-import {
-	CurrentUser,
-	type SessionUser,
-} from "../../common/decorators/current-user.decorator";
 
 @Controller("users")
 export class UsersController {

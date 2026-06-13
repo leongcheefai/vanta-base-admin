@@ -4,7 +4,6 @@ import {
 	Injectable,
 	UnauthorizedException,
 } from "@nestjs/common";
-// biome-ignore lint/style/useImportType: NestJS DI requires value import for constructor injection
 import { Reflector } from "@nestjs/core";
 import { auth } from "@vanta-base-admin/auth";
 import type { Request } from "express";

@@ -1,10 +1,10 @@
 import { Controller, Get } from "@nestjs/common";
 import { db } from "@vanta-base-admin/db";
+import { ALL_PERMISSIONS } from "../../common/constants/permissions";
 import {
 	CurrentUser,
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
-import { ALL_PERMISSIONS } from "../../common/constants/permissions";
 import { RolesService } from "../roles/roles.service";
 
 @Controller("me")
