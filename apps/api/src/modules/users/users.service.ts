@@ -74,7 +74,10 @@ export class UsersService {
 
 		if (!user) throw new NotFoundException("User not found");
 
-		const sessions = await db.select().from(schema.session).where(eq(schema.session.userId, id));
+		const sessions = await db
+			.select()
+			.from(schema.session)
+			.where(eq(schema.session.userId, id));
 
 		return {
 			user,
