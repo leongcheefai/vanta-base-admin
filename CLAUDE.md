@@ -1,7 +1,7 @@
 # Vanta Base Admin
 
 ## Purpose
-Vanta Base Admin — production-ready SaaS boilerplate. Vite + NestJS on Node (Express platform) + Better Auth. pnpm + Turborepo monorepo: three apps (`web`, `app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
+Vanta Base Admin — production-ready internal tooling boilerplate. Vite + NestJS on Node (Express platform) + Better Auth. pnpm + Turborepo monorepo: two apps (`app`, `api`), six shared packages (`ui`, `db`, `auth`, `emails`, `env`, `config`).
 
 ## Conventions
 - Package scope: `@vanta-base-admin/*`

@@ -1,6 +1,6 @@
 # Vanta Base Admin
 
-Ship paid SaaS faster, without lock-in.
+Bootstrap internal company tooling fast, without lock-in.
 
 ## Stack
 
@@ -8,7 +8,6 @@ Ship paid SaaS faster, without lock-in.
 | Layer     | Tech                                         |
 | --------- | -------------------------------------------- |
 | Monorepo  | pnpm + Turborepo                             |
-| Marketing | Astro + React islands                        |
 | Dashboard | Vite + React + React Router + TanStack Query |
 | API       | NestJS on Node (Express platform)            |
 | Database  | Postgres + Drizzle ORM                       |
@@ -52,7 +51,6 @@ Open:
 
 - Dashboard: [http://localhost:3000](http://localhost:3000)
 - API: [http://localhost:3001](http://localhost:3001)
-- Marketing: [http://localhost:4321](http://localhost:4321)
 
 ## Commands
 
