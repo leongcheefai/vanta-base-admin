@@ -16,6 +16,7 @@
     "db:down": "docker compose down",
     "db:generate": "pnpm --filter @vanta-base-admin/db db:generate",
     "db:migrate": "pnpm --filter @vanta-base-admin/db db:migrate",
+    "db:seed": "pnpm --filter @vanta-base-admin/db db:seed",
     "db:push": "pnpm --filter @vanta-base-admin/db db:push",
     "db:studio": "pnpm --filter @vanta-base-admin/db db:studio",
     "test": "pnpm --filter @vanta-base-admin/api test"
