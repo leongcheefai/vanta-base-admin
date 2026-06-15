@@ -12,18 +12,8 @@ const args = process.argv.slice(2);
 const emailFlag = args.indexOf("--email");
 const passwordFlag = args.indexOf("--password");
 
-if (emailFlag === -1 || passwordFlag === -1) {
-  console.error("Usage: node scripts/seed.ts --email <email> --password <password>");
-  process.exit(1);
-}
-
-const email = args[emailFlag + 1];
-const password = args[passwordFlag + 1];
-
-if (!email || !password) {
-  console.error("--email and --password values are required");
-  process.exit(1);
-}
+const email = (emailFlag !== -1 ? args[emailFlag + 1] : null) ?? "admin@example.com";
+const password = (passwordFlag !== -1 ? args[passwordFlag + 1] : null) ?? "password123";
 
 if (password.length < 8) {
   console.error("Password must be at least 8 characters");
