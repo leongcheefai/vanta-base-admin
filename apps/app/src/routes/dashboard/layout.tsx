@@ -1,5 +1,5 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
+import { Contact, LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
@@ -10,6 +10,7 @@ import { signOut, useSession } from "../../lib/auth";
 const PAGE_TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/dashboard/settings": "Settings",
+  "/dashboard/customers": "Customers",
   "/dashboard/inventory/products": "Products",
   "/dashboard/inventory/categories": "Categories",
   "/dashboard/admin/releases": "Releases",
@@ -30,6 +31,19 @@ function navItems(
       icon: <LayoutDashboard size={16} />,
       section: "Overview",
     },
+  ];
+
+  if (isAdmin || hasPermission("customers:read")) {
+    items.push({
+      label: "Customers",
+      href: "/dashboard/customers",
+      active: pathname === "/dashboard/customers",
+      icon: <Contact size={16} />,
+      section: "Overview",
+    });
+  }
+
+  items.push(
     {
       label: "Inventory",
       icon: <Package size={16} />,
