@@ -6,6 +6,7 @@ import { AdminRolesPage } from "./routes/dashboard/admin/roles";
 import { AdminUserDetailPage } from "./routes/dashboard/admin/user-detail";
 import { AdminUsersPage } from "./routes/dashboard/admin/users";
 import { DashboardHome } from "./routes/dashboard/index";
+import { CustomersPage } from "./routes/dashboard/customers/customers";
 import { InventoryCategoriesPage } from "./routes/dashboard/inventory/categories";
 import { InventoryProductDetailPage } from "./routes/dashboard/inventory/product-detail";
 import { InventoryProductsPage } from "./routes/dashboard/inventory/products";
@@ -27,6 +28,7 @@ export function Router() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="customers" element={<CustomersPage />} />
           <Route path="inventory/products" element={<InventoryProductsPage />} />
           <Route path="inventory/products/:id" element={<InventoryProductDetailPage />} />
           <Route path="inventory/categories" element={<InventoryCategoriesPage />} />

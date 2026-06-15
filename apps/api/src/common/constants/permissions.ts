@@ -8,6 +8,10 @@ export const PERMISSIONS = {
 	ROLES_READ: "roles:read",
 	ROLES_WRITE: "roles:write",
 	ROLES_ASSIGN: "roles:assign",
+	CUSTOMERS_READ: "customers:read",
+	CUSTOMERS_CREATE: "customers:create",
+	CUSTOMERS_EDIT: "customers:edit",
+	CUSTOMERS_DELETE: "customers:delete",
 } as const;
 
 export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
