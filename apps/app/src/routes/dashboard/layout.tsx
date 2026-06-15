@@ -63,7 +63,7 @@ function navItems(
         },
       ],
     },
-  ];
+  );
 
   const adminChildren: NavItem[] = [];
 
