@@ -36,9 +36,20 @@ export class AuthController {
 		const webResponse = await auth.handler(webRequest);
 
 		res.status(webResponse.status);
-		webResponse.headers.forEach((value: string, key: string) =>
-			res.set(key, value),
-		);
+		// Copy every header except Set-Cookie with res.set. Set-Cookie needs
+		// special handling: a single response can carry multiple Set-Cookie
+		// headers (e.g. session_token + dont_remember on a non-remembered
+		// sign-in), and res.set overwrites on each call — so iterating with
+		// res.set would keep only the last cookie and silently drop the rest.
+		webResponse.headers.forEach((value: string, key: string) => {
+			if (key.toLowerCase() === "set-cookie") return;
+			res.set(key, value);
+		});
+		// getSetCookie() returns each Set-Cookie as its own array entry;
+		// res.append emits them as separate headers.
+		for (const cookie of webResponse.headers.getSetCookie()) {
+			res.append("set-cookie", cookie);
+		}
 		const responseBody = await webResponse.text();
 		res.send(responseBody);
 	}

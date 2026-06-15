@@ -172,14 +172,12 @@ export function DashboardShell({
               {navItems.map((item, index) => {
                 const prevItem = navItems[index - 1];
                 const showSection =
-                  !isCollapsed &&
-                  item.section !== undefined &&
-                  item.section !== prevItem?.section;
+                  !isCollapsed && item.section !== undefined && item.section !== prevItem?.section;
 
                 if (item.children) {
                   return (
                     <Fragment key={item.label}>
-                      {showSection && <SectionLabel label={item.section!} />}
+                      {showSection && item.section && <SectionLabel label={item.section} />}
                       <NavGroup
                         item={item}
                         isCollapsed={isCollapsed}
@@ -209,7 +207,7 @@ export function DashboardShell({
                 );
                 return (
                   <Fragment key={item.href ?? item.label}>
-                    {showSection && <SectionLabel label={item.section!} />}
+                    {showSection && item.section && <SectionLabel label={item.section} />}
                     <li>
                       {isCollapsed ? (
                         <Tooltip>

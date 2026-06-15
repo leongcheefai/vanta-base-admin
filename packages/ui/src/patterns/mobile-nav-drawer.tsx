@@ -40,8 +40,7 @@ export function MobileNavDrawer({
           <ul className="space-y-0.5">
             {navItems.map((item, index) => {
               const prevItem = navItems[index - 1];
-              const showSection =
-                item.section !== undefined && item.section !== prevItem?.section;
+              const showSection = item.section !== undefined && item.section !== prevItem?.section;
 
               if (item.children) {
                 return (
