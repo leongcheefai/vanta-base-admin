@@ -28,10 +28,12 @@ function navItems(
       href: "/dashboard",
       active: pathname === "/dashboard",
       icon: <LayoutDashboard size={16} />,
+      section: "Overview",
     },
     {
       label: "Inventory",
       icon: <Package size={16} />,
+      section: "Catalog",
       children: [
         {
           label: "Products",
@@ -82,6 +84,7 @@ function navItems(
     items.push({
       label: "Admin",
       icon: <Shield size={16} />,
+      section: "Administration",
       children: adminChildren,
     });
   }
@@ -91,6 +94,7 @@ function navItems(
     href: "/dashboard/settings",
     active: pathname === "/dashboard/settings",
     icon: <Settings size={16} />,
+    section: "System",
   });
 
   return items;

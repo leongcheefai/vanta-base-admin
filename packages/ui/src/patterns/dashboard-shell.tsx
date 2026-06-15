@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import type * as React from "react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { cn } from "../lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../primitives/tooltip";
 
@@ -10,6 +10,17 @@ export interface NavItem {
   icon?: React.ReactNode;
   active?: boolean;
   children?: NavItem[];
+  section?: string;
+}
+
+function SectionLabel({ label }: { label: string }) {
+  return (
+    <li className="pt-4 first:pt-0">
+      <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+        {label}
+      </p>
+    </li>
+  );
 }
 
 function NavGroup({
@@ -158,15 +169,23 @@ export function DashboardShell({
 
           <nav className="flex-1 overflow-y-auto px-3 py-4">
             <ul className="space-y-0.5">
-              {navItems.map((item) => {
+              {navItems.map((item, index) => {
+                const prevItem = navItems[index - 1];
+                const showSection =
+                  !isCollapsed &&
+                  item.section !== undefined &&
+                  item.section !== prevItem?.section;
+
                 if (item.children) {
                   return (
-                    <NavGroup
-                      key={item.label}
-                      item={item}
-                      isCollapsed={isCollapsed}
-                      renderNavLink={renderNavLink}
-                    />
+                    <Fragment key={item.label}>
+                      {showSection && <SectionLabel label={item.section!} />}
+                      <NavGroup
+                        item={item}
+                        isCollapsed={isCollapsed}
+                        renderNavLink={renderNavLink}
+                      />
+                    </Fragment>
                   );
                 }
                 const className = cn(
@@ -189,16 +208,19 @@ export function DashboardShell({
                   </a>
                 );
                 return (
-                  <li key={item.href ?? item.label}>
-                    {isCollapsed ? (
-                      <Tooltip>
-                        <TooltipTrigger asChild>{linkNode}</TooltipTrigger>
-                        <TooltipContent side="right">{item.label}</TooltipContent>
-                      </Tooltip>
-                    ) : (
-                      linkNode
-                    )}
-                  </li>
+                  <Fragment key={item.href ?? item.label}>
+                    {showSection && <SectionLabel label={item.section!} />}
+                    <li>
+                      {isCollapsed ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>{linkNode}</TooltipTrigger>
+                          <TooltipContent side="right">{item.label}</TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        linkNode
+                      )}
+                    </li>
+                  </Fragment>
                 );
               })}
             </ul>

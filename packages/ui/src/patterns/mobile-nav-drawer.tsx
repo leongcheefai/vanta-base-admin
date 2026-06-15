@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type * as React from "react";
 import { cn } from "../lib/utils";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "../primitives/sheet";
@@ -37,45 +38,58 @@ export function MobileNavDrawer({
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-0.5">
-            {navItems.map((item) => {
+            {navItems.map((item, index) => {
+              const prevItem = navItems[index - 1];
+              const showSection =
+                item.section !== undefined && item.section !== prevItem?.section;
+
               if (item.children) {
                 return (
-                  <li key={item.label}>
-                    <div className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground">
-                      {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
-                      <span className="font-medium">{item.label}</span>
-                    </div>
-                    <ul className="mt-0.5 space-y-0.5 pl-4">
-                      {item.children.map((child) => {
-                        const childClassName = cn(
-                          "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
-                          child.active
-                            ? "bg-primary text-primary-foreground"
-                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                        );
-                        return (
-                          <li key={child.href ?? child.label}>
-                            <SheetClose asChild>
-                              {renderNavLink ? (
-                                renderNavLink({
-                                  ...child,
-                                  className: childClassName,
-                                  isCollapsed: false,
-                                })
-                              ) : (
-                                <a href={child.href ?? "#"} className={childClassName}>
-                                  {child.icon && (
-                                    <span className="size-4 shrink-0">{child.icon}</span>
-                                  )}
-                                  {child.label}
-                                </a>
-                              )}
-                            </SheetClose>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </li>
+                  <Fragment key={item.label}>
+                    {showSection && (
+                      <li className="pt-4 first:pt-0">
+                        <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+                          {item.section}
+                        </p>
+                      </li>
+                    )}
+                    <li>
+                      <div className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground">
+                        {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
+                        <span className="font-medium">{item.label}</span>
+                      </div>
+                      <ul className="mt-0.5 space-y-0.5 pl-4">
+                        {item.children.map((child) => {
+                          const childClassName = cn(
+                            "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                            child.active
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                          );
+                          return (
+                            <li key={child.href ?? child.label}>
+                              <SheetClose asChild>
+                                {renderNavLink ? (
+                                  renderNavLink({
+                                    ...child,
+                                    className: childClassName,
+                                    isCollapsed: false,
+                                  })
+                                ) : (
+                                  <a href={child.href ?? "#"} className={childClassName}>
+                                    {child.icon && (
+                                      <span className="size-4 shrink-0">{child.icon}</span>
+                                    )}
+                                    {child.label}
+                                  </a>
+                                )}
+                              </SheetClose>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </li>
+                  </Fragment>
                 );
               }
               const className = cn(
@@ -85,18 +99,27 @@ export function MobileNavDrawer({
                   : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               );
               return (
-                <li key={item.href ?? item.label}>
-                  <SheetClose asChild>
-                    {renderNavLink ? (
-                      renderNavLink({ ...item, className, isCollapsed: false })
-                    ) : (
-                      <a href={item.href ?? "#"} className={className}>
-                        {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
-                        {item.label}
-                      </a>
-                    )}
-                  </SheetClose>
-                </li>
+                <Fragment key={item.href ?? item.label}>
+                  {showSection && (
+                    <li className="pt-4 first:pt-0">
+                      <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+                        {item.section}
+                      </p>
+                    </li>
+                  )}
+                  <li>
+                    <SheetClose asChild>
+                      {renderNavLink ? (
+                        renderNavLink({ ...item, className, isCollapsed: false })
+                      ) : (
+                        <a href={item.href ?? "#"} className={className}>
+                          {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
+                          {item.label}
+                        </a>
+                      )}
+                    </SheetClose>
+                  </li>
+                </Fragment>
               );
             })}
           </ul>
