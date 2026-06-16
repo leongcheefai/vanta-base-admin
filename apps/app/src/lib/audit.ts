@@ -32,9 +32,7 @@ export interface ListAuditParams {
   offset?: number;
 }
 
-async function fetchAuditLog(
-  params: ListAuditParams,
-): Promise<AuditListResponse> {
+async function fetchAuditLog(params: ListAuditParams): Promise<AuditListResponse> {
   const query = new URLSearchParams();
   if (params.actor) query.set("actor", params.actor);
   if (params.action) query.set("action", params.action);

@@ -4,7 +4,11 @@ interface DisplayNameInput {
 	company?: string | null;
 }
 
-export function buildDisplayName({ firstName, lastName, company }: DisplayNameInput): string {
+export function buildDisplayName({
+	firstName,
+	lastName,
+	company,
+}: DisplayNameInput): string {
 	const first = firstName?.trim() ?? "";
 	const last = lastName?.trim() ?? "";
 	const personName = [first, last].filter(Boolean).join(" ");

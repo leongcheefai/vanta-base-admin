@@ -76,8 +76,8 @@ vi.mock("@vanta-base-admin/db", () => {
 
 	// transaction mock calls the callback with the same mock db so that
 	// vi.spyOn(db, "update") spies remain active inside transactions
-	mockDbTransaction.mockImplementation(async (cb: (tx: typeof mockDb) => Promise<unknown>) =>
-		cb(mockDb),
+	mockDbTransaction.mockImplementation(
+		async (cb: (tx: typeof mockDb) => Promise<unknown>) => cb(mockDb),
 	);
 
 	return {

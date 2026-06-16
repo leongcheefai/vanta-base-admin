@@ -6,10 +6,7 @@ import {
 } from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { eq } from "drizzle-orm";
-import {
-	type AuditContext,
-	AuditService,
-} from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { CreateRoleDto } from "./dto/create-role.dto";
 import type { UpdateRoleDto } from "./dto/update-role.dto";
 
@@ -177,14 +174,12 @@ export class RolesService implements OnModuleInit {
 					.where(eq(schema.rolePermissions.roleId, id));
 
 				if (dto.permissions.length > 0) {
-					await tx
-						.insert(schema.rolePermissions)
-						.values(
-							dto.permissions.map((permission) => ({
-								roleId: id,
-								permission,
-							})),
-						);
+					await tx.insert(schema.rolePermissions).values(
+						dto.permissions.map((permission) => ({
+							roleId: id,
+							permission,
+						})),
+					);
 				}
 			}
 

@@ -109,7 +109,12 @@ describe("CustomersService", () => {
 				.mockReturnValueOnce(makeChain([mockCustomer]))
 				.mockReturnValueOnce(makeChain([{ total: 1 }]));
 			const result = await service.list({ page: 1, limit: 20 });
-			expect(result).toEqual({ data: [mockCustomer], total: 1, page: 1, limit: 20 });
+			expect(result).toEqual({
+				data: [mockCustomer],
+				total: 1,
+				page: 1,
+				limit: 20,
+			});
 		});
 
 		it("returns zero total when no customers match", async () => {
@@ -143,7 +148,10 @@ describe("CustomersService", () => {
 	describe("create", () => {
 		it("inserts and returns new customer with computed name", async () => {
 			mockDb.insert.mockReturnValue(makeChain([mockCustomer]));
-			const result = await service.create("u1", { firstName: "Jane", lastName: "Smith" } as never);
+			const result = await service.create("u1", {
+				firstName: "Jane",
+				lastName: "Smith",
+			} as never);
 			expect(result).toEqual(mockCustomer);
 		});
 
@@ -169,7 +177,9 @@ describe("CustomersService", () => {
 				company: "Acme Corp",
 			};
 			mockDb.insert.mockReturnValue(makeChain([companyCustomer]));
-			const result = await service.create("u1", { company: "Acme Corp" } as never);
+			const result = await service.create("u1", {
+				company: "Acme Corp",
+			} as never);
 			expect(result.name).toBe("Acme Corp");
 		});
 
@@ -180,7 +190,10 @@ describe("CustomersService", () => {
 			);
 			mockDb.insert.mockReturnValue(chain);
 			await expect(
-				service.create("u1", { email: "jane@example.com", firstName: "Jane" } as never),
+				service.create("u1", {
+					email: "jane@example.com",
+					firstName: "Jane",
+				} as never),
 			).rejects.toThrow(ConflictException);
 		});
 	});
@@ -196,7 +209,9 @@ describe("CustomersService", () => {
 
 		it("throws NotFoundException when customer not found", async () => {
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(undefined);
-			await expect(service.findById("missing")).rejects.toThrow(NotFoundException);
+			await expect(service.findById("missing")).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 
 		it("excludes soft-deleted customers", async () => {
@@ -209,7 +224,11 @@ describe("CustomersService", () => {
 
 	describe("update", () => {
 		it("updates and returns modified customer", async () => {
-			const updated = { ...mockCustomer, firstName: "Janet", name: "Janet Smith" };
+			const updated = {
+				...mockCustomer,
+				firstName: "Janet",
+				name: "Janet Smith",
+			};
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([updated]));
 			const result = await service.update("c1", { firstName: "Janet" });
@@ -217,7 +236,11 @@ describe("CustomersService", () => {
 		});
 
 		it("recomputes name when firstName changes", async () => {
-			const updated = { ...mockCustomer, firstName: "Janet", name: "Janet Smith" };
+			const updated = {
+				...mockCustomer,
+				firstName: "Janet",
+				name: "Janet Smith",
+			};
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([updated]));
 			const result = await service.update("c1", { firstName: "Janet" });
@@ -226,9 +249,9 @@ describe("CustomersService", () => {
 
 		it("throws NotFoundException when customer not found before update", async () => {
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(undefined);
-			await expect(service.update("missing", { firstName: "x" })).rejects.toThrow(
-				NotFoundException,
-			);
+			await expect(
+				service.update("missing", { firstName: "x" }),
+			).rejects.toThrow(NotFoundException);
 		});
 
 		it("throws ConflictException on duplicate email during update", async () => {
@@ -257,7 +280,9 @@ describe("CustomersService", () => {
 
 		it("throws NotFoundException when customer does not exist", async () => {
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(undefined);
-			await expect(service.softDelete("missing")).rejects.toThrow(NotFoundException);
+			await expect(service.softDelete("missing")).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 
 		it("excludes soft-deleted customer from list after deletion", async () => {

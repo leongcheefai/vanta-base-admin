@@ -203,7 +203,11 @@ describe("RolesService", () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleAdmin);
 			mockDbSelect.mockReturnValueOnce([]);
 			await expect(
-				service.update("role_admin", { permissions: ["users:read"] }, "actor-id"),
+				service.update(
+					"role_admin",
+					{ permissions: ["users:read"] },
+					"actor-id",
+				),
 			).rejects.toThrow(BadRequestException);
 		});
 	});

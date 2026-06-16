@@ -1,9 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-const {
-	mockDbInsert,
-	mockDbSelect,
-} = vi.hoisted(() => ({
+const { mockDbInsert, mockDbSelect } = vi.hoisted(() => ({
 	mockDbInsert: vi.fn(),
 	mockDbSelect: vi.fn(),
 }));
@@ -217,11 +214,11 @@ describe("AuditService", () => {
 		it("applies actor filter when provided", async () => {
 			const { db } = await import("@vanta-base-admin/db");
 
-			const whereSpy = vi
-				.fn()
-				.mockReturnValue({
-					orderBy: () => ({ limit: () => ({ offset: () => Promise.resolve([]) }) }),
-				});
+			const whereSpy = vi.fn().mockReturnValue({
+				orderBy: () => ({
+					limit: () => ({ offset: () => Promise.resolve([]) }),
+				}),
+			});
 
 			vi.spyOn(db, "select")
 				.mockReturnValueOnce({
@@ -245,22 +242,20 @@ describe("AuditService", () => {
 				values: insertValues,
 			} as ReturnType<typeof db.insert>);
 
-			await service.record(
-				{
-					action: "role.update",
-					actorId: "actor-1",
-					targetType: "role",
-					targetId: "role-1",
-					metadata: {
-						before: { permissions: ["roles:read", "users:read"] },
-						after: {
-							permissions: ["roles:read", "roles:write"],
-							added: ["roles:write"],
-							removed: ["users:read"],
-						},
+			await service.record({
+				action: "role.update",
+				actorId: "actor-1",
+				targetType: "role",
+				targetId: "role-1",
+				metadata: {
+					before: { permissions: ["roles:read", "users:read"] },
+					after: {
+						permissions: ["roles:read", "roles:write"],
+						added: ["roles:write"],
+						removed: ["users:read"],
 					},
 				},
-			);
+			});
 
 			const [row] = insertValues.mock.calls[0] as [Record<string, unknown>];
 			const meta = row.metadata as {

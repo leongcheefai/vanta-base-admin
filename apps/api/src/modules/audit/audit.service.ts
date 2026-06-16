@@ -51,11 +51,14 @@ export class AuditService {
 		const offset = params.offset ?? 0;
 
 		const conditions = [];
-		if (params.actor) conditions.push(eq(schema.auditLog.actorId, params.actor));
-		if (params.action) conditions.push(eq(schema.auditLog.action, params.action));
+		if (params.actor)
+			conditions.push(eq(schema.auditLog.actorId, params.actor));
+		if (params.action)
+			conditions.push(eq(schema.auditLog.action, params.action));
 		if (params.targetType)
 			conditions.push(eq(schema.auditLog.targetType, params.targetType));
-		if (params.from) conditions.push(gte(schema.auditLog.createdAt, params.from));
+		if (params.from)
+			conditions.push(gte(schema.auditLog.createdAt, params.from));
 		if (params.to) conditions.push(lte(schema.auditLog.createdAt, params.to));
 
 		const where = conditions.length > 0 ? and(...conditions) : undefined;

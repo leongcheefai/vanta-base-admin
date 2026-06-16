@@ -6,10 +6,7 @@ import {
 import { auth } from "@vanta-base-admin/auth";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, asc, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
-import {
-	type AuditContext,
-	AuditService,
-} from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { BanUserDto } from "./dto/ban-user.dto";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EditUserDto } from "./dto/edit-user.dto";
@@ -224,12 +221,7 @@ export class UsersService {
 		});
 	}
 
-	async ban(
-		id: string,
-		dto: BanUserDto,
-		actorId: string,
-		ctx?: AuditContext,
-	) {
+	async ban(id: string, dto: BanUserDto, actorId: string, ctx?: AuditContext) {
 		return db.transaction(async (tx) => {
 			await tx.delete(schema.session).where(eq(schema.session.userId, id));
 

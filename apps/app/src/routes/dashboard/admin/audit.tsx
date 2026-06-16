@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  DatePicker,
   Input,
   Select,
   SelectContent,
@@ -63,16 +64,11 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
   const [expanded, setExpanded] = useState(false);
   const actionLabel = ACTION_LABELS[entry.action] ?? entry.action;
   const targetLabel =
-    entry.targetType === "user"
-      ? `user ${entry.targetId}`
-      : `role ${entry.targetId}`;
+    entry.targetType === "user" ? `user ${entry.targetId}` : `role ${entry.targetId}`;
 
   return (
     <>
-      <TableRow
-        className="cursor-pointer hover:bg-muted/50"
-        onClick={() => setExpanded((v) => !v)}
-      >
+      <TableRow className="cursor-pointer hover:bg-muted/50" onClick={() => setExpanded((v) => !v)}>
         <TableCell className="font-mono text-xs text-muted-foreground">
           {formatRelativeTime(entry.createdAt)}
         </TableCell>
@@ -107,17 +103,11 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
                     Context
                   </p>
                   <p>IP: {entry.ipAddress ?? "—"}</p>
-                  <p className="truncate max-w-xs">
-                    UA: {entry.userAgent ?? "—"}
-                  </p>
-                  <p>
-                    At:{" "}
-                    {new Date(entry.createdAt).toLocaleString()}
-                  </p>
+                  <p className="truncate max-w-xs">UA: {entry.userAgent ?? "—"}</p>
+                  <p>At: {new Date(entry.createdAt).toLocaleString()}</p>
                 </div>
               </div>
-              {(entry.metadata.before !== undefined ||
-                entry.metadata.after !== undefined) && (
+              {(entry.metadata.before !== undefined || entry.metadata.after !== undefined) && (
                 <div>
                   <p className="font-medium text-muted-foreground uppercase tracking-wide text-xs mb-1">
                     Change payload
@@ -147,8 +137,8 @@ export function AdminAuditPage() {
   const [actor, setActor] = useState("");
   const [action, setAction] = useState<string>("");
   const [targetType, setTargetType] = useState<"" | "user" | "role">("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState<Date | undefined>(undefined);
+  const [to, setTo] = useState<Date | undefined>(undefined);
 
   const params = {
     limit: PAGE_SIZE,
@@ -156,8 +146,8 @@ export function AdminAuditPage() {
     actor: actor || undefined,
     action: action || undefined,
     targetType: (targetType || undefined) as "user" | "role" | undefined,
-    from: from || undefined,
-    to: to || undefined,
+    from: from ? from.toISOString().slice(0, 10) : undefined,
+    to: to ? to.toISOString().slice(0, 10) : undefined,
   };
 
   const { data, isLoading } = useAuditLog(params);
@@ -225,32 +215,26 @@ export function AdminAuditPage() {
           </SelectContent>
         </Select>
 
-        <Input
-          type="date"
+        <DatePicker
           value={from}
-          onChange={(e) => {
-            setFrom(e.target.value);
+          onChange={(date) => {
+            setFrom(date);
             resetPage();
           }}
-          className="h-8 w-36 text-sm"
-          title="From date"
+          placeholder="From date"
         />
 
-        <Input
-          type="date"
+        <DatePicker
           value={to}
-          onChange={(e) => {
-            setTo(e.target.value);
+          onChange={(date) => {
+            setTo(date);
             resetPage();
           }}
-          className="h-8 w-36 text-sm"
-          title="To date"
+          placeholder="To date"
         />
       </div>
 
-      {isLoading && (
-        <p className="text-sm text-muted-foreground">Loading audit log…</p>
-      )}
+      {isLoading && <p className="text-sm text-muted-foreground">Loading audit log…</p>}
 
       {!isLoading && data && (
         <>

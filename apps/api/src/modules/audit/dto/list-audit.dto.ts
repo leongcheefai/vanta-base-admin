@@ -1,5 +1,12 @@
-import { IsDateString, IsIn, IsNumber, IsOptional, IsString, Min } from "class-validator";
 import { Type } from "class-transformer";
+import {
+	IsDateString,
+	IsIn,
+	IsNumber,
+	IsOptional,
+	IsString,
+	Min,
+} from "class-validator";
 
 export class ListAuditDto {
 	@IsOptional()

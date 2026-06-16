@@ -6,10 +6,20 @@ import {
 } from "class-validator";
 
 @ValidatorConstraint({ name: "hasNameOrCompany", async: false })
-export class HasNameOrCompanyConstraint implements ValidatorConstraintInterface {
+export class HasNameOrCompanyConstraint
+	implements ValidatorConstraintInterface
+{
 	validate(_value: unknown, args: ValidationArguments): boolean {
-		const obj = args.object as { firstName?: string; lastName?: string; company?: string };
-		return !!(obj.firstName?.trim() || obj.lastName?.trim() || obj.company?.trim());
+		const obj = args.object as {
+			firstName?: string;
+			lastName?: string;
+			company?: string;
+		};
+		return !!(
+			obj.firstName?.trim() ||
+			obj.lastName?.trim() ||
+			obj.company?.trim()
+		);
 	}
 
 	defaultMessage(): string {
@@ -19,7 +29,7 @@ export class HasNameOrCompanyConstraint implements ValidatorConstraintInterface 
 
 export function HasNameOrCompany() {
 	// biome-ignore lint/complexity/noBannedTypes: class-validator registerDecorator requires Function
-	return function (object: object, propertyName: string) {
+	return (object: object, propertyName: string) => {
 		registerDecorator({
 			name: "hasNameOrCompany",
 			// biome-ignore lint/complexity/noBannedTypes: class-validator registerDecorator requires Function

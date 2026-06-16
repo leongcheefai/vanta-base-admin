@@ -82,7 +82,12 @@ export class UsersController {
 		@Param("id") id: string,
 		@Body() dto: AssignRoleDto,
 	) {
-		return this.usersService.assignRole(id, dto.roleId, actor.id, extractCtx(req));
+		return this.usersService.assignRole(
+			id,
+			dto.roleId,
+			actor.id,
+			extractCtx(req),
+		);
 	}
 
 	@Post(":id/ban")
