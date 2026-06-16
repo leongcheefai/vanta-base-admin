@@ -3,6 +3,7 @@ import { APP_FILTER, APP_GUARD, Reflector } from "@nestjs/core";
 import { GlobalExceptionFilter } from "./common/filters/http-exception.filter";
 import { AuthGuard } from "./common/guards/auth.guard";
 import { PermissionsGuard } from "./common/guards/permissions.guard";
+import { AuditModule } from "./modules/audit/audit.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { CustomersModule } from "./modules/customers/customers.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
@@ -17,6 +18,7 @@ import { UsersModule } from "./modules/users/users.module";
 
 @Module({
 	imports: [
+		AuditModule,
 		AuthModule,
 		CustomersModule,
 		FeedbackModule,

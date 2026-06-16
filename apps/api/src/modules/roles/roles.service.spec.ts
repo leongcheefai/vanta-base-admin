@@ -6,12 +6,14 @@ const {
 	mockDbInsert,
 	mockDbUpdate,
 	mockDbDelete,
+	mockDbTransaction,
 	mockDbQueryRolesFindFirst,
 } = vi.hoisted(() => ({
 	mockDbSelect: vi.fn(),
 	mockDbInsert: vi.fn(),
 	mockDbUpdate: vi.fn(),
 	mockDbDelete: vi.fn(),
+	mockDbTransaction: vi.fn(),
 	mockDbQueryRolesFindFirst: vi.fn(),
 }));
 
@@ -52,7 +54,6 @@ vi.mock("@vanta-base-admin/db", () => {
 				if (key === "returning") return vi.fn().mockResolvedValue(result);
 				if (typeof key === "string" && chainableKeys.includes(key))
 					return () => proxy;
-				// Support direct await by making the proxy thenable
 				if (key === "then") {
 					return (
 						resolve: (v: unknown) => unknown,
@@ -65,28 +66,35 @@ vi.mock("@vanta-base-admin/db", () => {
 		return proxy;
 	}
 
-	return {
-		db: {
-			select: (cols?: unknown) => {
-				const result = mockDbSelect(cols) ?? [];
-				return chain(result);
-			},
-			insert: (tbl: unknown) => {
-				mockDbInsert(tbl);
-				return chain([]);
-			},
-			update: (tbl: unknown) => {
-				mockDbUpdate(tbl);
-				return chain([]);
-			},
-			delete: (tbl: unknown) => {
-				mockDbDelete(tbl);
-				return chain([]);
-			},
-			query: {
-				roles: { findFirst: mockDbQueryRolesFindFirst },
-			},
+	const mockDb = {
+		select: (cols?: unknown) => {
+			const result = mockDbSelect(cols) ?? [];
+			return chain(result);
 		},
+		insert: (tbl: unknown) => {
+			mockDbInsert(tbl);
+			return chain([]);
+		},
+		update: (tbl: unknown) => {
+			mockDbUpdate(tbl);
+			return chain([]);
+		},
+		delete: (tbl: unknown) => {
+			mockDbDelete(tbl);
+			return chain([]);
+		},
+		query: {
+			roles: { findFirst: mockDbQueryRolesFindFirst },
+		},
+		transaction: mockDbTransaction,
+	};
+
+	mockDbTransaction.mockImplementation(
+		async (cb: (tx: typeof mockDb) => Promise<unknown>) => cb(mockDb),
+	);
+
+	return {
+		db: mockDb,
 		schema: {
 			roles: {},
 			rolePermissions: {},
@@ -95,13 +103,17 @@ vi.mock("@vanta-base-admin/db", () => {
 	};
 });
 
+const mockAuditService = {
+	record: vi.fn().mockResolvedValue(undefined),
+};
+
 import { RolesService } from "./roles.service";
 
 describe("RolesService", () => {
 	let service: RolesService;
 
 	beforeEach(() => {
-		service = new RolesService();
+		service = new RolesService(mockAuditService as never);
 		vi.clearAllMocks();
 	});
 
@@ -174,22 +186,24 @@ describe("RolesService", () => {
 	describe("update", () => {
 		it("throws NotFoundException when role not found", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(null);
-			await expect(service.update("missing", { name: "X" })).rejects.toThrow(
-				NotFoundException,
-			);
+			await expect(
+				service.update("missing", { name: "X" }, "actor-id"),
+			).rejects.toThrow(NotFoundException);
 		});
 
 		it("throws BadRequestException when renaming admin role", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleAdmin);
+			mockDbSelect.mockReturnValueOnce([]);
 			await expect(
-				service.update("role_admin", { name: "Superadmin" }),
+				service.update("role_admin", { name: "Superadmin" }, "actor-id"),
 			).rejects.toThrow(BadRequestException);
 		});
 
 		it("throws BadRequestException when modifying admin permissions", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleAdmin);
+			mockDbSelect.mockReturnValueOnce([]);
 			await expect(
-				service.update("role_admin", { permissions: ["users:read"] }),
+				service.update("role_admin", { permissions: ["users:read"] }, "actor-id"),
 			).rejects.toThrow(BadRequestException);
 		});
 	});
@@ -197,14 +211,14 @@ describe("RolesService", () => {
 	describe("remove", () => {
 		it("throws NotFoundException when role not found", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(null);
-			await expect(service.remove("missing")).rejects.toThrow(
+			await expect(service.remove("missing", "actor-id")).rejects.toThrow(
 				NotFoundException,
 			);
 		});
 
 		it("throws BadRequestException when deleting system role", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleUser);
-			await expect(service.remove("role_user")).rejects.toThrow(
+			await expect(service.remove("role_user", "actor-id")).rejects.toThrow(
 				BadRequestException,
 			);
 		});
@@ -212,16 +226,18 @@ describe("RolesService", () => {
 		it("allows deleting non-system roles", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleMod);
 			mockDbSelect.mockReturnValue([]);
-			await expect(service.remove("role_mod")).resolves.not.toThrow();
+			await expect(
+				service.remove("role_mod", "actor-id"),
+			).resolves.not.toThrow();
 		});
 	});
 
 	describe("create", () => {
 		it("throws BadRequestException when slug already exists", async () => {
 			mockDbQueryRolesFindFirst.mockResolvedValue(mockRoleMod);
-			await expect(service.create({ name: "Moderator" })).rejects.toThrow(
-				BadRequestException,
-			);
+			await expect(
+				service.create({ name: "Moderator" }, "actor-id"),
+			).rejects.toThrow(BadRequestException);
 		});
 	});
 });

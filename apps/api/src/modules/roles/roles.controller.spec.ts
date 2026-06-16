@@ -1,5 +1,6 @@
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { Test, type TestingModule } from "@nestjs/testing";
+import type { Request } from "express";
 import { describe, expect, it, vi } from "vitest";
 import { RolesController } from "./roles.controller";
 import { RolesService } from "./roles.service";
@@ -23,6 +24,13 @@ const mockRoleMod = {
 	isSystem: false,
 	permissions: ["users:read"],
 };
+
+const mockReq = {
+	ip: "127.0.0.1",
+	get: vi.fn().mockReturnValue("TestAgent/1.0"),
+} as unknown as Request;
+
+const mockActor = { id: "actor-1" } as never;
 
 describe("RolesController", () => {
 	let controller: RolesController;
@@ -61,41 +69,54 @@ describe("RolesController", () => {
 		expect(service.findById).toHaveBeenCalledWith("role_mod");
 	});
 
-	it("create delegates to service", async () => {
-		const result = await controller.create({ name: "Moderator" });
+	it("create delegates to service with actor and context", async () => {
+		const result = await controller.create(mockReq, mockActor, {
+			name: "Moderator",
+		});
 		expect(result).toEqual(mockRoleMod);
-		expect(service.create).toHaveBeenCalledWith({ name: "Moderator" });
+		expect(service.create).toHaveBeenCalledWith(
+			{ name: "Moderator" },
+			"actor-1",
+			expect.objectContaining({ ipAddress: "127.0.0.1" }),
+		);
 	});
 
-	it("update delegates to service", async () => {
-		await controller.update("role_mod", {
+	it("update delegates to service with actor and context", async () => {
+		await controller.update(mockReq, mockActor, "role_mod", {
 			permissions: ["users:read", "users:ban"],
 		});
-		expect(service.update).toHaveBeenCalledWith("role_mod", {
-			permissions: ["users:read", "users:ban"],
-		});
+		expect(service.update).toHaveBeenCalledWith(
+			"role_mod",
+			{ permissions: ["users:read", "users:ban"] },
+			"actor-1",
+			expect.objectContaining({ ipAddress: "127.0.0.1" }),
+		);
 	});
 
-	it("remove delegates to service", async () => {
-		await controller.remove("role_mod");
-		expect(service.remove).toHaveBeenCalledWith("role_mod");
+	it("remove delegates to service with actor and context", async () => {
+		await controller.remove(mockReq, mockActor, "role_mod");
+		expect(service.remove).toHaveBeenCalledWith(
+			"role_mod",
+			"actor-1",
+			expect.objectContaining({ ipAddress: "127.0.0.1" }),
+		);
 	});
 
 	it("remove propagates NotFoundException for missing role", async () => {
 		vi.mocked(service.remove).mockRejectedValueOnce(
 			new NotFoundException("Role not found"),
 		);
-		await expect(controller.remove("missing")).rejects.toThrow(
-			NotFoundException,
-		);
+		await expect(
+			controller.remove(mockReq, mockActor, "missing"),
+		).rejects.toThrow(NotFoundException);
 	});
 
 	it("remove propagates BadRequestException for system role", async () => {
 		vi.mocked(service.remove).mockRejectedValueOnce(
 			new BadRequestException("Cannot delete a system role"),
 		);
-		await expect(controller.remove("role_admin")).rejects.toThrow(
-			BadRequestException,
-		);
+		await expect(
+			controller.remove(mockReq, mockActor, "role_admin"),
+		).rejects.toThrow(BadRequestException);
 	});
 });
