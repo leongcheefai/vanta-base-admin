@@ -1,4 +1,10 @@
-import { IsEmail, IsIn, IsOptional, IsString, MaxLength } from "class-validator";
+import {
+	IsEmail,
+	IsIn,
+	IsOptional,
+	IsString,
+	MaxLength,
+} from "class-validator";
 import { HasNameOrCompany } from "../name-or-company.validator";
 
 export class CreateCustomerDto {

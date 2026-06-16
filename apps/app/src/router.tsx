@@ -1,12 +1,13 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import { AdminRoute } from "./components/admin-route";
+import { AdminAuditPage } from "./routes/dashboard/admin/audit";
 import { AdminReleasesPage } from "./routes/dashboard/admin/releases";
 import { AdminRolesPage } from "./routes/dashboard/admin/roles";
 import { AdminUserDetailPage } from "./routes/dashboard/admin/user-detail";
 import { AdminUsersPage } from "./routes/dashboard/admin/users";
-import { DashboardHome } from "./routes/dashboard/index";
 import { CustomersPage } from "./routes/dashboard/customers/customers";
+import { DashboardHome } from "./routes/dashboard/index";
 import { InventoryCategoriesPage } from "./routes/dashboard/inventory/categories";
 import { InventoryProductDetailPage } from "./routes/dashboard/inventory/product-detail";
 import { InventoryProductsPage } from "./routes/dashboard/inventory/products";
@@ -40,6 +41,7 @@ export function Router() {
               </AdminRoute>
             }
           >
+            <Route path="audit" element={<AdminAuditPage />} />
             <Route path="releases" element={<AdminReleasesPage />} />
             <Route path="roles" element={<AdminRolesPage />} />
             <Route path="users" element={<AdminUsersPage />} />

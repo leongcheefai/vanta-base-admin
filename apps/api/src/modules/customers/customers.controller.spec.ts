@@ -50,7 +50,10 @@ describe("CustomersController", () => {
 
 	describe("list", () => {
 		it("requires customers:read permission", () => {
-			const metadata = Reflect.getMetadata("permissions", CustomersController.prototype.list);
+			const metadata = Reflect.getMetadata(
+				"permissions",
+				CustomersController.prototype.list,
+			);
 			expect(metadata).toContain("customers:read");
 		});
 
@@ -107,8 +110,12 @@ describe("CustomersController", () => {
 		});
 
 		it("propagates NotFoundException when customer not found", async () => {
-			mockService.findById.mockRejectedValue(new NotFoundException("Customer not found"));
-			await expect(controller.findById("missing")).rejects.toThrow(NotFoundException);
+			mockService.findById.mockRejectedValue(
+				new NotFoundException("Customer not found"),
+			);
+			await expect(controller.findById("missing")).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 	});
 
@@ -123,7 +130,11 @@ describe("CustomersController", () => {
 
 		it("calls service.update with id and dto", async () => {
 			const dto = { firstName: "Janet" } as any;
-			const updated = { ...mockCustomer, firstName: "Janet", name: "Janet Smith" };
+			const updated = {
+				...mockCustomer,
+				firstName: "Janet",
+				name: "Janet Smith",
+			};
 			mockService.update.mockResolvedValue(updated);
 			const result = await controller.update("c1", dto);
 			expect(service.update).toHaveBeenCalledWith("c1", dto);
@@ -157,8 +168,12 @@ describe("CustomersController", () => {
 		});
 
 		it("propagates NotFoundException when customer not found", async () => {
-			mockService.softDelete.mockRejectedValue(new NotFoundException("Customer not found"));
-			await expect(controller.softDelete("missing")).rejects.toThrow(NotFoundException);
+			mockService.softDelete.mockRejectedValue(
+				new NotFoundException("Customer not found"),
+			);
+			await expect(controller.softDelete("missing")).rejects.toThrow(
+				NotFoundException,
+			);
 		});
 	});
 });

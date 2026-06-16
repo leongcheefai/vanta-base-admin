@@ -26,7 +26,12 @@ import {
 import { ChevronLeft, ChevronRight, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { usePermissions } from "../../../hooks/use-permissions";
-import type { CreateCustomerInput, Customer, CustomerStatus, UpdateCustomerInput } from "../../../lib/customers";
+import type {
+  CreateCustomerInput,
+  Customer,
+  CustomerStatus,
+  UpdateCustomerInput,
+} from "../../../lib/customers";
 import {
   useCreateCustomer,
   useCustomers,
@@ -77,19 +82,11 @@ function CustomerForm({
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1">
           <Label htmlFor="cust-first">First name</Label>
-          <Input
-            id="cust-first"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+          <Input id="cust-first" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
         </div>
         <div className="space-y-1">
           <Label htmlFor="cust-last">Last name</Label>
-          <Input
-            id="cust-last"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
+          <Input id="cust-last" value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
       </div>
       <div className="space-y-1">
@@ -113,11 +110,7 @@ function CustomerForm({
         </div>
         <div className="space-y-1">
           <Label htmlFor="cust-phone">Phone</Label>
-          <Input
-            id="cust-phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+          <Input id="cust-phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
         </div>
       </div>
       <div className="space-y-1">
@@ -216,8 +209,8 @@ function DeleteCustomerDialog({
           <DialogTitle>Delete customer</DialogTitle>
         </DialogHeader>
         <p className="text-sm text-muted-foreground">
-          Are you sure you want to delete <strong>{customer.name}</strong>? This cannot be
-          undone from the UI.
+          Are you sure you want to delete <strong>{customer.name}</strong>? This cannot be undone
+          from the UI.
         </p>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
@@ -246,7 +239,9 @@ function CustomerRow({ customer }: { customer: Customer }) {
         onClick={canEdit ? () => setEditOpen(true) : undefined}
       >
         <TableCell className="font-medium">{customer.name}</TableCell>
-        <TableCell>{customer.company ?? <span className="text-muted-foreground">—</span>}</TableCell>
+        <TableCell>
+          {customer.company ?? <span className="text-muted-foreground">—</span>}
+        </TableCell>
         <TableCell>{customer.email ?? <span className="text-muted-foreground">—</span>}</TableCell>
         <TableCell>{customer.phone ?? <span className="text-muted-foreground">—</span>}</TableCell>
         <TableCell>
@@ -275,11 +270,7 @@ function CustomerRow({ customer }: { customer: Customer }) {
         <EditCustomerDialog customer={customer} open={editOpen} onOpenChange={setEditOpen} />
       )}
       {canDelete && (
-        <DeleteCustomerDialog
-          customer={customer}
-          open={deleteOpen}
-          onOpenChange={setDeleteOpen}
-        />
+        <DeleteCustomerDialog customer={customer} open={deleteOpen} onOpenChange={setDeleteOpen} />
       )}
     </>
   );

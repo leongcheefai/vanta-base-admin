@@ -48,6 +48,7 @@ const ALL_PERMISSIONS = [
   { key: "roles:read", label: "Roles — view" },
   { key: "roles:write", label: "Roles — create, edit & delete" },
   { key: "roles:assign", label: "Roles — assign to users" },
+  { key: "audit:read", label: "Audit log — view" },
 ] as const;
 
 function CreateRoleDialog({ onClose }: { onClose: () => void }) {

@@ -143,3 +143,15 @@ export { EmptyState } from "./primitives/empty-state";
 export type { EmptyStateProps } from "./primitives/empty-state";
 export { Logo } from "./primitives/logo";
 export type { LogoProps } from "./primitives/logo";
+
+export { Calendar, CalendarDayButton } from "./primitives/calendar";
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverDescription,
+} from "./primitives/popover";
+export { DatePicker } from "./primitives/date-picker";

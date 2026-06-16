@@ -1,5 +1,16 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
-import { Contact, LayoutDashboard, Lock, Package, Rocket, Settings, Shield, Tag, Users } from "lucide-react";
+import {
+  ClipboardList,
+  Contact,
+  LayoutDashboard,
+  Lock,
+  Package,
+  Rocket,
+  Settings,
+  Shield,
+  Tag,
+  Users,
+} from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { FeedbackDialog } from "../../components/feedback-dialog";
 import { ProtectedRoute } from "../../components/protected-route";
@@ -16,6 +27,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard/admin/releases": "Releases",
   "/dashboard/admin/roles": "Roles",
   "/dashboard/admin/users": "Users",
+  "/dashboard/admin/audit": "Audit log",
 };
 
 function navItems(
@@ -43,27 +55,25 @@ function navItems(
     });
   }
 
-  items.push(
-    {
-      label: "Inventory",
-      icon: <Package size={16} />,
-      section: "Catalog",
-      children: [
-        {
-          label: "Products",
-          href: "/dashboard/inventory/products",
-          active: pathname.startsWith("/dashboard/inventory/products"),
-          icon: <Package size={16} />,
-        },
-        {
-          label: "Categories",
-          href: "/dashboard/inventory/categories",
-          active: pathname === "/dashboard/inventory/categories",
-          icon: <Tag size={16} />,
-        },
-      ],
-    },
-  );
+  items.push({
+    label: "Inventory",
+    icon: <Package size={16} />,
+    section: "Catalog",
+    children: [
+      {
+        label: "Products",
+        href: "/dashboard/inventory/products",
+        active: pathname.startsWith("/dashboard/inventory/products"),
+        icon: <Package size={16} />,
+      },
+      {
+        label: "Categories",
+        href: "/dashboard/inventory/categories",
+        active: pathname === "/dashboard/inventory/categories",
+        icon: <Tag size={16} />,
+      },
+    ],
+  });
 
   const adminChildren: NavItem[] = [];
 
@@ -91,6 +101,15 @@ function navItems(
       href: "/dashboard/admin/users",
       active: pathname.startsWith("/dashboard/admin/users"),
       icon: <Users size={16} />,
+    });
+  }
+
+  if (isAdmin || hasPermission("audit:read")) {
+    adminChildren.push({
+      label: "Audit log",
+      href: "/dashboard/admin/audit",
+      active: pathname === "/dashboard/admin/audit",
+      icon: <ClipboardList size={16} />,
     });
   }
 

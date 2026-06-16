@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+	ConflictException,
+	Injectable,
+	NotFoundException,
+} from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, asc, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
 import { buildDisplayName } from "./build-display-name";
@@ -75,7 +79,9 @@ export class CustomersService {
 		} catch (err) {
 			const pgErr = err as { code?: string };
 			if (pgErr.code === "23505") {
-				throw new ConflictException("A customer with this email already exists");
+				throw new ConflictException(
+					"A customer with this email already exists",
+				);
 			}
 			throw err;
 		}
@@ -92,8 +98,10 @@ export class CustomersService {
 	async update(id: string, dto: UpdateCustomerDto) {
 		const existing = await this.findById(id);
 
-		const firstName = dto.firstName !== undefined ? dto.firstName : existing.firstName;
-		const lastName = dto.lastName !== undefined ? dto.lastName : existing.lastName;
+		const firstName =
+			dto.firstName !== undefined ? dto.firstName : existing.firstName;
+		const lastName =
+			dto.lastName !== undefined ? dto.lastName : existing.lastName;
 		const company = dto.company !== undefined ? dto.company : existing.company;
 
 		const name = buildDisplayName({ firstName, lastName, company });
@@ -115,14 +123,18 @@ export class CustomersService {
 			const [record] = await db
 				.update(schema.customer)
 				.set(updates)
-				.where(and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)))
+				.where(
+					and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)),
+				)
 				.returning();
 			if (!record) throw new NotFoundException("Customer not found");
 			return record;
 		} catch (err) {
 			const pgErr = err as { code?: string };
 			if (pgErr.code === "23505") {
-				throw new ConflictException("A customer with this email already exists");
+				throw new ConflictException(
+					"A customer with this email already exists",
+				);
 			}
 			throw err;
 		}

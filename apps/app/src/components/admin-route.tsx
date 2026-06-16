@@ -19,6 +19,7 @@ const ADMIN_PERMISSIONS = [
   "roles:read",
   "roles:write",
   "roles:assign",
+  "audit:read",
 ];
 
 export function AdminRoute({ children }: { children: React.ReactNode }) {

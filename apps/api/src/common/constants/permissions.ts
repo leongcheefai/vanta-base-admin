@@ -12,6 +12,7 @@ export const PERMISSIONS = {
 	CUSTOMERS_CREATE: "customers:create",
 	CUSTOMERS_EDIT: "customers:edit",
 	CUSTOMERS_DELETE: "customers:delete",
+	AUDIT_READ: "audit:read",
 } as const;
 
 export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
