@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cmd=$(jq -r '.tool_input.command // empty'); case \"$cmd\" in \"git commit\"*|\"git push\"*) pnpm lint && pnpm build;; esac",
+            "command": "cmd=$(jq -r '.tool_input.command // empty'); case \"$cmd\" in \"git commit\"*|\"git push\"*) pnpm exec biome check --write . && git add -u && pnpm lint && pnpm build;; esac",
             "timeout": 120,
             "statusMessage": "Running pnpm build before commit/push..."
           }
