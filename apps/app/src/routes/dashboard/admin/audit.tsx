@@ -63,8 +63,11 @@ function formatRelativeTime(date: string): string {
 function AuditRow({ entry }: { entry: AuditEntry }) {
   const [expanded, setExpanded] = useState(false);
   const actionLabel = ACTION_LABELS[entry.action] ?? entry.action;
+  const actorLabel = entry.actorName ?? entry.actorId;
   const targetLabel =
-    entry.targetType === "user" ? `user ${entry.targetId}` : `role ${entry.targetId}`;
+    entry.targetType === "user"
+      ? `user ${entry.targetName ?? entry.targetId}`
+      : `role ${entry.targetName ?? entry.targetId}`;
 
   return (
     <>
@@ -74,7 +77,7 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
         </TableCell>
         <TableCell>
           <span className="text-sm">
-            <span className="font-medium">{entry.actorId}</span>{" "}
+            <span className="font-medium">{actorLabel}</span>{" "}
             <span className="text-muted-foreground">{actionLabel}</span>{" "}
             <span className="font-medium">{targetLabel}</span>
           </span>

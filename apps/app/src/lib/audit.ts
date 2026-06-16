@@ -5,8 +5,10 @@ export interface AuditEntry {
   id: string;
   action: string;
   actorId: string;
+  actorName: string | null;
   targetType: string;
   targetId: string;
+  targetName: string | null;
   metadata: {
     before?: unknown;
     after?: unknown;
