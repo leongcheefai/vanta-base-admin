@@ -27,7 +27,7 @@ export interface AuditListResponse {
 export interface ListAuditParams {
   actor?: string;
   action?: string;
-  targetType?: "user" | "role";
+  targetType?: "user" | "role" | "customer" | "inventory_product" | "inventory_category";
   from?: string;
   to?: string;
   limit?: number;

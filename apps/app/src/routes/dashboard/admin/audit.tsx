@@ -33,6 +33,16 @@ const ACTION_LABELS: Record<string, string> = {
   "role.create": "created",
   "role.update": "updated",
   "role.delete": "deleted",
+  "customer.create": "created",
+  "customer.update": "updated",
+  "customer.delete": "deleted",
+  "inventory.category.create": "created",
+  "inventory.category.update": "updated",
+  "inventory.category.delete": "deleted",
+  "inventory.product.create": "created",
+  "inventory.product.update": "updated",
+  "inventory.product.delete": "deleted",
+  "inventory.stock.movement": "recorded stock movement for",
 };
 
 const ACTION_OPTIONS = [
@@ -47,6 +57,16 @@ const ACTION_OPTIONS = [
   { value: "role.create", label: "Role — create" },
   { value: "role.update", label: "Role — update" },
   { value: "role.delete", label: "Role — delete" },
+  { value: "customer.create", label: "Customer — create" },
+  { value: "customer.update", label: "Customer — update" },
+  { value: "customer.delete", label: "Customer — delete" },
+  { value: "inventory.category.create", label: "Inventory category — create" },
+  { value: "inventory.category.update", label: "Inventory category — update" },
+  { value: "inventory.category.delete", label: "Inventory category — delete" },
+  { value: "inventory.product.create", label: "Inventory product — create" },
+  { value: "inventory.product.update", label: "Inventory product — update" },
+  { value: "inventory.product.delete", label: "Inventory product — delete" },
+  { value: "inventory.stock.movement", label: "Inventory — stock movement" },
 ];
 
 function formatRelativeTime(date: string): string {
@@ -64,10 +84,19 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
   const [expanded, setExpanded] = useState(false);
   const actionLabel = ACTION_LABELS[entry.action] ?? entry.action;
   const actorLabel = entry.actorName ?? entry.actorId;
+  const targetDisplayName = entry.targetName ?? entry.targetId;
   const targetLabel =
     entry.targetType === "user"
-      ? `user ${entry.targetName ?? entry.targetId}`
-      : `role ${entry.targetName ?? entry.targetId}`;
+      ? `user ${targetDisplayName}`
+      : entry.targetType === "role"
+        ? `role ${targetDisplayName}`
+        : entry.targetType === "customer"
+          ? `customer ${targetDisplayName}`
+          : entry.targetType === "inventory_product"
+            ? `product ${targetDisplayName}`
+            : entry.targetType === "inventory_category"
+              ? `category ${targetDisplayName}`
+              : `${entry.targetType} ${targetDisplayName}`;
 
   return (
     <>
@@ -139,7 +168,7 @@ export function AdminAuditPage() {
   const [page, setPage] = useState(0);
   const [actor, setActor] = useState("");
   const [action, setAction] = useState<string>("");
-  const [targetType, setTargetType] = useState<"" | "user" | "role">("");
+  const [targetType, setTargetType] = useState<"" | "user" | "role" | "customer" | "inventory_product" | "inventory_category">("");
   const [from, setFrom] = useState<Date | undefined>(undefined);
   const [to, setTo] = useState<Date | undefined>(undefined);
 
@@ -148,7 +177,7 @@ export function AdminAuditPage() {
     offset: page * PAGE_SIZE,
     actor: actor || undefined,
     action: action || undefined,
-    targetType: (targetType || undefined) as "user" | "role" | undefined,
+    targetType: (targetType || undefined) as "user" | "role" | "customer" | "inventory_product" | "inventory_category" | undefined,
     from: from ? from.toISOString().slice(0, 10) : undefined,
     to: to ? to.toISOString().slice(0, 10) : undefined,
   };
@@ -204,17 +233,20 @@ export function AdminAuditPage() {
         <Select
           value={targetType}
           onValueChange={(v) => {
-            setTargetType(v === "all" ? "" : (v as "user" | "role"));
+            setTargetType(v === "all" ? "" : (v as typeof targetType));
             resetPage();
           }}
         >
-          <SelectTrigger className="h-8 w-36 text-sm">
+          <SelectTrigger className="h-8 w-48 text-sm">
             <SelectValue placeholder="All targets" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All targets</SelectItem>
             <SelectItem value="user">User</SelectItem>
             <SelectItem value="role">Role</SelectItem>
+            <SelectItem value="customer">Customer</SelectItem>
+            <SelectItem value="inventory_product">Inventory product</SelectItem>
+            <SelectItem value="inventory_category">Inventory category</SelectItem>
           </SelectContent>
         </Select>
 

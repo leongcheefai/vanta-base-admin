@@ -90,12 +90,14 @@ const mockCustomer = {
 	deletedAt: null as Date | null,
 };
 
+const mockAuditService = { record: vi.fn().mockResolvedValue(undefined) };
+
 describe("CustomersService", () => {
 	let service: CustomersService;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		service = new CustomersService();
+		service = new CustomersService(mockAuditService as any);
 		mockDb.select.mockReturnValue(makeChain([]));
 		mockDb.insert.mockReturnValue(makeChain([]));
 		mockDb.update.mockReturnValue(makeChain([]));
@@ -231,7 +233,7 @@ describe("CustomersService", () => {
 			};
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([updated]));
-			const result = await service.update("c1", { firstName: "Janet" });
+			const result = await service.update("c1", { firstName: "Janet" }, "u1");
 			expect(result).toEqual(updated);
 		});
 
@@ -243,14 +245,14 @@ describe("CustomersService", () => {
 			};
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([updated]));
-			const result = await service.update("c1", { firstName: "Janet" });
+			const result = await service.update("c1", { firstName: "Janet" }, "u1");
 			expect(result.name).toBe("Janet Smith");
 		});
 
 		it("throws NotFoundException when customer not found before update", async () => {
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(undefined);
 			await expect(
-				service.update("missing", { firstName: "x" }),
+				service.update("missing", { firstName: "x" }, "u1"),
 			).rejects.toThrow(NotFoundException);
 		});
 
@@ -262,7 +264,7 @@ describe("CustomersService", () => {
 			);
 			mockDb.update.mockReturnValue(chain);
 			await expect(
-				service.update("c1", { email: "taken@example.com" }),
+				service.update("c1", { email: "taken@example.com" }, "u1"),
 			).rejects.toThrow(ConflictException);
 		});
 	});
@@ -274,13 +276,13 @@ describe("CustomersService", () => {
 			const deleted = { ...mockCustomer, deletedAt: new Date() };
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([deleted]));
-			const result = await service.softDelete("c1");
+			const result = await service.softDelete("c1", "u1");
 			expect(result).toEqual({ deleted: true });
 		});
 
 		it("throws NotFoundException when customer does not exist", async () => {
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(undefined);
-			await expect(service.softDelete("missing")).rejects.toThrow(
+			await expect(service.softDelete("missing", "u1")).rejects.toThrow(
 				NotFoundException,
 			);
 		});
@@ -294,7 +296,7 @@ describe("CustomersService", () => {
 			const deletedCustomer = { ...mockCustomer, deletedAt: new Date() };
 			mockDb.query.customer.findFirst.mockResolvedValueOnce(mockCustomer);
 			mockDb.update.mockReturnValue(makeChain([deletedCustomer]));
-			await service.softDelete("c1");
+			await service.softDelete("c1", "u1");
 			const newCustomer = { ...mockCustomer, id: "c2" };
 			mockDb.insert.mockReturnValue(makeChain([newCustomer]));
 			const result = await service.create("u1", {

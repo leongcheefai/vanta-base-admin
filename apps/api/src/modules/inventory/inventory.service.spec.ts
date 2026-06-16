@@ -124,12 +124,14 @@ const mockProduct = {
 	updatedAt: new Date(),
 };
 
+const mockAuditService = { record: vi.fn().mockResolvedValue(undefined) };
+
 describe("InventoryService", () => {
 	let service: InventoryService;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		service = new InventoryService();
+		service = new InventoryService(mockAuditService as any);
 		mockDb.select.mockReturnValue(makeChain([]));
 		mockDb.insert.mockReturnValue(makeChain([]));
 		mockDb.update.mockReturnValue(makeChain([]));
@@ -160,6 +162,7 @@ describe("InventoryService", () => {
 	describe("updateCategory", () => {
 		it("updates and returns category", async () => {
 			const updated = { ...mockCategory, name: "Updated" };
+			mockDb.query.inventoryCategory.findFirst.mockResolvedValueOnce(mockCategory);
 			const chain = makeChain([updated]);
 			mockDb.update.mockReturnValue(chain);
 			const result = await service.updateCategory("u1", "c1", {
@@ -169,8 +172,7 @@ describe("InventoryService", () => {
 		});
 
 		it("throws NotFoundException when category not found or not owned", async () => {
-			const chain = makeChain([]);
-			mockDb.update.mockReturnValue(chain);
+			mockDb.query.inventoryCategory.findFirst.mockResolvedValueOnce(undefined);
 			await expect(
 				service.updateCategory("u1", "missing", { name: "x" }),
 			).rejects.toThrow(NotFoundException);

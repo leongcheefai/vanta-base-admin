@@ -13,6 +13,7 @@ vi.mock("@vanta-base-admin/db", () => ({
 }));
 
 const mockUser = { id: "u1", email: "a@b.com" } as any;
+const mockReq = { ip: "127.0.0.1", get: vi.fn().mockReturnValue("test-agent") } as any;
 
 const mockService = {
 	listCategories: vi.fn(),
@@ -56,8 +57,8 @@ describe("InventoryController", () => {
 			const dto = { name: "Electronics" };
 			const category = { id: "c1", name: "Electronics" };
 			mockService.createCategory.mockResolvedValue(category);
-			const result = await controller.createCategory(mockUser, dto);
-			expect(service.createCategory).toHaveBeenCalledWith("u1", dto);
+			const result = await controller.createCategory(mockReq, mockUser, dto);
+			expect(service.createCategory).toHaveBeenCalledWith("u1", dto, expect.any(Object));
 			expect(result).toEqual(category);
 		});
 	});
@@ -67,7 +68,7 @@ describe("InventoryController", () => {
 			mockService.deleteCategory.mockRejectedValue(
 				new ConflictException("Category has products and cannot be deleted"),
 			);
-			await expect(controller.deleteCategory(mockUser, "c1")).rejects.toThrow(
+			await expect(controller.deleteCategory(mockReq, mockUser, "c1")).rejects.toThrow(
 				ConflictException,
 			);
 		});
@@ -78,8 +79,8 @@ describe("InventoryController", () => {
 			const dto = { name: "Widget", sku: "W-001", price: 9.99 };
 			const product = { id: "p1", name: "Widget", sku: "W-001" };
 			mockService.createProduct.mockResolvedValue(product);
-			const result = await controller.createProduct(mockUser, dto as any);
-			expect(service.createProduct).toHaveBeenCalledWith("u1", dto);
+			const result = await controller.createProduct(mockReq, mockUser, dto as any);
+			expect(service.createProduct).toHaveBeenCalledWith("u1", dto, expect.any(Object));
 			expect(result).toEqual(product);
 		});
 	});
@@ -99,8 +100,8 @@ describe("InventoryController", () => {
 		it("calls service.softDeleteProduct", async () => {
 			const product = { id: "p1", deletedAt: new Date() };
 			mockService.softDeleteProduct.mockResolvedValue(product);
-			const result = await controller.softDeleteProduct(mockUser, "p1");
-			expect(service.softDeleteProduct).toHaveBeenCalledWith("u1", "p1");
+			const result = await controller.softDeleteProduct(mockReq, mockUser, "p1");
+			expect(service.softDeleteProduct).toHaveBeenCalledWith("u1", "p1", expect.any(Object));
 			expect(result).toEqual(product);
 		});
 	});
@@ -111,11 +112,12 @@ describe("InventoryController", () => {
 			const movement = { id: "m1", type: "restock", delta: 10 };
 			mockService.createMovement.mockResolvedValue(movement);
 			const result = await controller.createMovement(
+				mockReq,
 				mockUser,
 				"p1",
 				dto as any,
 			);
-			expect(service.createMovement).toHaveBeenCalledWith("u1", "p1", dto);
+			expect(service.createMovement).toHaveBeenCalledWith("u1", "p1", dto, expect.any(Object));
 			expect(result).toEqual(movement);
 		});
 
@@ -126,7 +128,7 @@ describe("InventoryController", () => {
 				),
 			);
 			await expect(
-				controller.createMovement(mockUser, "p1", {
+				controller.createMovement(mockReq, mockUser, "p1", {
 					type: "sale",
 					delta: -999,
 				} as any),

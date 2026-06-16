@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, asc, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import { buildDisplayName } from "./build-display-name";
 import type { CreateCustomerDto } from "./dto/create-customer.dto";
 import type { ListCustomersDto } from "./dto/list-customers.dto";
@@ -12,6 +13,8 @@ import type { UpdateCustomerDto } from "./dto/update-customer.dto";
 
 @Injectable()
 export class CustomersService {
+	constructor(private readonly auditService: AuditService) {}
+
 	async list(query: ListCustomersDto) {
 		const page = query.page ?? 1;
 		const limit = query.limit ?? 20;
@@ -52,7 +55,7 @@ export class CustomersService {
 		return { data, total: totals[0]?.total ?? 0, page, limit };
 	}
 
-	async create(userId: string, dto: CreateCustomerDto) {
+	async create(userId: string, dto: CreateCustomerDto, ctx?: AuditContext) {
 		const name = buildDisplayName({
 			firstName: dto.firstName,
 			lastName: dto.lastName,
@@ -75,6 +78,25 @@ export class CustomersService {
 					createdBy: userId,
 				})
 				.returning();
+
+			await this.auditService.record(
+				{
+					action: "customer.create",
+					actorId: userId,
+					targetType: "customer",
+					targetId: record!.id,
+					metadata: {
+						after: {
+							name: record!.name,
+							email: record!.email,
+							company: record!.company,
+							status: record!.status,
+						},
+					},
+				},
+				ctx,
+			);
+
 			return record;
 		} catch (err) {
 			const pgErr = err as { code?: string };
@@ -95,7 +117,12 @@ export class CustomersService {
 		return record;
 	}
 
-	async update(id: string, dto: UpdateCustomerDto) {
+	async update(
+		id: string,
+		dto: UpdateCustomerDto,
+		actorId: string,
+		ctx?: AuditContext,
+	) {
 		const existing = await this.findById(id);
 
 		const firstName =
@@ -124,10 +151,36 @@ export class CustomersService {
 				.update(schema.customer)
 				.set(updates)
 				.where(
-					and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)),
+					and(
+						eq(schema.customer.id, id),
+						isNull(schema.customer.deletedAt),
+					),
 				)
 				.returning();
 			if (!record) throw new NotFoundException("Customer not found");
+
+			await this.auditService.record(
+				{
+					action: "customer.update",
+					actorId,
+					targetType: "customer",
+					targetId: id,
+					metadata: {
+						before: {
+							name: existing.name,
+							email: existing.email,
+							status: existing.status,
+						},
+						after: {
+							name: record.name,
+							email: record.email,
+							status: record.status,
+						},
+					},
+				},
+				ctx,
+			);
+
 			return record;
 		} catch (err) {
 			const pgErr = err as { code?: string };
@@ -140,16 +193,30 @@ export class CustomersService {
 		}
 	}
 
-	async softDelete(id: string) {
+	async softDelete(id: string, actorId: string, ctx?: AuditContext) {
 		await this.findById(id);
 
 		const [record] = await db
 			.update(schema.customer)
 			.set({ deletedAt: new Date(), updatedAt: new Date() })
-			.where(and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)))
+			.where(
+				and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)),
+			)
 			.returning();
 
 		if (!record) throw new NotFoundException("Customer not found");
+
+		await this.auditService.record(
+			{
+				action: "customer.delete",
+				actorId,
+				targetType: "customer",
+				targetId: id,
+				metadata: {},
+			},
+			ctx,
+		);
+
 		return { deleted: true };
 	}
 }

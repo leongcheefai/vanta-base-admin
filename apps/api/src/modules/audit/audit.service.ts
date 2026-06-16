@@ -11,7 +11,7 @@ export interface AuditContext {
 export interface AuditRecordInput {
 	action: string;
 	actorId: string;
-	targetType: "user" | "role";
+	targetType: "user" | "role" | "customer" | "inventory_product" | "inventory_category";
 	targetId: string;
 	metadata: { before?: unknown; after?: unknown; reason?: string };
 }
@@ -76,9 +76,13 @@ export class AuditService {
 					actorName: actorUser.name,
 					targetType: schema.auditLog.targetType,
 					targetId: schema.auditLog.targetId,
-					targetName: sql<
-						string | null
-					>`COALESCE(${targetUser.name}, ${schema.roles.name})`,
+					targetName: sql<string | null>`COALESCE(
+						${targetUser.name},
+						${schema.roles.name},
+						${schema.customer.name},
+						${schema.inventoryProduct.name},
+						${schema.inventoryCategory.name}
+					)`,
 					metadata: schema.auditLog.metadata,
 					ipAddress: schema.auditLog.ipAddress,
 					userAgent: schema.auditLog.userAgent,
@@ -98,6 +102,27 @@ export class AuditService {
 					and(
 						eq(schema.auditLog.targetId, schema.roles.id),
 						eq(schema.auditLog.targetType, "role"),
+					),
+				)
+				.leftJoin(
+					schema.customer,
+					and(
+						eq(schema.auditLog.targetId, schema.customer.id),
+						eq(schema.auditLog.targetType, "customer"),
+					),
+				)
+				.leftJoin(
+					schema.inventoryProduct,
+					and(
+						eq(schema.auditLog.targetId, schema.inventoryProduct.id),
+						eq(schema.auditLog.targetType, "inventory_product"),
+					),
+				)
+				.leftJoin(
+					schema.inventoryCategory,
+					and(
+						eq(schema.auditLog.targetId, schema.inventoryCategory.id),
+						eq(schema.auditLog.targetType, "inventory_category"),
 					),
 				)
 				.where(where)

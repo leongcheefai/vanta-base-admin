@@ -16,6 +16,7 @@ import {
 	or,
 	sql,
 } from "drizzle-orm";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { CreateCategoryDto } from "./dto/create-category.dto";
 import type {
 	CreateMovementDto,
@@ -28,6 +29,8 @@ import type { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class InventoryService {
+	constructor(private readonly auditService: AuditService) {}
+
 	// ─── Categories ──────────────────────────────────────────────────────────
 
 	async listCategories(userId: string) {
@@ -38,15 +41,44 @@ export class InventoryService {
 			.orderBy(schema.inventoryCategory.name);
 	}
 
-	async createCategory(userId: string, dto: CreateCategoryDto) {
+	async createCategory(
+		userId: string,
+		dto: CreateCategoryDto,
+		ctx?: AuditContext,
+	) {
 		const [category] = await db
 			.insert(schema.inventoryCategory)
 			.values({ id: crypto.randomUUID(), userId, name: dto.name })
 			.returning();
+
+		await this.auditService.record(
+			{
+				action: "inventory.category.create",
+				actorId: userId,
+				targetType: "inventory_category",
+				targetId: category!.id,
+				metadata: { after: { name: category!.name } },
+			},
+			ctx,
+		);
+
 		return category;
 	}
 
-	async updateCategory(userId: string, id: string, dto: UpdateCategoryDto) {
+	async updateCategory(
+		userId: string,
+		id: string,
+		dto: UpdateCategoryDto,
+		ctx?: AuditContext,
+	) {
+		const before = await db.query.inventoryCategory.findFirst({
+			where: and(
+				eq(schema.inventoryCategory.id, id),
+				eq(schema.inventoryCategory.userId, userId),
+			),
+		});
+		if (!before) throw new NotFoundException("Category not found");
+
 		const [category] = await db
 			.update(schema.inventoryCategory)
 			.set({ name: dto.name })
@@ -58,10 +90,22 @@ export class InventoryService {
 			)
 			.returning();
 		if (!category) throw new NotFoundException("Category not found");
+
+		await this.auditService.record(
+			{
+				action: "inventory.category.update",
+				actorId: userId,
+				targetType: "inventory_category",
+				targetId: id,
+				metadata: { before: { name: before.name }, after: { name: category.name } },
+			},
+			ctx,
+		);
+
 		return category;
 	}
 
-	async deleteCategory(userId: string, id: string) {
+	async deleteCategory(userId: string, id: string, ctx?: AuditContext) {
 		const category = await db.query.inventoryCategory.findFirst({
 			where: and(
 				eq(schema.inventoryCategory.id, id),
@@ -93,6 +137,17 @@ export class InventoryService {
 					eq(schema.inventoryCategory.userId, userId),
 				),
 			);
+
+		await this.auditService.record(
+			{
+				action: "inventory.category.delete",
+				actorId: userId,
+				targetType: "inventory_category",
+				targetId: id,
+				metadata: { before: { name: category.name } },
+			},
+			ctx,
+		);
 
 		return { deleted: true };
 	}
@@ -145,7 +200,11 @@ export class InventoryService {
 		return { products, total: totals[0]?.total ?? 0 };
 	}
 
-	async createProduct(userId: string, dto: CreateProductDto) {
+	async createProduct(
+		userId: string,
+		dto: CreateProductDto,
+		ctx?: AuditContext,
+	) {
 		try {
 			const [product] = await db
 				.insert(schema.inventoryProduct)
@@ -161,6 +220,24 @@ export class InventoryService {
 					imageUrl: dto.imageUrl,
 				})
 				.returning();
+
+			await this.auditService.record(
+				{
+					action: "inventory.product.create",
+					actorId: userId,
+					targetType: "inventory_product",
+					targetId: product!.id,
+					metadata: {
+						after: {
+							name: product!.name,
+							sku: product!.sku,
+							price: product!.price,
+						},
+					},
+				},
+				ctx,
+			);
+
 			return product;
 		} catch (err) {
 			const pgErr = err as { code?: string };
@@ -183,8 +260,13 @@ export class InventoryService {
 		return product;
 	}
 
-	async updateProduct(userId: string, id: string, dto: UpdateProductDto) {
-		await this.getProduct(userId, id);
+	async updateProduct(
+		userId: string,
+		id: string,
+		dto: UpdateProductDto,
+		ctx?: AuditContext,
+	) {
+		const before = await this.getProduct(userId, id);
 
 		const updates: Partial<typeof schema.inventoryProduct.$inferInsert> = {
 			updatedAt: new Date(),
@@ -210,6 +292,21 @@ export class InventoryService {
 				)
 				.returning();
 			if (!product) throw new NotFoundException("Product not found");
+
+			await this.auditService.record(
+				{
+					action: "inventory.product.update",
+					actorId: userId,
+					targetType: "inventory_product",
+					targetId: id,
+					metadata: {
+						before: { name: before.name, sku: before.sku, price: before.price },
+						after: { name: product.name, sku: product.sku, price: product.price },
+					},
+				},
+				ctx,
+			);
+
 			return product;
 		} catch (err) {
 			const pgErr = err as { code?: string };
@@ -220,7 +317,7 @@ export class InventoryService {
 		}
 	}
 
-	async softDeleteProduct(userId: string, id: string) {
+	async softDeleteProduct(userId: string, id: string, ctx?: AuditContext) {
 		await this.getProduct(userId, id);
 
 		const [product] = await db
@@ -235,6 +332,18 @@ export class InventoryService {
 			.returning();
 
 		if (!product) throw new NotFoundException("Product not found");
+
+		await this.auditService.record(
+			{
+				action: "inventory.product.delete",
+				actorId: userId,
+				targetType: "inventory_product",
+				targetId: id,
+				metadata: {},
+			},
+			ctx,
+		);
+
 		return product;
 	}
 
@@ -244,6 +353,7 @@ export class InventoryService {
 		userId: string,
 		productId: string,
 		dto: CreateMovementDto,
+		ctx?: AuditContext,
 	) {
 		const product = await this.getProduct(userId, productId);
 
@@ -274,6 +384,27 @@ export class InventoryService {
 				.update(schema.inventoryProduct)
 				.set({ quantity: newQuantity, updatedAt: new Date() })
 				.where(eq(schema.inventoryProduct.id, productId));
+
+			await this.auditService.record(
+				{
+					action: "inventory.stock.movement",
+					actorId: userId,
+					targetType: "inventory_product",
+					targetId: productId,
+					metadata: {
+						after: {
+							type: dto.type,
+							delta: dto.delta,
+							quantityBefore: product.quantity,
+							quantityAfter: newQuantity,
+							notes: dto.notes,
+							reference: dto.reference,
+						},
+					},
+				},
+				ctx,
+				tx,
+			);
 
 			return mov;
 		});
