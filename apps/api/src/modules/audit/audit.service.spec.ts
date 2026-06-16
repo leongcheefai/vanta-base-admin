@@ -58,8 +58,14 @@ vi.mock("@vanta-base-admin/db", () => {
 			user: {},
 			roles: { name: "roles.name" },
 			customer: { id: "customer.id", name: "customer.name" },
-			inventoryProduct: { id: "inventory_product.id", name: "inventory_product.name" },
-			inventoryCategory: { id: "inventory_category.id", name: "inventory_category.name" },
+			inventoryProduct: {
+				id: "inventory_product.id",
+				name: "inventory_product.name",
+			},
+			inventoryCategory: {
+				id: "inventory_category.id",
+				name: "inventory_category.name",
+			},
 		},
 	};
 });

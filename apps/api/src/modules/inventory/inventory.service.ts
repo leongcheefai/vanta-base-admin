@@ -56,8 +56,8 @@ export class InventoryService {
 				action: "inventory.category.create",
 				actorId: userId,
 				targetType: "inventory_category",
-				targetId: category!.id,
-				metadata: { after: { name: category!.name } },
+				targetId: category?.id,
+				metadata: { after: { name: category?.name } },
 			},
 			ctx,
 		);
@@ -97,7 +97,10 @@ export class InventoryService {
 				actorId: userId,
 				targetType: "inventory_category",
 				targetId: id,
-				metadata: { before: { name: before.name }, after: { name: category.name } },
+				metadata: {
+					before: { name: before.name },
+					after: { name: category.name },
+				},
 			},
 			ctx,
 		);
@@ -226,12 +229,12 @@ export class InventoryService {
 					action: "inventory.product.create",
 					actorId: userId,
 					targetType: "inventory_product",
-					targetId: product!.id,
+					targetId: product?.id,
 					metadata: {
 						after: {
-							name: product!.name,
-							sku: product!.sku,
-							price: product!.price,
+							name: product?.name,
+							sku: product?.sku,
+							price: product?.price,
 						},
 					},
 				},
@@ -301,7 +304,11 @@ export class InventoryService {
 					targetId: id,
 					metadata: {
 						before: { name: before.name, sku: before.sku, price: before.price },
-						after: { name: product.name, sku: product.sku, price: product.price },
+						after: {
+							name: product.name,
+							sku: product.sku,
+							price: product.price,
+						},
 					},
 				},
 				ctx,

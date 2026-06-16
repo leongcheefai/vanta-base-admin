@@ -84,13 +84,13 @@ export class CustomersService {
 					action: "customer.create",
 					actorId: userId,
 					targetType: "customer",
-					targetId: record!.id,
+					targetId: record?.id,
 					metadata: {
 						after: {
-							name: record!.name,
-							email: record!.email,
-							company: record!.company,
-							status: record!.status,
+							name: record?.name,
+							email: record?.email,
+							company: record?.company,
+							status: record?.status,
 						},
 					},
 				},
@@ -151,10 +151,7 @@ export class CustomersService {
 				.update(schema.customer)
 				.set(updates)
 				.where(
-					and(
-						eq(schema.customer.id, id),
-						isNull(schema.customer.deletedAt),
-					),
+					and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)),
 				)
 				.returning();
 			if (!record) throw new NotFoundException("Customer not found");
@@ -199,9 +196,7 @@ export class CustomersService {
 		const [record] = await db
 			.update(schema.customer)
 			.set({ deletedAt: new Date(), updatedAt: new Date() })
-			.where(
-				and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)),
-			)
+			.where(and(eq(schema.customer.id, id), isNull(schema.customer.deletedAt)))
 			.returning();
 
 		if (!record) throw new NotFoundException("Customer not found");

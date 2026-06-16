@@ -162,7 +162,9 @@ describe("InventoryService", () => {
 	describe("updateCategory", () => {
 		it("updates and returns category", async () => {
 			const updated = { ...mockCategory, name: "Updated" };
-			mockDb.query.inventoryCategory.findFirst.mockResolvedValueOnce(mockCategory);
+			mockDb.query.inventoryCategory.findFirst.mockResolvedValueOnce(
+				mockCategory,
+			);
 			const chain = makeChain([updated]);
 			mockDb.update.mockReturnValue(chain);
 			const result = await service.updateCategory("u1", "c1", {

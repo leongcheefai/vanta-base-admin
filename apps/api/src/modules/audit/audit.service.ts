@@ -11,7 +11,12 @@ export interface AuditContext {
 export interface AuditRecordInput {
 	action: string;
 	actorId: string;
-	targetType: "user" | "role" | "customer" | "inventory_product" | "inventory_category";
+	targetType:
+		| "user"
+		| "role"
+		| "customer"
+		| "inventory_product"
+		| "inventory_category";
 	targetId: string;
 	metadata: { before?: unknown; after?: unknown; reason?: string };
 }

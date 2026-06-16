@@ -9,7 +9,10 @@ vi.mock("@vanta-base-admin/db", () => ({
 }));
 
 const mockUser = { id: "u1", email: "admin@example.com" } as any;
-const mockReq = { ip: "127.0.0.1", get: vi.fn().mockReturnValue("test-agent") } as any;
+const mockReq = {
+	ip: "127.0.0.1",
+	get: vi.fn().mockReturnValue("test-agent"),
+} as any;
 
 const mockCustomer = {
 	id: "c1",
@@ -80,7 +83,11 @@ describe("CustomersController", () => {
 			const dto = { firstName: "Jane", lastName: "Smith" } as any;
 			mockService.create.mockResolvedValue(mockCustomer);
 			const result = await controller.create(mockReq, mockUser, dto);
-			expect(service.create).toHaveBeenCalledWith("u1", dto, expect.any(Object));
+			expect(service.create).toHaveBeenCalledWith(
+				"u1",
+				dto,
+				expect.any(Object),
+			);
 			expect(result).toEqual(mockCustomer);
 		});
 
@@ -89,7 +96,9 @@ describe("CustomersController", () => {
 				new ConflictException("A customer with this email already exists"),
 			);
 			await expect(
-				controller.create(mockReq, mockUser, { email: "taken@example.com" } as any),
+				controller.create(mockReq, mockUser, {
+					email: "taken@example.com",
+				} as any),
 			).rejects.toThrow(ConflictException);
 		});
 	});
@@ -138,7 +147,12 @@ describe("CustomersController", () => {
 			};
 			mockService.update.mockResolvedValue(updated);
 			const result = await controller.update(mockReq, mockUser, "c1", dto);
-			expect(service.update).toHaveBeenCalledWith("c1", dto, "u1", expect.any(Object));
+			expect(service.update).toHaveBeenCalledWith(
+				"c1",
+				dto,
+				"u1",
+				expect.any(Object),
+			);
 			expect(result).toEqual(updated);
 		});
 
@@ -147,7 +161,9 @@ describe("CustomersController", () => {
 				new ConflictException("A customer with this email already exists"),
 			);
 			await expect(
-				controller.update(mockReq, mockUser, "c1", { email: "taken@example.com" } as any),
+				controller.update(mockReq, mockUser, "c1", {
+					email: "taken@example.com",
+				} as any),
 			).rejects.toThrow(ConflictException);
 		});
 	});
@@ -164,7 +180,11 @@ describe("CustomersController", () => {
 		it("calls service.softDelete and returns {deleted: true}", async () => {
 			mockService.softDelete.mockResolvedValue({ deleted: true });
 			const result = await controller.softDelete(mockReq, mockUser, "c1");
-			expect(service.softDelete).toHaveBeenCalledWith("c1", "u1", expect.any(Object));
+			expect(service.softDelete).toHaveBeenCalledWith(
+				"c1",
+				"u1",
+				expect.any(Object),
+			);
 			expect(result).toEqual({ deleted: true });
 		});
 
@@ -172,9 +192,9 @@ describe("CustomersController", () => {
 			mockService.softDelete.mockRejectedValue(
 				new NotFoundException("Customer not found"),
 			);
-			await expect(controller.softDelete(mockReq, mockUser, "missing")).rejects.toThrow(
-				NotFoundException,
-			);
+			await expect(
+				controller.softDelete(mockReq, mockUser, "missing"),
+			).rejects.toThrow(NotFoundException);
 		});
 	});
 });

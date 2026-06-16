@@ -168,7 +168,9 @@ export function AdminAuditPage() {
   const [page, setPage] = useState(0);
   const [actor, setActor] = useState("");
   const [action, setAction] = useState<string>("");
-  const [targetType, setTargetType] = useState<"" | "user" | "role" | "customer" | "inventory_product" | "inventory_category">("");
+  const [targetType, setTargetType] = useState<
+    "" | "user" | "role" | "customer" | "inventory_product" | "inventory_category"
+  >("");
   const [from, setFrom] = useState<Date | undefined>(undefined);
   const [to, setTo] = useState<Date | undefined>(undefined);
 
@@ -177,7 +179,13 @@ export function AdminAuditPage() {
     offset: page * PAGE_SIZE,
     actor: actor || undefined,
     action: action || undefined,
-    targetType: (targetType || undefined) as "user" | "role" | "customer" | "inventory_product" | "inventory_category" | undefined,
+    targetType: (targetType || undefined) as
+      | "user"
+      | "role"
+      | "customer"
+      | "inventory_product"
+      | "inventory_category"
+      | undefined,
     from: from ? from.toISOString().slice(0, 10) : undefined,
     to: to ? to.toISOString().slice(0, 10) : undefined,
   };

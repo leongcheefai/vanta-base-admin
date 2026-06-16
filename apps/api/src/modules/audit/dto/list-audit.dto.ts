@@ -19,7 +19,12 @@ export class ListAuditDto {
 
 	@IsOptional()
 	@IsIn(["user", "role", "customer", "inventory_product", "inventory_category"])
-	targetType?: "user" | "role" | "customer" | "inventory_product" | "inventory_category";
+	targetType?:
+		| "user"
+		| "role"
+		| "customer"
+		| "inventory_product"
+		| "inventory_category";
 
 	@IsOptional()
 	@IsDateString()

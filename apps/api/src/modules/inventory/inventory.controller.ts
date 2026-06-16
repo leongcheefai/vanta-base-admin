@@ -57,7 +57,12 @@ export class InventoryController {
 		@Param("id") id: string,
 		@Body() dto: UpdateCategoryDto,
 	) {
-		return this.inventoryService.updateCategory(user.id, id, dto, extractCtx(req));
+		return this.inventoryService.updateCategory(
+			user.id,
+			id,
+			dto,
+			extractCtx(req),
+		);
 	}
 
 	@Delete("categories/:id")
@@ -100,7 +105,12 @@ export class InventoryController {
 		@Param("id") id: string,
 		@Body() dto: UpdateProductDto,
 	) {
-		return this.inventoryService.updateProduct(user.id, id, dto, extractCtx(req));
+		return this.inventoryService.updateProduct(
+			user.id,
+			id,
+			dto,
+			extractCtx(req),
+		);
 	}
 
 	@Delete("products/:id")
@@ -109,7 +119,11 @@ export class InventoryController {
 		@CurrentUser() user: SessionUser,
 		@Param("id") id: string,
 	) {
-		return this.inventoryService.softDeleteProduct(user.id, id, extractCtx(req));
+		return this.inventoryService.softDeleteProduct(
+			user.id,
+			id,
+			extractCtx(req),
+		);
 	}
 
 	// ─── Movements ───────────────────────────────────────────────────────────
@@ -121,7 +135,12 @@ export class InventoryController {
 		@Param("id") productId: string,
 		@Body() dto: CreateMovementDto,
 	) {
-		return this.inventoryService.createMovement(user.id, productId, dto, extractCtx(req));
+		return this.inventoryService.createMovement(
+			user.id,
+			productId,
+			dto,
+			extractCtx(req),
+		);
 	}
 
 	@Get("products/:id/movements")
