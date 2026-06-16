@@ -22,17 +22,17 @@ import { type AuditEntry, useAuditLog } from "../../../lib/audit";
 const PAGE_SIZE = 20;
 
 const ACTION_LABELS: Record<string, string> = {
-  "user.create": "created user",
-  "user.update": "edited user",
+  "user.create": "created",
+  "user.update": "edited",
   "user.role_change": "changed role for",
   "user.ban": "banned",
   "user.unban": "unbanned",
   "user.delete": "deleted",
   "user.restore": "restored",
   "user.sessions_revoke": "revoked sessions for",
-  "role.create": "created role",
-  "role.update": "updated role",
-  "role.delete": "deleted role",
+  "role.create": "created",
+  "role.update": "updated",
+  "role.delete": "deleted",
 };
 
 const ACTION_OPTIONS = [
