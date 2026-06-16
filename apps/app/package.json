@@ -7,7 +7,7 @@
     "dev": "vite --port 3000",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 3000",
-    "lint": "biome check .",
+    "lint": "biome check --write .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

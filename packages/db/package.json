@@ -12,7 +12,7 @@
     "db:seed": "node scripts/seed.ts",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "lint": "biome check .",
+    "lint": "biome check --write .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
