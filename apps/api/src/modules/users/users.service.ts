@@ -104,7 +104,7 @@ export class UsersService {
 			? await this.resolveRoleSlug(dto.roleId)
 			: "user";
 
-		const result = await auth.api.adminCreateUser({
+		const result = await auth.api.createUser({
 			body: {
 				email: dto.email,
 				name: dto.name,

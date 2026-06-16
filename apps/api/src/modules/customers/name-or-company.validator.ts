@@ -28,7 +28,6 @@ export class HasNameOrCompanyConstraint
 }
 
 export function HasNameOrCompany() {
-	// biome-ignore lint/complexity/noBannedTypes: class-validator registerDecorator requires Function
 	return (object: object, propertyName: string) => {
 		registerDecorator({
 			name: "hasNameOrCompany",
