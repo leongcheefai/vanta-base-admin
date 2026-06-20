@@ -4,7 +4,7 @@ import type { MetricsOverview } from "./metrics.schema";
 
 @Injectable()
 export class MetricsService {
-	getOverview(): MetricsOverview {
-		return generateMockMetrics();
-	}
+  getOverview(): MetricsOverview {
+    return generateMockMetrics();
+  }
 }

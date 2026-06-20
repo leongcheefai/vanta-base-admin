@@ -4,8 +4,8 @@ import { Public } from "../../common/decorators/public.decorator";
 @Public()
 @Controller("health")
 export class HealthController {
-	@Get()
-	check() {
-		return { ok: true };
-	}
+  @Get()
+  check() {
+    return { ok: true };
+  }
 }

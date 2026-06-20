@@ -15,13 +15,13 @@ import {
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
 import type { AuditContext } from "../audit/audit.service";
-import { CreateCategoryDto } from "./dto/create-category.dto";
-import { CreateMovementDto } from "./dto/create-movement.dto";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { ListProductsDto } from "./dto/list-products.dto";
-import { UpdateCategoryDto } from "./dto/update-category.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
-import { InventoryService } from "./inventory.service";
+import type { CreateCategoryDto } from "./dto/create-category.dto";
+import type { CreateMovementDto } from "./dto/create-movement.dto";
+import type { CreateProductDto } from "./dto/create-product.dto";
+import type { ListProductsDto } from "./dto/list-products.dto";
+import type { UpdateCategoryDto } from "./dto/update-category.dto";
+import type { UpdateProductDto } from "./dto/update-product.dto";
+import type { InventoryService } from "./inventory.service";
 
 function extractCtx(req: Request): AuditContext {
 	return {

@@ -17,10 +17,10 @@ import {
 } from "../../common/decorators/current-user.decorator";
 import { Permissions } from "../../common/decorators/permissions.decorator";
 import type { AuditContext } from "../audit/audit.service";
-import { CustomersService } from "./customers.service";
-import { CreateCustomerDto } from "./dto/create-customer.dto";
-import { ListCustomersDto } from "./dto/list-customers.dto";
-import { UpdateCustomerDto } from "./dto/update-customer.dto";
+import type { CustomersService } from "./customers.service";
+import type { CreateCustomerDto } from "./dto/create-customer.dto";
+import type { ListCustomersDto } from "./dto/list-customers.dto";
+import type { UpdateCustomerDto } from "./dto/update-customer.dto";
 
 function extractCtx(req: Request): AuditContext {
 	return {

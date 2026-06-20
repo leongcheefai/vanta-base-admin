@@ -4,7 +4,7 @@ import {
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
 import type { CreateFeedbackDto } from "./dto/create-feedback.dto";
-import { FeedbackService } from "./feedback.service";
+import type { FeedbackService } from "./feedback.service";
 
 @Controller("feedback")
 export class FeedbackController {

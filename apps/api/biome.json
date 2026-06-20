@@ -1,28 +1,28 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"extends": ["../../biome.json"],
-	"javascript": {
-		"parser": {
-			"unsafeParameterDecoratorsEnabled": true
-		}
-	},
-	"linter": {
-		"rules": {
-			"style": {
-				"useImportType": "off"
-			}
-		}
-	},
-	"overrides": [
-		{
-			"include": ["src/**/*.spec.ts"],
-			"linter": {
-				"rules": {
-					"suspicious": {
-						"noExplicitAny": "off"
-					}
-				}
-			}
-		}
-	]
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "extends": ["../../biome.json"],
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "useImportType": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["src/**/*.spec.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ]
 }

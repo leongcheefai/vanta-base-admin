@@ -17,25 +17,25 @@ import { UploadsModule } from "./modules/uploads/uploads.module";
 import { UsersModule } from "./modules/users/users.module";
 
 @Module({
-	imports: [
-		AuditModule,
-		AuthModule,
-		CustomersModule,
-		FeedbackModule,
-		HealthModule,
-		InventoryModule,
-		MeModule,
-		MetricsModule,
-		ReleasesModule,
-		RolesModule,
-		UploadsModule,
-		UsersModule,
-	],
-	providers: [
-		Reflector,
-		{ provide: APP_GUARD, useClass: AuthGuard },
-		{ provide: APP_GUARD, useClass: PermissionsGuard },
-		{ provide: APP_FILTER, useClass: GlobalExceptionFilter },
-	],
+  imports: [
+    AuditModule,
+    AuthModule,
+    CustomersModule,
+    FeedbackModule,
+    HealthModule,
+    InventoryModule,
+    MeModule,
+    MetricsModule,
+    ReleasesModule,
+    RolesModule,
+    UploadsModule,
+    UsersModule,
+  ],
+  providers: [
+    Reflector,
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: PermissionsGuard },
+    { provide: APP_FILTER, useClass: GlobalExceptionFilter },
+  ],
 })
 export class AppModule {}

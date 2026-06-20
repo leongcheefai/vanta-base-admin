@@ -17,12 +17,12 @@ import {
 } from "../../common/decorators/current-user.decorator";
 import { Permissions } from "../../common/decorators/permissions.decorator";
 import type { AuditContext } from "../audit/audit.service";
-import { AssignRoleDto } from "./dto/assign-role.dto";
-import { BanUserDto } from "./dto/ban-user.dto";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { EditUserDto } from "./dto/edit-user.dto";
-import { ListUsersDto } from "./dto/list-users.dto";
-import { UsersService } from "./users.service";
+import type { AssignRoleDto } from "./dto/assign-role.dto";
+import type { BanUserDto } from "./dto/ban-user.dto";
+import type { CreateUserDto } from "./dto/create-user.dto";
+import type { EditUserDto } from "./dto/edit-user.dto";
+import type { ListUsersDto } from "./dto/list-users.dto";
+import type { UsersService } from "./users.service";
 
 function extractCtx(req: Request): AuditContext {
 	return {
