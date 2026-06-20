@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import type { Reflector } from "@nestjs/core";
+import { Reflector } from "@nestjs/core";
 import { auth } from "@vanta-base-admin/auth";
 import type { Request } from "express";
 import type { SessionSession, SessionUser } from "../decorators/current-user.decorator";
