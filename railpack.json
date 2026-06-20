@@ -1,0 +1,8 @@
+{
+  "build": {
+    "cmds": ["pnpm --filter @vanta-base-admin/api build"]
+  },
+  "deploy": {
+    "startCommand": "node apps/api/dist/main.js"
+  }
+}
