@@ -5,7 +5,10 @@ nixPkgs = ["nodejs_22", "nodePackages.pnpm"]
 cmds = ["pnpm install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm --filter @vanta-base-admin/api build"]
+cmds = [
+  "pnpm --filter @vanta-base-admin/api build",
+  "pnpm --filter @vanta-base-admin/api deploy --prod /app/api-standalone"
+]
 
 [start]
-cmd = "node apps/api/dist/main.js"
+cmd = "node /app/api-standalone/dist/main.js"
