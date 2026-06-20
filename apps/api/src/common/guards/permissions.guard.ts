@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import type { Reflector } from "@nestjs/core";
 import type { Request } from "express";
-import type { RolesService } from "../../modules/roles/roles.service";
+import { RolesService } from "../../modules/roles/roles.service";
 import type { Permission } from "../constants/permissions";
 import type { SessionUser } from "../decorators/current-user.decorator";
 import { PERMISSIONS_KEY } from "../decorators/permissions.decorator";

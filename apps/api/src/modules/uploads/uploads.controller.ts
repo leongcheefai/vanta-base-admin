@@ -4,7 +4,7 @@ import {
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
 import type { PresignAvatarDto } from "./dto/presign-avatar.dto";
-import type { UploadsService } from "./uploads.service";
+import { UploadsService } from "./uploads.service";
 
 @Controller("uploads")
 export class UploadsController {

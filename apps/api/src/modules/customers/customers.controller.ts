@@ -17,7 +17,7 @@ import {
 } from "../../common/decorators/current-user.decorator";
 import { Permissions } from "../../common/decorators/permissions.decorator";
 import type { AuditContext } from "../audit/audit.service";
-import type { CustomersService } from "./customers.service";
+import { CustomersService } from "./customers.service";
 import type { CreateCustomerDto } from "./dto/create-customer.dto";
 import type { ListCustomersDto } from "./dto/list-customers.dto";
 import type { UpdateCustomerDto } from "./dto/update-customer.dto";

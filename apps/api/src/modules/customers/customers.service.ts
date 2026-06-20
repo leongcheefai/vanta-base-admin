@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, asc, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
-import type { AuditContext, AuditService } from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import { buildDisplayName } from "./build-display-name";
 import type { CreateCustomerDto } from "./dto/create-customer.dto";
 import type { ListCustomersDto } from "./dto/list-customers.dto";

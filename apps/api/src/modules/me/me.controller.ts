@@ -5,7 +5,7 @@ import {
 	CurrentUser,
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
-import type { RolesService } from "../roles/roles.service";
+import { RolesService } from "../roles/roles.service";
 
 @Controller("me")
 export class MeController {

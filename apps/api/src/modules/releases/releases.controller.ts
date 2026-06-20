@@ -3,7 +3,7 @@ import {
 	CurrentUser,
 	type SessionUser,
 } from "../../common/decorators/current-user.decorator";
-import type { ReleasesService } from "./releases.service";
+import { ReleasesService } from "./releases.service";
 
 @Controller("releases")
 export class ReleasesController {

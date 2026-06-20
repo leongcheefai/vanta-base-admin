@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/commo
 import { auth } from "@vanta-base-admin/auth";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, asc, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
-import type { AuditContext, AuditService } from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { BanUserDto } from "./dto/ban-user.dto";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EditUserDto } from "./dto/edit-user.dto";

@@ -22,7 +22,7 @@ import type { BanUserDto } from "./dto/ban-user.dto";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EditUserDto } from "./dto/edit-user.dto";
 import type { ListUsersDto } from "./dto/list-users.dto";
-import type { UsersService } from "./users.service";
+import { UsersService } from "./users.service";
 
 function extractCtx(req: Request): AuditContext {
 	return {

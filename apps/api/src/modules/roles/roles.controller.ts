@@ -19,7 +19,7 @@ import { Permissions } from "../../common/decorators/permissions.decorator";
 import type { AuditContext } from "../audit/audit.service";
 import type { CreateRoleDto } from "./dto/create-role.dto";
 import type { UpdateRoleDto } from "./dto/update-role.dto";
-import type { RolesService } from "./roles.service";
+import { RolesService } from "./roles.service";
 
 function extractCtx(req: Request): AuditContext {
 	return {

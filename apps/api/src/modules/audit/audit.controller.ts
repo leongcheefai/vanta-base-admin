@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from "@nestjs/common";
 import { PERMISSIONS } from "../../common/constants/permissions";
 import { Permissions } from "../../common/decorators/permissions.decorator";
-import type { AuditService } from "./audit.service";
+import { AuditService } from "./audit.service";
 import type { ListAuditDto } from "./dto/list-audit.dto";
 
 @Controller("audit")

@@ -21,7 +21,7 @@ import type { CreateProductDto } from "./dto/create-product.dto";
 import type { ListProductsDto } from "./dto/list-products.dto";
 import type { UpdateCategoryDto } from "./dto/update-category.dto";
 import type { UpdateProductDto } from "./dto/update-product.dto";
-import type { InventoryService } from "./inventory.service";
+import { InventoryService } from "./inventory.service";
 
 function extractCtx(req: Request): AuditContext {
 	return {

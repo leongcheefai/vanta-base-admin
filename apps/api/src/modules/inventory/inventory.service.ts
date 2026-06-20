@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { and, count, desc, eq, ilike, isNotNull, isNull, or, sql } from "drizzle-orm";
-import type { AuditContext, AuditService } from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { CreateCategoryDto } from "./dto/create-category.dto";
 import type { CreateMovementDto, MovementType } from "./dto/create-movement.dto";
 import type { CreateProductDto } from "./dto/create-product.dto";

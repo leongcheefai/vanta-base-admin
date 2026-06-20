@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { db, schema } from "@vanta-base-admin/db";
 import { eq } from "drizzle-orm";
-import type { AuditContext, AuditService } from "../audit/audit.service";
+import { type AuditContext, AuditService } from "../audit/audit.service";
 import type { CreateRoleDto } from "./dto/create-role.dto";
 import type { UpdateRoleDto } from "./dto/update-role.dto";
 
