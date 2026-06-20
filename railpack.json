@@ -1,12 +1,5 @@
 {
-  "build": {
-    "cmds": [
-      "pnpm install --frozen-lockfile",
-      "pnpm --filter @vanta-base-admin/api build",
-      "pnpm --filter @vanta-base-admin/api deploy --prod /app/api-standalone"
-    ]
-  },
   "deploy": {
-    "startCommand": "node /app/api-standalone/dist/main.js"
+    "startCommand": "node apps/api/dist/main.js"
   }
 }
