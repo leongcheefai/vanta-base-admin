@@ -1,7 +1,7 @@
 import { IsString, MinLength } from "class-validator";
 
 export class AssignRoleDto {
-  @IsString()
-  @MinLength(1)
-  roleId!: string;
+	@IsString()
+	@MinLength(1)
+	roleId!: string;
 }

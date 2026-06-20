@@ -3,10 +3,10 @@ import { MetricsService } from "./metrics.service";
 
 @Controller("metrics")
 export class MetricsController {
-  constructor(private readonly metricsService: MetricsService) {}
+	constructor(private readonly metricsService: MetricsService) {}
 
-  @Get("overview")
-  getOverview() {
-    return this.metricsService.getOverview();
-  }
+	@Get("overview")
+	getOverview() {
+		return this.metricsService.getOverview();
+	}
 }

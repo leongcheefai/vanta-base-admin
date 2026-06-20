@@ -3,7 +3,7 @@ import { RolesModule } from "../roles/roles.module";
 import { MeController } from "./me.controller";
 
 @Module({
-  imports: [RolesModule],
-  controllers: [MeController],
+	imports: [RolesModule],
+	controllers: [MeController],
 })
 export class MeModule {}

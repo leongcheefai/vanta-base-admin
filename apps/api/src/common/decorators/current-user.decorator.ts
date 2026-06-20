@@ -6,8 +6,10 @@ export type SessionUser = typeof auth.$Infer.Session.user;
 export type SessionSession = typeof auth.$Infer.Session.session;
 
 export const CurrentUser = createParamDecorator(
-  (_data: unknown, ctx: ExecutionContext): SessionUser | null => {
-    const request = ctx.switchToHttp().getRequest<Request & { user: SessionUser | null }>();
-    return request.user ?? null;
-  },
+	(_data: unknown, ctx: ExecutionContext): SessionUser | null => {
+		const request = ctx
+			.switchToHttp()
+			.getRequest<Request & { user: SessionUser | null }>();
+		return request.user ?? null;
+	},
 );
