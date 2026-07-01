@@ -105,6 +105,8 @@ export {
   AlertDialogTrigger,
 } from "./primitives/alert-dialog";
 export { Separator } from "./primitives/separator";
+export { Slider } from "./primitives/slider";
+export { Progress } from "./primitives/progress";
 export { Switch } from "./primitives/switch";
 export { Checkbox } from "./primitives/checkbox";
 export {

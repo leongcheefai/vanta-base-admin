@@ -1,6 +1,7 @@
 import { Button, DashboardShell, DashboardTopbar, type NavItem } from "@vanta-base-admin/ui";
 import {
   ClipboardList,
+  Component,
   Contact,
   LayoutDashboard,
   Lock,
@@ -28,6 +29,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/dashboard/admin/roles": "Roles",
   "/dashboard/admin/users": "Users",
   "/dashboard/admin/audit": "Audit log",
+  "/dashboard/components": "Components",
 };
 
 function navItems(
@@ -121,6 +123,14 @@ function navItems(
       children: adminChildren,
     });
   }
+
+  items.push({
+    label: "Components",
+    href: "/dashboard/components",
+    active: pathname === "/dashboard/components",
+    icon: <Component size={16} />,
+    section: "Design",
+  });
 
   items.push({
     label: "Settings",

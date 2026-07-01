@@ -6,6 +6,7 @@ import { AdminReleasesPage } from "./routes/dashboard/admin/releases";
 import { AdminRolesPage } from "./routes/dashboard/admin/roles";
 import { AdminUserDetailPage } from "./routes/dashboard/admin/user-detail";
 import { AdminUsersPage } from "./routes/dashboard/admin/users";
+import { ComponentsPage } from "./routes/dashboard/components/components";
 import { CustomersPage } from "./routes/dashboard/customers/customers";
 import { DashboardHome } from "./routes/dashboard/index";
 import { InventoryCategoriesPage } from "./routes/dashboard/inventory/categories";
@@ -28,6 +29,7 @@ export function Router() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
+          <Route path="components" element={<ComponentsPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="inventory/products" element={<InventoryProductsPage />} />
